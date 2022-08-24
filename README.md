@@ -1,4 +1,3 @@
-
 # Modeling Your Data - Lab
 
 ## Introduction 
@@ -14,7 +13,7 @@ You will be able to:
 
 ## Build an Initial Regression Model
 
-To start, perform a train-test split and create an initial regression model to model the `list_price` using all of your available features.
+To start, load the data and create an initial regression model to model the `list_price` using all of your available features.
 
 > **Note:** In order to write the model you'll have to do some tedious manipulation of your column names. Statsmodels will not allow you to have spaces, apostrophe or arithmetic symbols (+) in your column names. Preview them and refine them as you go.  
 **If you receive an error such as "PatsyError: error tokenizing input (maybe an unclosed string?)", then you need to further preprocess your column names.**
@@ -31,7 +30,11 @@ from statsmodels.formula.api import ols
 from statsmodels.stats.outliers_influence import variance_inflation_factor
 import statsmodels.api as sm
 import scipy.stats as stats
-from sklearn.model_selection import train_test_split
+
+import warnings
+warnings.simplefilter('ignore', FutureWarning)
+warnings.simplefilter('ignore', RuntimeWarning)
+warnings.simplefilter('ignore', UserWarning)
 ```
 
 
@@ -47,7 +50,11 @@ from statsmodels.formula.api import ols
 from statsmodels.stats.outliers_influence import variance_inflation_factor
 import statsmodels.api as sm
 import scipy.stats as stats
-from sklearn.model_selection import train_test_split
+
+import warnings
+warnings.simplefilter('ignore', FutureWarning)
+warnings.simplefilter('ignore', RuntimeWarning)
+warnings.simplefilter('ignore', UserWarning)
 ```
 
 
@@ -402,378 +409,6 @@ x_cols.remove(outcome)
 
 
 ```python
-# Your code here - Split into train and test
-train, test = None
-```
-
-
-```python
-# __SOLUTION__ 
-train, test = train_test_split(df)
-```
-
-
-```python
-# __SOLUTION__ 
-print(len(train), len(test))
-train.head()
-```
-
-    8152 2718
-
-
-
-
-
-<div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>piece_count</th>
-      <th>list_price</th>
-      <th>num_reviews</th>
-      <th>play_star_rating</th>
-      <th>star_rating</th>
-      <th>val_star_rating</th>
-      <th>ages_10plus</th>
-      <th>ages_10_14</th>
-      <th>ages_10_16</th>
-      <th>ages_10_21</th>
-      <th>...</th>
-      <th>country_NZ</th>
-      <th>country_PL</th>
-      <th>country_PT</th>
-      <th>country_US</th>
-      <th>review_difficulty_Average</th>
-      <th>review_difficulty_Challenging</th>
-      <th>review_difficulty_Easy</th>
-      <th>review_difficulty_Very_Challenging</th>
-      <th>review_difficulty_Very_Easy</th>
-      <th>review_difficulty_unknown</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>9322</th>
-      <td>1.049150</td>
-      <td>182.9878</td>
-      <td>0.467250</td>
-      <td>-0.481010</td>
-      <td>-0.252954</td>
-      <td>-0.525957</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>...</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>1</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <th>4617</th>
-      <td>-0.481150</td>
-      <td>15.6000</td>
-      <td>-0.426440</td>
-      <td>1.087407</td>
-      <td>0.990651</td>
-      <td>1.244458</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>...</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>1</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <th>4780</th>
-      <td>0.054214</td>
-      <td>65.8800</td>
-      <td>-0.342657</td>
-      <td>0.564601</td>
-      <td>0.576116</td>
-      <td>0.117830</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>...</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>1</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <th>10609</th>
-      <td>0.441602</td>
-      <td>121.9878</td>
-      <td>-0.342657</td>
-      <td>1.087407</td>
-      <td>0.576116</td>
-      <td>-0.365010</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>...</td>
-      <td>0</td>
-      <td>0</td>
-      <td>1</td>
-      <td>0</td>
-      <td>1</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <th>2225</th>
-      <td>1.352323</td>
-      <td>195.1878</td>
-      <td>0.104189</td>
-      <td>-1.526621</td>
-      <td>-1.496559</td>
-      <td>-1.491638</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>...</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>1</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-    </tr>
-  </tbody>
-</table>
-<p>5 rows × 103 columns</p>
-</div>
-
-
-
-
-```python
-# __SOLUTION__ 
-test.head()
-```
-
-
-
-
-<div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>piece_count</th>
-      <th>list_price</th>
-      <th>num_reviews</th>
-      <th>play_star_rating</th>
-      <th>star_rating</th>
-      <th>val_star_rating</th>
-      <th>ages_10plus</th>
-      <th>ages_10_14</th>
-      <th>ages_10_16</th>
-      <th>ages_10_21</th>
-      <th>...</th>
-      <th>country_NZ</th>
-      <th>country_PL</th>
-      <th>country_PT</th>
-      <th>country_US</th>
-      <th>review_difficulty_Average</th>
-      <th>review_difficulty_Challenging</th>
-      <th>review_difficulty_Easy</th>
-      <th>review_difficulty_Very_Challenging</th>
-      <th>review_difficulty_Very_Easy</th>
-      <th>review_difficulty_unknown</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>2331</th>
-      <td>-0.518445</td>
-      <td>10.1322</td>
-      <td>-0.286801</td>
-      <td>0.216064</td>
-      <td>0.161581</td>
-      <td>0.117830</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>...</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>1</td>
-    </tr>
-    <tr>
-      <th>6118</th>
-      <td>-0.572583</td>
-      <td>36.5878</td>
-      <td>-0.370585</td>
-      <td>-0.132473</td>
-      <td>-0.460222</td>
-      <td>-1.491638</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>...</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>1</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <th>3444</th>
-      <td>-0.167150</td>
-      <td>25.3980</td>
-      <td>-0.175090</td>
-      <td>0.390333</td>
-      <td>0.576116</td>
-      <td>0.600671</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>...</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>1</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <th>8020</th>
-      <td>-0.540100</td>
-      <td>6.0878</td>
-      <td>-0.342657</td>
-      <td>-0.132473</td>
-      <td>-0.045687</td>
-      <td>0.117830</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>...</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>1</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <th>2334</th>
-      <td>-0.512430</td>
-      <td>10.1322</td>
-      <td>-0.426440</td>
-      <td>-0.655279</td>
-      <td>0.990651</td>
-      <td>-0.365010</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>...</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>1</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-    </tr>
-  </tbody>
-</table>
-<p>5 rows × 103 columns</p>
-</div>
-
-
-
-
-```python
 # Your code here - Fit the actual model
 ```
 
@@ -783,7 +418,7 @@ test.head()
 # Fitting the actual model
 predictors = '+'.join(x_cols)
 formula = outcome + '~' + predictors
-model = ols(formula=formula, data=train).fit()
+model = ols(formula=formula, data=df).fit()
 model.summary()
 ```
 
@@ -793,25 +428,25 @@ model.summary()
 <table class="simpletable">
 <caption>OLS Regression Results</caption>
 <tr>
-  <th>Dep. Variable:</th>       <td>list_price</td>    <th>  R-squared:         </th> <td>   0.862</td> 
+  <th>Dep. Variable:</th>       <td>list_price</td>    <th>  R-squared:         </th> <td>   0.864</td> 
 </tr>
 <tr>
-  <th>Model:</th>                   <td>OLS</td>       <th>  Adj. R-squared:    </th> <td>   0.860</td> 
+  <th>Model:</th>                   <td>OLS</td>       <th>  Adj. R-squared:    </th> <td>   0.862</td> 
 </tr>
 <tr>
-  <th>Method:</th>             <td>Least Squares</td>  <th>  F-statistic:       </th> <td>   535.2</td> 
+  <th>Method:</th>             <td>Least Squares</td>  <th>  F-statistic:       </th> <td>   726.2</td> 
 </tr>
 <tr>
-  <th>Date:</th>             <td>Mon, 30 Sep 2019</td> <th>  Prob (F-statistic):</th>  <td>  0.00</td>  
+  <th>Date:</th>             <td>Wed, 24 Aug 2022</td> <th>  Prob (F-statistic):</th>  <td>  0.00</td>  
 </tr>
 <tr>
-  <th>Time:</th>                 <td>17:52:25</td>     <th>  Log-Likelihood:    </th> <td> -40631.</td> 
+  <th>Time:</th>                 <td>18:13:07</td>     <th>  Log-Likelihood:    </th> <td> -54056.</td> 
 </tr>
 <tr>
-  <th>No. Observations:</th>      <td>  8152</td>      <th>  AIC:               </th> <td>8.145e+04</td>
+  <th>No. Observations:</th>      <td> 10870</td>      <th>  AIC:               </th> <td>1.083e+05</td>
 </tr>
 <tr>
-  <th>Df Residuals:</th>          <td>  8057</td>      <th>  BIC:               </th> <td>8.212e+04</td>
+  <th>Df Residuals:</th>          <td> 10775</td>      <th>  BIC:               </th> <td>1.090e+05</td>
 </tr>
 <tr>
   <th>Df Model:</th>              <td>    94</td>      <th>                     </th>     <td> </td>    
@@ -825,329 +460,329 @@ model.summary()
                           <td></td>                            <th>coef</th>     <th>std err</th>      <th>t</th>      <th>P>|t|</th>  <th>[0.025</th>    <th>0.975]</th>  
 </tr>
 <tr>
-  <th>Intercept</th>                                        <td>   64.8612</td> <td>    1.744</td> <td>   37.193</td> <td> 0.000</td> <td>   61.443</td> <td>   68.280</td>
+  <th>Intercept</th>                                        <td>   64.2821</td> <td>    1.551</td> <td>   41.435</td> <td> 0.000</td> <td>   61.241</td> <td>   67.323</td>
 </tr>
 <tr>
-  <th>piece_count</th>                                      <td>   74.9476</td> <td>    0.901</td> <td>   83.162</td> <td> 0.000</td> <td>   73.181</td> <td>   76.714</td>
+  <th>piece_count</th>                                      <td>   75.7184</td> <td>    0.776</td> <td>   97.605</td> <td> 0.000</td> <td>   74.198</td> <td>   77.239</td>
 </tr>
 <tr>
-  <th>num_reviews</th>                                      <td>    6.9764</td> <td>    0.705</td> <td>    9.893</td> <td> 0.000</td> <td>    5.594</td> <td>    8.359</td>
+  <th>num_reviews</th>                                      <td>    6.4270</td> <td>    0.590</td> <td>   10.888</td> <td> 0.000</td> <td>    5.270</td> <td>    7.584</td>
 </tr>
 <tr>
-  <th>play_star_rating</th>                                 <td>    4.9752</td> <td>    0.632</td> <td>    7.878</td> <td> 0.000</td> <td>    3.737</td> <td>    6.213</td>
+  <th>play_star_rating</th>                                 <td>    5.2682</td> <td>    0.542</td> <td>    9.717</td> <td> 0.000</td> <td>    4.205</td> <td>    6.331</td>
 </tr>
 <tr>
-  <th>star_rating</th>                                      <td>   -1.5662</td> <td>    0.718</td> <td>   -2.180</td> <td> 0.029</td> <td>   -2.975</td> <td>   -0.158</td>
+  <th>star_rating</th>                                      <td>   -1.4380</td> <td>    0.617</td> <td>   -2.331</td> <td> 0.020</td> <td>   -2.647</td> <td>   -0.229</td>
 </tr>
 <tr>
-  <th>val_star_rating</th>                                  <td>   -8.1746</td> <td>    0.639</td> <td>  -12.793</td> <td> 0.000</td> <td>   -9.427</td> <td>   -6.922</td>
+  <th>val_star_rating</th>                                  <td>   -8.5504</td> <td>    0.550</td> <td>  -15.545</td> <td> 0.000</td> <td>   -9.628</td> <td>   -7.472</td>
 </tr>
 <tr>
-  <th>ages_10plus</th>                                      <td>  132.5639</td> <td>    6.698</td> <td>   19.792</td> <td> 0.000</td> <td>  119.434</td> <td>  145.693</td>
+  <th>ages_10plus</th>                                      <td>  122.9923</td> <td>    5.753</td> <td>   21.378</td> <td> 0.000</td> <td>  111.715</td> <td>  134.270</td>
 </tr>
 <tr>
-  <th>ages_10_14</th>                                       <td>  -25.7403</td> <td>    9.294</td> <td>   -2.770</td> <td> 0.006</td> <td>  -43.959</td> <td>   -7.522</td>
+  <th>ages_10_14</th>                                       <td>  -23.1648</td> <td>    7.788</td> <td>   -2.975</td> <td> 0.003</td> <td>  -38.430</td> <td>   -7.899</td>
 </tr>
 <tr>
-  <th>ages_10_16</th>                                       <td>  -13.6084</td> <td>    4.121</td> <td>   -3.302</td> <td> 0.001</td> <td>  -21.687</td> <td>   -5.530</td>
+  <th>ages_10_16</th>                                       <td>  -11.7969</td> <td>    3.528</td> <td>   -3.343</td> <td> 0.001</td> <td>  -18.713</td> <td>   -4.881</td>
 </tr>
 <tr>
-  <th>ages_10_21</th>                                       <td>   52.6182</td> <td>    7.379</td> <td>    7.130</td> <td> 0.000</td> <td>   38.153</td> <td>   67.084</td>
+  <th>ages_10_21</th>                                       <td>   55.9674</td> <td>    6.415</td> <td>    8.725</td> <td> 0.000</td> <td>   43.393</td> <td>   68.542</td>
 </tr>
 <tr>
-  <th>ages_11_16</th>                                       <td>  -25.1561</td> <td>    5.759</td> <td>   -4.369</td> <td> 0.000</td> <td>  -36.444</td> <td>  -13.868</td>
+  <th>ages_11_16</th>                                       <td>  -18.2277</td> <td>    5.058</td> <td>   -3.604</td> <td> 0.000</td> <td>  -28.141</td> <td>   -8.314</td>
 </tr>
 <tr>
-  <th>ages_12plus</th>                                      <td>   73.1912</td> <td>    5.653</td> <td>   12.948</td> <td> 0.000</td> <td>   62.111</td> <td>   84.272</td>
+  <th>ages_12plus</th>                                      <td>   70.5837</td> <td>    4.828</td> <td>   14.619</td> <td> 0.000</td> <td>   61.119</td> <td>   80.048</td>
 </tr>
 <tr>
-  <th>ages_12_16</th>                                       <td>  -54.3087</td> <td>    6.629</td> <td>   -8.193</td> <td> 0.000</td> <td>  -67.303</td> <td>  -41.314</td>
+  <th>ages_12_16</th>                                       <td>  -57.4333</td> <td>    5.882</td> <td>   -9.765</td> <td> 0.000</td> <td>  -68.962</td> <td>  -45.904</td>
 </tr>
 <tr>
-  <th>ages_14plus</th>                                      <td>   19.7380</td> <td>    4.250</td> <td>    4.644</td> <td> 0.000</td> <td>   11.406</td> <td>   28.070</td>
+  <th>ages_14plus</th>                                      <td>   24.6493</td> <td>    3.579</td> <td>    6.887</td> <td> 0.000</td> <td>   17.634</td> <td>   31.665</td>
 </tr>
 <tr>
-  <th>ages_16plus</th>                                      <td>   38.0731</td> <td>    6.050</td> <td>    6.294</td> <td> 0.000</td> <td>   26.214</td> <td>   49.932</td>
+  <th>ages_16plus</th>                                      <td>   32.9512</td> <td>    5.251</td> <td>    6.275</td> <td> 0.000</td> <td>   22.658</td> <td>   43.245</td>
 </tr>
 <tr>
-  <th>ages_1half_3</th>                                     <td>   -9.1021</td> <td>    2.488</td> <td>   -3.658</td> <td> 0.000</td> <td>  -13.979</td> <td>   -4.225</td>
+  <th>ages_1half_3</th>                                     <td>   -9.0486</td> <td>    2.087</td> <td>   -4.336</td> <td> 0.000</td> <td>  -13.139</td> <td>   -4.958</td>
 </tr>
 <tr>
-  <th>ages_1half_5</th>                                     <td>   -3.4366</td> <td>    3.126</td> <td>   -1.099</td> <td> 0.272</td> <td>   -9.564</td> <td>    2.691</td>
+  <th>ages_1half_5</th>                                     <td>   -4.1380</td> <td>    2.605</td> <td>   -1.588</td> <td> 0.112</td> <td>   -9.244</td> <td>    0.969</td>
 </tr>
 <tr>
-  <th>ages_2_5</th>                                         <td>   14.7228</td> <td>    1.717</td> <td>    8.575</td> <td> 0.000</td> <td>   11.357</td> <td>   18.089</td>
+  <th>ages_2_5</th>                                         <td>   14.9724</td> <td>    1.459</td> <td>   10.260</td> <td> 0.000</td> <td>   12.112</td> <td>   17.833</td>
 </tr>
 <tr>
-  <th>ages_4plus</th>                                       <td>  -20.1622</td> <td>    6.412</td> <td>   -3.145</td> <td> 0.002</td> <td>  -32.731</td> <td>   -7.594</td>
+  <th>ages_4plus</th>                                       <td>  -18.5801</td> <td>    5.504</td> <td>   -3.376</td> <td> 0.001</td> <td>  -29.370</td> <td>   -7.791</td>
 </tr>
 <tr>
-  <th>ages_4_7</th>                                         <td>   -5.3924</td> <td>    3.801</td> <td>   -1.419</td> <td> 0.156</td> <td>  -12.844</td> <td>    2.059</td>
+  <th>ages_4_7</th>                                         <td>   -6.1664</td> <td>    2.909</td> <td>   -2.120</td> <td> 0.034</td> <td>  -11.868</td> <td>   -0.465</td>
 </tr>
 <tr>
-  <th>ages_4_99</th>                                        <td>   -1.8210</td> <td>    3.661</td> <td>   -0.497</td> <td> 0.619</td> <td>   -8.997</td> <td>    5.355</td>
+  <th>ages_4_99</th>                                        <td>   -3.0337</td> <td>    3.138</td> <td>   -0.967</td> <td> 0.334</td> <td>   -9.185</td> <td>    3.118</td>
 </tr>
 <tr>
-  <th>ages_5plus</th>                                       <td>   -9.1452</td> <td>    3.355</td> <td>   -2.726</td> <td> 0.006</td> <td>  -15.721</td> <td>   -2.569</td>
+  <th>ages_5plus</th>                                       <td>   -9.6179</td> <td>    2.705</td> <td>   -3.556</td> <td> 0.000</td> <td>  -14.920</td> <td>   -4.316</td>
 </tr>
 <tr>
-  <th>ages_5_12</th>                                        <td>  -36.1423</td> <td>    3.183</td> <td>  -11.353</td> <td> 0.000</td> <td>  -42.383</td> <td>  -29.902</td>
+  <th>ages_5_12</th>                                        <td>  -34.9818</td> <td>    2.739</td> <td>  -12.771</td> <td> 0.000</td> <td>  -40.351</td> <td>  -29.613</td>
 </tr>
 <tr>
-  <th>ages_5_8</th>                                         <td>    5.5407</td> <td>    6.971</td> <td>    0.795</td> <td> 0.427</td> <td>   -8.124</td> <td>   19.205</td>
+  <th>ages_5_8</th>                                         <td>    6.4648</td> <td>    5.248</td> <td>    1.232</td> <td> 0.218</td> <td>   -3.822</td> <td>   16.752</td>
 </tr>
 <tr>
-  <th>ages_6plus</th>                                       <td>  -26.8077</td> <td>    6.163</td> <td>   -4.350</td> <td> 0.000</td> <td>  -38.888</td> <td>  -14.727</td>
+  <th>ages_6plus</th>                                       <td>  -27.0254</td> <td>    4.920</td> <td>   -5.493</td> <td> 0.000</td> <td>  -36.670</td> <td>  -17.381</td>
 </tr>
 <tr>
-  <th>ages_6_12</th>                                        <td>  -23.0474</td> <td>    2.437</td> <td>   -9.457</td> <td> 0.000</td> <td>  -27.825</td> <td>  -18.270</td>
+  <th>ages_6_12</th>                                        <td>  -22.1977</td> <td>    2.133</td> <td>  -10.407</td> <td> 0.000</td> <td>  -26.379</td> <td>  -18.017</td>
 </tr>
 <tr>
-  <th>ages_6_14</th>                                        <td>   -5.5645</td> <td>    4.011</td> <td>   -1.387</td> <td> 0.165</td> <td>  -13.427</td> <td>    2.298</td>
+  <th>ages_6_14</th>                                        <td>   -6.2869</td> <td>    3.433</td> <td>   -1.831</td> <td> 0.067</td> <td>  -13.016</td> <td>    0.442</td>
 </tr>
 <tr>
-  <th>ages_7plus</th>                                       <td>  -12.5725</td> <td>   24.425</td> <td>   -0.515</td> <td> 0.607</td> <td>  -60.451</td> <td>   35.306</td>
+  <th>ages_7plus</th>                                       <td>   -9.8137</td> <td>   24.056</td> <td>   -0.408</td> <td> 0.683</td> <td>  -56.967</td> <td>   37.340</td>
 </tr>
 <tr>
-  <th>ages_7_12</th>                                        <td>  -20.7390</td> <td>    2.775</td> <td>   -7.474</td> <td> 0.000</td> <td>  -26.178</td> <td>  -15.300</td>
+  <th>ages_7_12</th>                                        <td>  -20.3409</td> <td>    2.409</td> <td>   -8.445</td> <td> 0.000</td> <td>  -25.062</td> <td>  -15.619</td>
 </tr>
 <tr>
-  <th>ages_7_14</th>                                        <td>  -18.6188</td> <td>    2.411</td> <td>   -7.723</td> <td> 0.000</td> <td>  -23.345</td> <td>  -13.893</td>
+  <th>ages_7_14</th>                                        <td>  -17.6139</td> <td>    2.104</td> <td>   -8.370</td> <td> 0.000</td> <td>  -21.739</td> <td>  -13.489</td>
 </tr>
 <tr>
-  <th>ages_8plus</th>                                       <td>   11.8227</td> <td>    4.886</td> <td>    2.420</td> <td> 0.016</td> <td>    2.244</td> <td>   21.401</td>
+  <th>ages_8plus</th>                                       <td>   12.8065</td> <td>    4.150</td> <td>    3.086</td> <td> 0.002</td> <td>    4.672</td> <td>   20.941</td>
 </tr>
 <tr>
-  <th>ages_8_12</th>                                        <td>  -19.8814</td> <td>    3.258</td> <td>   -6.102</td> <td> 0.000</td> <td>  -26.268</td> <td>  -13.494</td>
+  <th>ages_8_12</th>                                        <td>  -19.5872</td> <td>    2.824</td> <td>   -6.935</td> <td> 0.000</td> <td>  -25.124</td> <td>  -14.051</td>
 </tr>
 <tr>
-  <th>ages_8_14</th>                                        <td>  -16.3554</td> <td>    2.302</td> <td>   -7.104</td> <td> 0.000</td> <td>  -20.868</td> <td>  -11.843</td>
+  <th>ages_8_14</th>                                        <td>  -15.8024</td> <td>    2.019</td> <td>   -7.827</td> <td> 0.000</td> <td>  -19.760</td> <td>  -11.845</td>
 </tr>
 <tr>
-  <th>ages_9plus</th>                                       <td>  110.1110</td> <td>   10.717</td> <td>   10.275</td> <td> 0.000</td> <td>   89.103</td> <td>  131.119</td>
+  <th>ages_9plus</th>                                       <td>  102.5387</td> <td>    8.979</td> <td>   11.419</td> <td> 0.000</td> <td>   84.937</td> <td>  120.140</td>
 </tr>
 <tr>
-  <th>ages_9_12</th>                                        <td>  -27.4024</td> <td>    6.676</td> <td>   -4.105</td> <td> 0.000</td> <td>  -40.489</td> <td>  -14.316</td>
+  <th>ages_9_12</th>                                        <td>  -28.0314</td> <td>    5.738</td> <td>   -4.885</td> <td> 0.000</td> <td>  -39.279</td> <td>  -16.784</td>
 </tr>
 <tr>
-  <th>ages_9_14</th>                                        <td>  -10.5604</td> <td>    2.728</td> <td>   -3.871</td> <td> 0.000</td> <td>  -15.909</td> <td>   -5.212</td>
+  <th>ages_9_14</th>                                        <td>  -10.5692</td> <td>    2.373</td> <td>   -4.453</td> <td> 0.000</td> <td>  -15.221</td> <td>   -5.917</td>
 </tr>
 <tr>
-  <th>ages_9_16</th>                                        <td>   -7.9555</td> <td>    5.776</td> <td>   -1.377</td> <td> 0.168</td> <td>  -19.277</td> <td>    3.366</td>
+  <th>ages_9_16</th>                                        <td>   -6.1862</td> <td>    4.729</td> <td>   -1.308</td> <td> 0.191</td> <td>  -15.456</td> <td>    3.083</td>
 </tr>
 <tr>
-  <th>theme_name_Angry_Birds</th>                           <td>   13.6281</td> <td>   15.631</td> <td>    0.872</td> <td> 0.383</td> <td>  -17.013</td> <td>   44.269</td>
+  <th>theme_name_Angry_Birds</th>                           <td>   12.4778</td> <td>   14.072</td> <td>    0.887</td> <td> 0.375</td> <td>  -15.105</td> <td>   40.061</td>
 </tr>
 <tr>
-  <th>theme_name_Architecture</th>                          <td>  -92.3721</td> <td>    6.531</td> <td>  -14.144</td> <td> 0.000</td> <td> -105.174</td> <td>  -79.570</td>
+  <th>theme_name_Architecture</th>                          <td>  -88.9777</td> <td>    5.544</td> <td>  -16.049</td> <td> 0.000</td> <td>  -99.845</td> <td>  -78.110</td>
 </tr>
 <tr>
-  <th>theme_name_BOOST</th>                                 <td>   85.4343</td> <td>    9.102</td> <td>    9.386</td> <td> 0.000</td> <td>   67.592</td> <td>  103.277</td>
+  <th>theme_name_BOOST</th>                                 <td>   86.1812</td> <td>    8.200</td> <td>   10.510</td> <td> 0.000</td> <td>   70.108</td> <td>  102.255</td>
 </tr>
 <tr>
-  <th>theme_name_Blues_Helicopter_Pursuit</th>              <td>   24.9154</td> <td>    9.271</td> <td>    2.688</td> <td> 0.007</td> <td>    6.742</td> <td>   43.088</td>
+  <th>theme_name_Blues_Helicopter_Pursuit</th>              <td>   23.7185</td> <td>    7.746</td> <td>    3.062</td> <td> 0.002</td> <td>    8.534</td> <td>   38.903</td>
 </tr>
 <tr>
-  <th>theme_name_BrickHeadz</th>                            <td> -142.5524</td> <td>    7.241</td> <td>  -19.686</td> <td> 0.000</td> <td> -156.748</td> <td> -128.357</td>
+  <th>theme_name_BrickHeadz</th>                            <td> -133.4697</td> <td>    6.194</td> <td>  -21.549</td> <td> 0.000</td> <td> -145.611</td> <td> -121.329</td>
 </tr>
 <tr>
-  <th>theme_name_Carnotaurus_Gyrosphere_Escape</th>         <td>   52.4351</td> <td>    9.595</td> <td>    5.465</td> <td> 0.000</td> <td>   33.625</td> <td>   71.245</td>
+  <th>theme_name_Carnotaurus_Gyrosphere_Escape</th>         <td>   49.4227</td> <td>    7.766</td> <td>    6.364</td> <td> 0.000</td> <td>   34.200</td> <td>   64.645</td>
 </tr>
 <tr>
-  <th>theme_name_City</th>                                  <td>   24.1582</td> <td>    2.498</td> <td>    9.673</td> <td> 0.000</td> <td>   19.262</td> <td>   29.054</td>
+  <th>theme_name_City</th>                                  <td>   21.9154</td> <td>    2.127</td> <td>   10.302</td> <td> 0.000</td> <td>   17.746</td> <td>   26.085</td>
 </tr>
 <tr>
-  <th>theme_name_Classic</th>                               <td>  -21.9832</td> <td>    3.374</td> <td>   -6.515</td> <td> 0.000</td> <td>  -28.598</td> <td>  -15.369</td>
+  <th>theme_name_Classic</th>                               <td>  -21.6138</td> <td>    2.906</td> <td>   -7.437</td> <td> 0.000</td> <td>  -27.311</td> <td>  -15.917</td>
 </tr>
 <tr>
-  <th>theme_name_Creator_3_in_1</th>                        <td>   -0.2245</td> <td>    2.634</td> <td>   -0.085</td> <td> 0.932</td> <td>   -5.388</td> <td>    4.939</td>
+  <th>theme_name_Creator_3_in_1</th>                        <td>   -0.7152</td> <td>    2.267</td> <td>   -0.315</td> <td> 0.752</td> <td>   -5.159</td> <td>    3.729</td>
 </tr>
 <tr>
-  <th>theme_name_Creator_Expert</th>                        <td> -127.1408</td> <td>    4.798</td> <td>  -26.501</td> <td> 0.000</td> <td> -136.545</td> <td> -117.736</td>
+  <th>theme_name_Creator_Expert</th>                        <td> -121.3727</td> <td>    4.168</td> <td>  -29.121</td> <td> 0.000</td> <td> -129.543</td> <td> -113.203</td>
 </tr>
 <tr>
-  <th>theme_name_DC_Comics_Super_Heroes</th>                <td>    9.6009</td> <td>    3.696</td> <td>    2.598</td> <td> 0.009</td> <td>    2.356</td> <td>   16.846</td>
+  <th>theme_name_DC_Comics_Super_Heroes</th>                <td>    9.0729</td> <td>    3.113</td> <td>    2.914</td> <td> 0.004</td> <td>    2.970</td> <td>   15.176</td>
 </tr>
 <tr>
-  <th>theme_name_DC_Super_Hero_Girls</th>                   <td>   10.4594</td> <td>    9.921</td> <td>    1.054</td> <td> 0.292</td> <td>   -8.988</td> <td>   29.907</td>
+  <th>theme_name_DC_Super_Hero_Girls</th>                   <td>   10.8899</td> <td>    8.790</td> <td>    1.239</td> <td> 0.215</td> <td>   -6.340</td> <td>   28.120</td>
 </tr>
 <tr>
-  <th>theme_name_DIMENSIONS</th>                            <td>   16.9661</td> <td>    3.358</td> <td>    5.052</td> <td> 0.000</td> <td>   10.383</td> <td>   23.549</td>
+  <th>theme_name_DIMENSIONS</th>                            <td>   14.8156</td> <td>    2.851</td> <td>    5.197</td> <td> 0.000</td> <td>    9.227</td> <td>   20.404</td>
 </tr>
 <tr>
-  <th>theme_name_DUPLO</th>                                 <td>    2.1841</td> <td>    1.860</td> <td>    1.174</td> <td> 0.240</td> <td>   -1.463</td> <td>    5.831</td>
+  <th>theme_name_DUPLO</th>                                 <td>    1.7859</td> <td>    1.606</td> <td>    1.112</td> <td> 0.266</td> <td>   -1.362</td> <td>    4.934</td>
 </tr>
 <tr>
-  <th>theme_name_Dilophosaurus_Outpost_Attack</th>          <td>   30.2391</td> <td>    8.585</td> <td>    3.522</td> <td> 0.000</td> <td>   13.409</td> <td>   47.069</td>
+  <th>theme_name_Dilophosaurus_Outpost_Attack</th>          <td>   28.9488</td> <td>    7.799</td> <td>    3.712</td> <td> 0.000</td> <td>   13.662</td> <td>   44.236</td>
 </tr>
 <tr>
-  <th>theme_name_Disney</th>                                <td>   10.5232</td> <td>    3.051</td> <td>    3.449</td> <td> 0.001</td> <td>    4.542</td> <td>   16.504</td>
+  <th>theme_name_Disney</th>                                <td>    9.4680</td> <td>    2.554</td> <td>    3.707</td> <td> 0.000</td> <td>    4.461</td> <td>   14.474</td>
 </tr>
 <tr>
-  <th>theme_name_Elves</th>                                 <td>    1.1227</td> <td>    3.610</td> <td>    0.311</td> <td> 0.756</td> <td>   -5.954</td> <td>    8.200</td>
+  <th>theme_name_Elves</th>                                 <td>   -0.0456</td> <td>    3.155</td> <td>   -0.014</td> <td> 0.988</td> <td>   -6.229</td> <td>    6.138</td>
 </tr>
 <tr>
-  <th>theme_name_Friends</th>                               <td>    2.6382</td> <td>    2.395</td> <td>    1.101</td> <td> 0.271</td> <td>   -2.057</td> <td>    7.333</td>
+  <th>theme_name_Friends</th>                               <td>    1.9607</td> <td>    2.043</td> <td>    0.960</td> <td> 0.337</td> <td>   -2.045</td> <td>    5.966</td>
 </tr>
 <tr>
-  <th>theme_name_Ghostbusters</th>                          <td>  -70.8147</td> <td>    8.566</td> <td>   -8.267</td> <td> 0.000</td> <td>  -87.605</td> <td>  -54.024</td>
+  <th>theme_name_Ghostbusters</th>                          <td>  -66.9314</td> <td>    7.818</td> <td>   -8.562</td> <td> 0.000</td> <td>  -82.255</td> <td>  -51.607</td>
 </tr>
 <tr>
-  <th>theme_name_Ideas</th>                                 <td> -134.1264</td> <td>    6.163</td> <td>  -21.761</td> <td> 0.000</td> <td> -146.208</td> <td> -122.044</td>
+  <th>theme_name_Ideas</th>                                 <td> -127.6862</td> <td>    5.182</td> <td>  -24.639</td> <td> 0.000</td> <td> -137.845</td> <td> -117.528</td>
 </tr>
 <tr>
-  <th>theme_name_Indoraptor_Rampage_at_Lockwood_Estate</th> <td>   65.2329</td> <td>    9.244</td> <td>    7.057</td> <td> 0.000</td> <td>   47.112</td> <td>   83.354</td>
+  <th>theme_name_Indoraptor_Rampage_at_Lockwood_Estate</th> <td>   63.7077</td> <td>    7.959</td> <td>    8.004</td> <td> 0.000</td> <td>   48.106</td> <td>   79.310</td>
 </tr>
 <tr>
-  <th>theme_name_Juniors</th>                               <td>    0.1483</td> <td>    3.594</td> <td>    0.041</td> <td> 0.967</td> <td>   -6.897</td> <td>    7.193</td>
+  <th>theme_name_Juniors</th>                               <td>    0.2984</td> <td>    2.765</td> <td>    0.108</td> <td> 0.914</td> <td>   -5.122</td> <td>    5.719</td>
 </tr>
 <tr>
-  <th>theme_name_Jurassic_Park_Velociraptor_Chase</th>      <td>   16.9342</td> <td>    9.837</td> <td>    1.721</td> <td> 0.085</td> <td>   -2.349</td> <td>   36.217</td>
+  <th>theme_name_Jurassic_Park_Velociraptor_Chase</th>      <td>   15.4723</td> <td>    7.677</td> <td>    2.015</td> <td> 0.044</td> <td>    0.424</td> <td>   30.521</td>
 </tr>
 <tr>
-  <th>theme_name_MINDSTORMS</th>                            <td>   -9.5000</td> <td>    7.026</td> <td>   -1.352</td> <td> 0.176</td> <td>  -23.272</td> <td>    4.272</td>
+  <th>theme_name_MINDSTORMS</th>                            <td>  -16.0967</td> <td>    6.073</td> <td>   -2.651</td> <td> 0.008</td> <td>  -28.001</td> <td>   -4.193</td>
 </tr>
 <tr>
-  <th>theme_name_Marvel_Super_Heroes</th>                   <td>   12.1344</td> <td>    2.515</td> <td>    4.824</td> <td> 0.000</td> <td>    7.204</td> <td>   17.065</td>
+  <th>theme_name_Marvel_Super_Heroes</th>                   <td>    9.6129</td> <td>    2.146</td> <td>    4.480</td> <td> 0.000</td> <td>    5.407</td> <td>   13.819</td>
 </tr>
 <tr>
-  <th>theme_name_Minecraft</th>                             <td>  -16.9032</td> <td>    4.429</td> <td>   -3.817</td> <td> 0.000</td> <td>  -25.585</td> <td>   -8.222</td>
+  <th>theme_name_Minecraft</th>                             <td>  -18.5420</td> <td>    3.691</td> <td>   -5.023</td> <td> 0.000</td> <td>  -25.777</td> <td>  -11.307</td>
 </tr>
 <tr>
-  <th>theme_name_Minifigures</th>                           <td>   -9.1452</td> <td>    3.355</td> <td>   -2.726</td> <td> 0.006</td> <td>  -15.721</td> <td>   -2.569</td>
+  <th>theme_name_Minifigures</th>                           <td>   -9.6179</td> <td>    2.705</td> <td>   -3.556</td> <td> 0.000</td> <td>  -14.920</td> <td>   -4.316</td>
 </tr>
 <tr>
-  <th>theme_name_NEXO_KNIGHTS</th>                          <td>   -1.3679</td> <td>    3.332</td> <td>   -0.411</td> <td> 0.681</td> <td>   -7.899</td> <td>    5.163</td>
+  <th>theme_name_NEXO_KNIGHTS</th>                          <td>   -1.9416</td> <td>    2.909</td> <td>   -0.667</td> <td> 0.504</td> <td>   -7.643</td> <td>    3.760</td>
 </tr>
 <tr>
-  <th>theme_name_NINJAGO</th>                               <td>   -9.2351</td> <td>    3.306</td> <td>   -2.794</td> <td> 0.005</td> <td>  -15.715</td> <td>   -2.755</td>
+  <th>theme_name_NINJAGO</th>                               <td>  -10.1941</td> <td>    2.780</td> <td>   -3.668</td> <td> 0.000</td> <td>  -15.643</td> <td>   -4.746</td>
 </tr>
 <tr>
-  <th>theme_name_Power_Functions</th>                       <td>   13.2828</td> <td>   10.735</td> <td>    1.237</td> <td> 0.216</td> <td>   -7.761</td> <td>   34.326</td>
+  <th>theme_name_Power_Functions</th>                       <td>   11.8302</td> <td>    8.894</td> <td>    1.330</td> <td> 0.183</td> <td>   -5.603</td> <td>   29.263</td>
 </tr>
 <tr>
-  <th>theme_name_Pteranodon_Chase</th>                      <td>    2.1570</td> <td>    8.626</td> <td>    0.250</td> <td> 0.803</td> <td>  -14.751</td> <td>   19.066</td>
+  <th>theme_name_Pteranodon_Chase</th>                      <td>   -0.0906</td> <td>    7.836</td> <td>   -0.012</td> <td> 0.991</td> <td>  -15.451</td> <td>   15.270</td>
 </tr>
 <tr>
-  <th>theme_name_SERIOUS_PLAY</th>                          <td>  233.3834</td> <td>    7.980</td> <td>   29.246</td> <td> 0.000</td> <td>  217.740</td> <td>  249.026</td>
+  <th>theme_name_SERIOUS_PLAY</th>                          <td>  246.4357</td> <td>    6.530</td> <td>   37.740</td> <td> 0.000</td> <td>  233.636</td> <td>  259.235</td>
 </tr>
 <tr>
-  <th>theme_name_Speed_Champions</th>                       <td>    6.1419</td> <td>    3.236</td> <td>    1.898</td> <td> 0.058</td> <td>   -0.202</td> <td>   12.486</td>
+  <th>theme_name_Speed_Champions</th>                       <td>    4.4464</td> <td>    2.750</td> <td>    1.617</td> <td> 0.106</td> <td>   -0.944</td> <td>    9.837</td>
 </tr>
 <tr>
-  <th>theme_name_Star_Wars</th>                             <td>   17.1460</td> <td>    1.830</td> <td>    9.370</td> <td> 0.000</td> <td>   13.559</td> <td>   20.733</td>
+  <th>theme_name_Star_Wars</th>                             <td>   16.3728</td> <td>    1.565</td> <td>   10.460</td> <td> 0.000</td> <td>   13.305</td> <td>   19.441</td>
 </tr>
 <tr>
-  <th>theme_name_Stygimoloch_Breakout</th>                  <td>   20.9796</td> <td>    8.911</td> <td>    2.354</td> <td> 0.019</td> <td>    3.512</td> <td>   38.447</td>
+  <th>theme_name_Stygimoloch_Breakout</th>                  <td>   19.8584</td> <td>    7.676</td> <td>    2.587</td> <td> 0.010</td> <td>    4.813</td> <td>   34.904</td>
 </tr>
 <tr>
-  <th>theme_name_T_rex_Transport</th>                       <td>   34.9832</td> <td>    9.920</td> <td>    3.526</td> <td> 0.000</td> <td>   15.537</td> <td>   54.430</td>
+  <th>theme_name_T_rex_Transport</th>                       <td>   33.1561</td> <td>    7.753</td> <td>    4.276</td> <td> 0.000</td> <td>   17.958</td> <td>   48.354</td>
 </tr>
 <tr>
-  <th>theme_name_THE_LEGO_BATMAN_MOVIE</th>                 <td>    8.4370</td> <td>    2.561</td> <td>    3.294</td> <td> 0.001</td> <td>    3.417</td> <td>   13.457</td>
+  <th>theme_name_THE_LEGO_BATMAN_MOVIE</th>                 <td>    5.7661</td> <td>    2.202</td> <td>    2.618</td> <td> 0.009</td> <td>    1.449</td> <td>   10.083</td>
 </tr>
 <tr>
-  <th>theme_name_THE_LEGO_NINJAGO_MOVIE</th>                <td>  -16.8083</td> <td>    2.738</td> <td>   -6.138</td> <td> 0.000</td> <td>  -22.176</td> <td>  -11.441</td>
+  <th>theme_name_THE_LEGO_NINJAGO_MOVIE</th>                <td>  -15.9871</td> <td>    2.328</td> <td>   -6.869</td> <td> 0.000</td> <td>  -20.550</td> <td>  -11.425</td>
 </tr>
 <tr>
-  <th>theme_name_Technic</th>                               <td>    1.7695</td> <td>    2.928</td> <td>    0.604</td> <td> 0.546</td> <td>   -3.970</td> <td>    7.509</td>
+  <th>theme_name_Technic</th>                               <td>   -0.0498</td> <td>    2.479</td> <td>   -0.020</td> <td> 0.984</td> <td>   -4.909</td> <td>    4.809</td>
 </tr>
 <tr>
-  <th>country_AT</th>                                       <td>    1.2896</td> <td>    1.771</td> <td>    0.728</td> <td> 0.467</td> <td>   -2.182</td> <td>    4.761</td>
+  <th>country_AT</th>                                       <td>    1.2678</td> <td>    1.521</td> <td>    0.833</td> <td> 0.405</td> <td>   -1.714</td> <td>    4.250</td>
 </tr>
 <tr>
-  <th>country_AU</th>                                       <td>   -0.7723</td> <td>    1.777</td> <td>   -0.435</td> <td> 0.664</td> <td>   -4.256</td> <td>    2.712</td>
+  <th>country_AU</th>                                       <td>   -1.1405</td> <td>    1.525</td> <td>   -0.748</td> <td> 0.455</td> <td>   -4.130</td> <td>    1.849</td>
 </tr>
 <tr>
-  <th>country_BE</th>                                       <td>    5.2894</td> <td>    1.780</td> <td>    2.971</td> <td> 0.003</td> <td>    1.800</td> <td>    8.779</td>
+  <th>country_BE</th>                                       <td>    5.8481</td> <td>    1.532</td> <td>    3.817</td> <td> 0.000</td> <td>    2.845</td> <td>    8.851</td>
 </tr>
 <tr>
-  <th>country_CA</th>                                       <td>   -9.7879</td> <td>    1.505</td> <td>   -6.505</td> <td> 0.000</td> <td>  -12.737</td> <td>   -6.839</td>
+  <th>country_CA</th>                                       <td>   -9.7446</td> <td>    1.299</td> <td>   -7.503</td> <td> 0.000</td> <td>  -12.291</td> <td>   -7.199</td>
 </tr>
 <tr>
-  <th>country_CH</th>                                       <td>    1.3379</td> <td>    1.854</td> <td>    0.721</td> <td> 0.471</td> <td>   -2.297</td> <td>    4.973</td>
+  <th>country_CH</th>                                       <td>    1.1374</td> <td>    1.527</td> <td>    0.745</td> <td> 0.456</td> <td>   -1.856</td> <td>    4.131</td>
 </tr>
 <tr>
-  <th>country_CZ</th>                                       <td>    7.7488</td> <td>    1.787</td> <td>    4.337</td> <td> 0.000</td> <td>    4.246</td> <td>   11.251</td>
+  <th>country_CZ</th>                                       <td>    7.8635</td> <td>    1.554</td> <td>    5.061</td> <td> 0.000</td> <td>    4.818</td> <td>   10.909</td>
 </tr>
 <tr>
-  <th>country_DE</th>                                       <td>    4.1877</td> <td>    1.829</td> <td>    2.289</td> <td> 0.022</td> <td>    0.602</td> <td>    7.774</td>
+  <th>country_DE</th>                                       <td>    4.7053</td> <td>    1.553</td> <td>    3.029</td> <td> 0.002</td> <td>    1.660</td> <td>    7.750</td>
 </tr>
 <tr>
-  <th>country_DN</th>                                       <td>   -7.6586</td> <td>    1.789</td> <td>   -4.280</td> <td> 0.000</td> <td>  -11.166</td> <td>   -4.151</td>
+  <th>country_DN</th>                                       <td>   -8.2317</td> <td>    1.521</td> <td>   -5.411</td> <td> 0.000</td> <td>  -11.214</td> <td>   -5.250</td>
 </tr>
 <tr>
-  <th>country_ES</th>                                       <td>    4.6657</td> <td>    1.804</td> <td>    2.587</td> <td> 0.010</td> <td>    1.130</td> <td>    8.202</td>
+  <th>country_ES</th>                                       <td>    4.7053</td> <td>    1.553</td> <td>    3.029</td> <td> 0.002</td> <td>    1.660</td> <td>    7.750</td>
 </tr>
 <tr>
-  <th>country_FI</th>                                       <td>   14.9798</td> <td>    1.788</td> <td>    8.376</td> <td> 0.000</td> <td>   11.474</td> <td>   18.486</td>
+  <th>country_FI</th>                                       <td>   13.4911</td> <td>    1.554</td> <td>    8.684</td> <td> 0.000</td> <td>   10.446</td> <td>   16.536</td>
 </tr>
 <tr>
-  <th>country_FR</th>                                       <td>    2.4876</td> <td>    1.804</td> <td>    1.379</td> <td> 0.168</td> <td>   -1.050</td> <td>    6.025</td>
+  <th>country_FR</th>                                       <td>    3.6654</td> <td>    1.529</td> <td>    2.397</td> <td> 0.017</td> <td>    0.668</td> <td>    6.663</td>
 </tr>
 <tr>
-  <th>country_GB</th>                                       <td>    3.8208</td> <td>    1.763</td> <td>    2.167</td> <td> 0.030</td> <td>    0.364</td> <td>    7.277</td>
+  <th>country_GB</th>                                       <td>    2.3410</td> <td>    1.520</td> <td>    1.540</td> <td> 0.124</td> <td>   -0.638</td> <td>    5.320</td>
 </tr>
 <tr>
-  <th>country_IE</th>                                       <td>    2.7893</td> <td>    1.816</td> <td>    1.536</td> <td> 0.125</td> <td>   -0.770</td> <td>    6.348</td>
+  <th>country_IE</th>                                       <td>    1.8771</td> <td>    1.526</td> <td>    1.230</td> <td> 0.219</td> <td>   -1.114</td> <td>    4.868</td>
 </tr>
 <tr>
-  <th>country_IT</th>                                       <td>    1.5533</td> <td>    1.831</td> <td>    0.848</td> <td> 0.396</td> <td>   -2.036</td> <td>    5.143</td>
+  <th>country_IT</th>                                       <td>    2.2320</td> <td>    1.552</td> <td>    1.438</td> <td> 0.150</td> <td>   -0.810</td> <td>    5.274</td>
 </tr>
 <tr>
-  <th>country_LU</th>                                       <td>    4.8374</td> <td>    1.812</td> <td>    2.670</td> <td> 0.008</td> <td>    1.286</td> <td>    8.389</td>
+  <th>country_LU</th>                                       <td>    5.9891</td> <td>    1.554</td> <td>    3.855</td> <td> 0.000</td> <td>    2.944</td> <td>    9.034</td>
 </tr>
 <tr>
-  <th>country_NL</th>                                       <td>    5.9982</td> <td>    1.799</td> <td>    3.335</td> <td> 0.001</td> <td>    2.472</td> <td>    9.524</td>
+  <th>country_NL</th>                                       <td>    5.8015</td> <td>    1.520</td> <td>    3.817</td> <td> 0.000</td> <td>    2.822</td> <td>    8.781</td>
 </tr>
 <tr>
-  <th>country_NO</th>                                       <td>   12.8418</td> <td>    1.821</td> <td>    7.051</td> <td> 0.000</td> <td>    9.272</td> <td>   16.412</td>
+  <th>country_NO</th>                                       <td>   12.6618</td> <td>    1.554</td> <td>    8.150</td> <td> 0.000</td> <td>    9.616</td> <td>   15.707</td>
 </tr>
 <tr>
-  <th>country_NZ</th>                                       <td>    4.6286</td> <td>    1.817</td> <td>    2.547</td> <td> 0.011</td> <td>    1.066</td> <td>    8.191</td>
+  <th>country_NZ</th>                                       <td>    6.2245</td> <td>    1.530</td> <td>    4.070</td> <td> 0.000</td> <td>    3.226</td> <td>    9.223</td>
 </tr>
 <tr>
-  <th>country_PL</th>                                       <td>    7.4844</td> <td>    1.837</td> <td>    4.074</td> <td> 0.000</td> <td>    3.883</td> <td>   11.086</td>
+  <th>country_PL</th>                                       <td>    6.3455</td> <td>    1.579</td> <td>    4.019</td> <td> 0.000</td> <td>    3.251</td> <td>    9.440</td>
 </tr>
 <tr>
-  <th>country_PT</th>                                       <td>    4.2345</td> <td>    1.810</td> <td>    2.340</td> <td> 0.019</td> <td>    0.687</td> <td>    7.782</td>
+  <th>country_PT</th>                                       <td>    4.5545</td> <td>    1.557</td> <td>    2.926</td> <td> 0.003</td> <td>    1.503</td> <td>    7.606</td>
 </tr>
 <tr>
-  <th>country_US</th>                                       <td>   -7.0948</td> <td>    1.517</td> <td>   -4.677</td> <td> 0.000</td> <td>  -10.068</td> <td>   -4.121</td>
+  <th>country_US</th>                                       <td>   -7.3120</td> <td>    1.297</td> <td>   -5.637</td> <td> 0.000</td> <td>   -9.855</td> <td>   -4.769</td>
 </tr>
 <tr>
-  <th>review_difficulty_Average</th>                        <td>   14.8550</td> <td>    1.668</td> <td>    8.907</td> <td> 0.000</td> <td>   11.586</td> <td>   18.124</td>
+  <th>review_difficulty_Average</th>                        <td>   15.7085</td> <td>    1.454</td> <td>   10.805</td> <td> 0.000</td> <td>   12.859</td> <td>   18.558</td>
 </tr>
 <tr>
-  <th>review_difficulty_Challenging</th>                    <td>   19.6220</td> <td>    2.136</td> <td>    9.184</td> <td> 0.000</td> <td>   15.434</td> <td>   23.810</td>
+  <th>review_difficulty_Challenging</th>                    <td>   18.8392</td> <td>    1.861</td> <td>   10.123</td> <td> 0.000</td> <td>   15.191</td> <td>   22.487</td>
 </tr>
 <tr>
-  <th>review_difficulty_Easy</th>                           <td>    1.5081</td> <td>    1.676</td> <td>    0.900</td> <td> 0.368</td> <td>   -1.777</td> <td>    4.794</td>
+  <th>review_difficulty_Easy</th>                           <td>    3.0365</td> <td>    1.458</td> <td>    2.083</td> <td> 0.037</td> <td>    0.179</td> <td>    5.894</td>
 </tr>
 <tr>
-  <th>review_difficulty_Very_Challenging</th>               <td>   27.8144</td> <td>    8.237</td> <td>    3.377</td> <td> 0.001</td> <td>   11.669</td> <td>   43.960</td>
+  <th>review_difficulty_Very_Challenging</th>               <td>   22.1477</td> <td>    7.215</td> <td>    3.070</td> <td> 0.002</td> <td>    8.005</td> <td>   36.290</td>
 </tr>
 <tr>
-  <th>review_difficulty_Very_Easy</th>                      <td>   -0.1109</td> <td>    2.064</td> <td>   -0.054</td> <td> 0.957</td> <td>   -4.156</td> <td>    3.934</td>
+  <th>review_difficulty_Very_Easy</th>                      <td>    1.6501</td> <td>    1.778</td> <td>    0.928</td> <td> 0.354</td> <td>   -1.836</td> <td>    5.136</td>
 </tr>
 <tr>
-  <th>review_difficulty_unknown</th>                        <td>    1.1727</td> <td>    1.845</td> <td>    0.636</td> <td> 0.525</td> <td>   -2.443</td> <td>    4.789</td>
+  <th>review_difficulty_unknown</th>                        <td>    2.9000</td> <td>    1.599</td> <td>    1.814</td> <td> 0.070</td> <td>   -0.234</td> <td>    6.034</td>
 </tr>
 </table>
 <table class="simpletable">
 <tr>
-  <th>Omnibus:</th>       <td>4559.125</td> <th>  Durbin-Watson:     </th>  <td>   1.993</td> 
+  <th>Omnibus:</th>       <td>5896.308</td> <th>  Durbin-Watson:     </th>  <td>   1.468</td> 
 </tr>
 <tr>
-  <th>Prob(Omnibus):</th>  <td> 0.000</td>  <th>  Jarque-Bera (JB):  </th> <td>409155.543</td>
+  <th>Prob(Omnibus):</th>  <td> 0.000</td>  <th>  Jarque-Bera (JB):  </th> <td>606905.535</td>
 </tr>
 <tr>
-  <th>Skew:</th>           <td> 1.795</td>  <th>  Prob(JB):          </th>  <td>    0.00</td> 
+  <th>Skew:</th>           <td> 1.674</td>  <th>  Prob(JB):          </th>  <td>    0.00</td> 
 </tr>
 <tr>
-  <th>Kurtosis:</th>       <td>37.521</td>  <th>  Cond. No.          </th>  <td>1.49e+16</td> 
+  <th>Kurtosis:</th>       <td>39.453</td>  <th>  Cond. No.          </th>  <td>2.27e+16</td> 
 </tr>
-</table><br/><br/>Warnings:<br/>[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.<br/>[2] The smallest eigenvalue is 8.22e-29. This might indicate that there are<br/>strong multicollinearity problems or that the design matrix is singular.
+</table><br/><br/>Notes:<br/>[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.<br/>[2] The smallest eigenvalue is 4.71e-29. This might indicate that there are<br/>strong multicollinearity problems or that the design matrix is singular.
 
 
 
@@ -1162,113 +797,72 @@ Based on the initial model, remove those features which do not appear to be stat
 
 
 ```python
-# __SOLUTION__ 
-# Extract the p-value table from the summary and use it to subset our features
-summary = model.summary()
-p_table = summary.tables[1]
-p_table = pd.DataFrame(p_table.data)
-p_table.columns = p_table.iloc[0]
-p_table = p_table.drop(0)
-p_table = p_table.set_index(p_table.columns[0])
-p_table['P>|t|'] = p_table['P>|t|'].astype(float)
-x_cols = list(p_table[p_table['P>|t|'] < 0.05].index)
-x_cols.remove('Intercept')
-print(len(p_table), len(x_cols))
-print(x_cols[:5])
-p_table.head()
+# __SOLUTION__
+# Subset pvalues result to only those less than .05
+low_pvalues = model.pvalues[model.pvalues < 0.05]
+
+# "Intercept" may be a low p-value but is not a valid column for the formula
+low_pvalues.drop("Intercept", axis=0, errors="ignore", inplace=True)
+low_pvalues
 ```
 
-    103 72
-    ['piece_count', 'num_reviews', 'play_star_rating', 'star_rating', 'val_star_rating']
+
+
+
+    piece_count                           0.000000e+00
+    num_reviews                           1.819804e-27
+    play_star_rating                      3.160824e-22
+    star_rating                           1.978538e-02
+    val_star_rating                       6.565959e-54
+                                              ...     
+    country_US                            1.773072e-08
+    review_difficulty_Average             4.491864e-27
+    review_difficulty_Challenging         5.588075e-24
+    review_difficulty_Easy                3.730231e-02
+    review_difficulty_Very_Challenging    2.147521e-03
+    Length: 76, dtype: float64
 
 
 
 
+```python
+# __SOLUTION__
+# Update the value of x_cols to match the index of that series
+x_cols = low_pvalues.index.values
+x_cols
+```
 
-<div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
 
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
 
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>coef</th>
-      <th>std err</th>
-      <th>t</th>
-      <th>P&gt;|t|</th>
-      <th>[0.025</th>
-      <th>0.975]</th>
-    </tr>
-    <tr>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>Intercept</th>
-      <td>64.8612</td>
-      <td>1.744</td>
-      <td>37.193</td>
-      <td>0.000</td>
-      <td>61.443</td>
-      <td>68.280</td>
-    </tr>
-    <tr>
-      <th>piece_count</th>
-      <td>74.9476</td>
-      <td>0.901</td>
-      <td>83.162</td>
-      <td>0.000</td>
-      <td>73.181</td>
-      <td>76.714</td>
-    </tr>
-    <tr>
-      <th>num_reviews</th>
-      <td>6.9764</td>
-      <td>0.705</td>
-      <td>9.893</td>
-      <td>0.000</td>
-      <td>5.594</td>
-      <td>8.359</td>
-    </tr>
-    <tr>
-      <th>play_star_rating</th>
-      <td>4.9752</td>
-      <td>0.632</td>
-      <td>7.878</td>
-      <td>0.000</td>
-      <td>3.737</td>
-      <td>6.213</td>
-    </tr>
-    <tr>
-      <th>star_rating</th>
-      <td>-1.5662</td>
-      <td>0.718</td>
-      <td>-2.180</td>
-      <td>0.029</td>
-      <td>-2.975</td>
-      <td>-0.158</td>
-    </tr>
-  </tbody>
-</table>
-</div>
+
+    array(['piece_count', 'num_reviews', 'play_star_rating', 'star_rating',
+           'val_star_rating', 'ages_10plus', 'ages_10_14', 'ages_10_16',
+           'ages_10_21', 'ages_11_16', 'ages_12plus', 'ages_12_16',
+           'ages_14plus', 'ages_16plus', 'ages_1half_3', 'ages_2_5',
+           'ages_4plus', 'ages_4_7', 'ages_5plus', 'ages_5_12', 'ages_6plus',
+           'ages_6_12', 'ages_7_12', 'ages_7_14', 'ages_8plus', 'ages_8_12',
+           'ages_8_14', 'ages_9plus', 'ages_9_12', 'ages_9_14',
+           'theme_name_Architecture', 'theme_name_BOOST',
+           'theme_name_Blues_Helicopter_Pursuit', 'theme_name_BrickHeadz',
+           'theme_name_Carnotaurus_Gyrosphere_Escape', 'theme_name_City',
+           'theme_name_Classic', 'theme_name_Creator_Expert',
+           'theme_name_DC_Comics_Super_Heroes', 'theme_name_DIMENSIONS',
+           'theme_name_Dilophosaurus_Outpost_Attack', 'theme_name_Disney',
+           'theme_name_Ghostbusters', 'theme_name_Ideas',
+           'theme_name_Indoraptor_Rampage_at_Lockwood_Estate',
+           'theme_name_Jurassic_Park_Velociraptor_Chase',
+           'theme_name_MINDSTORMS', 'theme_name_Marvel_Super_Heroes',
+           'theme_name_Minecraft', 'theme_name_Minifigures',
+           'theme_name_NINJAGO', 'theme_name_SERIOUS_PLAY',
+           'theme_name_Star_Wars', 'theme_name_Stygimoloch_Breakout',
+           'theme_name_T_rex_Transport', 'theme_name_THE_LEGO_BATMAN_MOVIE',
+           'theme_name_THE_LEGO_NINJAGO_MOVIE', 'country_BE', 'country_CA',
+           'country_CZ', 'country_DE', 'country_DN', 'country_ES',
+           'country_FI', 'country_FR', 'country_LU', 'country_NL',
+           'country_NO', 'country_NZ', 'country_PL', 'country_PT',
+           'country_US', 'review_difficulty_Average',
+           'review_difficulty_Challenging', 'review_difficulty_Easy',
+           'review_difficulty_Very_Challenging'], dtype=object)
 
 
 
@@ -1283,7 +877,7 @@ p_table.head()
 # Refit model with subset features
 predictors = '+'.join(x_cols)
 formula = outcome + '~' + predictors
-model = ols(formula=formula, data=train).fit()
+model = ols(formula=formula, data=df).fit()
 model.summary()
 ```
 
@@ -1293,28 +887,28 @@ model.summary()
 <table class="simpletable">
 <caption>OLS Regression Results</caption>
 <tr>
-  <th>Dep. Variable:</th>       <td>list_price</td>    <th>  R-squared:         </th> <td>   0.862</td> 
+  <th>Dep. Variable:</th>       <td>list_price</td>    <th>  R-squared:         </th> <td>   0.863</td> 
 </tr>
 <tr>
-  <th>Model:</th>                   <td>OLS</td>       <th>  Adj. R-squared:    </th> <td>   0.860</td> 
+  <th>Model:</th>                   <td>OLS</td>       <th>  Adj. R-squared:    </th> <td>   0.863</td> 
 </tr>
 <tr>
-  <th>Method:</th>             <td>Least Squares</td>  <th>  F-statistic:       </th> <td>   708.8</td> 
+  <th>Method:</th>             <td>Least Squares</td>  <th>  F-statistic:       </th> <td>   910.4</td> 
 </tr>
 <tr>
-  <th>Date:</th>             <td>Mon, 30 Sep 2019</td> <th>  Prob (F-statistic):</th>  <td>  0.00</td>  
+  <th>Date:</th>             <td>Wed, 24 Aug 2022</td> <th>  Prob (F-statistic):</th>  <td>  0.00</td>  
 </tr>
 <tr>
-  <th>Time:</th>                 <td>17:52:36</td>     <th>  Log-Likelihood:    </th> <td> -40640.</td> 
+  <th>Time:</th>                 <td>18:13:18</td>     <th>  Log-Likelihood:    </th> <td> -54063.</td> 
 </tr>
 <tr>
-  <th>No. Observations:</th>      <td>  8152</td>      <th>  AIC:               </th> <td>8.142e+04</td>
+  <th>No. Observations:</th>      <td> 10870</td>      <th>  AIC:               </th> <td>1.083e+05</td>
 </tr>
 <tr>
-  <th>Df Residuals:</th>          <td>  8080</td>      <th>  BIC:               </th> <td>8.193e+04</td>
+  <th>Df Residuals:</th>          <td> 10794</td>      <th>  BIC:               </th> <td>1.088e+05</td>
 </tr>
 <tr>
-  <th>Df Model:</th>              <td>    71</td>      <th>                     </th>     <td> </td>    
+  <th>Df Model:</th>              <td>    75</td>      <th>                     </th>     <td> </td>    
 </tr>
 <tr>
   <th>Covariance Type:</th>      <td>nonrobust</td>    <th>                     </th>     <td> </td>    
@@ -1325,239 +919,251 @@ model.summary()
                           <td></td>                            <th>coef</th>     <th>std err</th>      <th>t</th>      <th>P>|t|</th>  <th>[0.025</th>    <th>0.975]</th>  
 </tr>
 <tr>
-  <th>Intercept</th>                                        <td>   63.1235</td> <td>    1.601</td> <td>   39.436</td> <td> 0.000</td> <td>   59.986</td> <td>   66.261</td>
+  <th>Intercept</th>                                        <td>   64.7562</td> <td>    2.106</td> <td>   30.747</td> <td> 0.000</td> <td>   60.628</td> <td>   68.884</td>
 </tr>
 <tr>
-  <th>piece_count</th>                                      <td>   75.1642</td> <td>    0.882</td> <td>   85.253</td> <td> 0.000</td> <td>   73.436</td> <td>   76.892</td>
+  <th>piece_count</th>                                      <td>   75.7688</td> <td>    0.763</td> <td>   99.312</td> <td> 0.000</td> <td>   74.273</td> <td>   77.264</td>
 </tr>
 <tr>
-  <th>num_reviews</th>                                      <td>    6.9132</td> <td>    0.693</td> <td>    9.973</td> <td> 0.000</td> <td>    5.554</td> <td>    8.272</td>
+  <th>num_reviews</th>                                      <td>    6.5022</td> <td>    0.585</td> <td>   11.111</td> <td> 0.000</td> <td>    5.355</td> <td>    7.649</td>
 </tr>
 <tr>
-  <th>play_star_rating</th>                                 <td>    5.0413</td> <td>    0.615</td> <td>    8.203</td> <td> 0.000</td> <td>    3.837</td> <td>    6.246</td>
+  <th>play_star_rating</th>                                 <td>    5.4112</td> <td>    0.531</td> <td>   10.190</td> <td> 0.000</td> <td>    4.370</td> <td>    6.452</td>
 </tr>
 <tr>
-  <th>star_rating</th>                                      <td>   -1.4870</td> <td>    0.701</td> <td>   -2.121</td> <td> 0.034</td> <td>   -2.861</td> <td>   -0.113</td>
+  <th>star_rating</th>                                      <td>   -1.4588</td> <td>    0.606</td> <td>   -2.406</td> <td> 0.016</td> <td>   -2.647</td> <td>   -0.271</td>
 </tr>
 <tr>
-  <th>val_star_rating</th>                                  <td>   -8.1112</td> <td>    0.604</td> <td>  -13.439</td> <td> 0.000</td> <td>   -9.294</td> <td>   -6.928</td>
+  <th>val_star_rating</th>                                  <td>   -8.4947</td> <td>    0.528</td> <td>  -16.084</td> <td> 0.000</td> <td>   -9.530</td> <td>   -7.459</td>
 </tr>
 <tr>
-  <th>ages_10plus</th>                                      <td>  130.0601</td> <td>    4.841</td> <td>   26.864</td> <td> 0.000</td> <td>  120.570</td> <td>  139.550</td>
+  <th>ages_10plus</th>                                      <td>  128.2005</td> <td>    6.586</td> <td>   19.465</td> <td> 0.000</td> <td>  115.291</td> <td>  141.110</td>
 </tr>
 <tr>
-  <th>ages_10_14</th>                                       <td>  -19.5287</td> <td>    9.665</td> <td>   -2.021</td> <td> 0.043</td> <td>  -38.475</td> <td>   -0.583</td>
+  <th>ages_10_14</th>                                       <td>  -19.3577</td> <td>    8.201</td> <td>   -2.360</td> <td> 0.018</td> <td>  -35.434</td> <td>   -3.281</td>
 </tr>
 <tr>
-  <th>ages_10_16</th>                                       <td>   -7.6978</td> <td>    3.907</td> <td>   -1.970</td> <td> 0.049</td> <td>  -15.357</td> <td>   -0.039</td>
+  <th>ages_10_16</th>                                       <td>   -8.7326</td> <td>    3.680</td> <td>   -2.373</td> <td> 0.018</td> <td>  -15.947</td> <td>   -1.519</td>
 </tr>
 <tr>
-  <th>ages_10_21</th>                                       <td>   47.2955</td> <td>    3.271</td> <td>   14.461</td> <td> 0.000</td> <td>   40.884</td> <td>   53.707</td>
+  <th>ages_10_21</th>                                       <td>   61.6708</td> <td>    7.062</td> <td>    8.733</td> <td> 0.000</td> <td>   47.829</td> <td>   75.513</td>
 </tr>
 <tr>
-  <th>ages_11_16</th>                                       <td>  -19.4170</td> <td>    5.568</td> <td>   -3.488</td> <td> 0.000</td> <td>  -30.331</td> <td>   -8.503</td>
+  <th>ages_11_16</th>                                       <td>  -15.5409</td> <td>    5.126</td> <td>   -3.032</td> <td> 0.002</td> <td>  -25.590</td> <td>   -5.492</td>
 </tr>
 <tr>
-  <th>ages_12plus</th>                                      <td>   75.5952</td> <td>    6.183</td> <td>   12.227</td> <td> 0.000</td> <td>   63.475</td> <td>   87.715</td>
+  <th>ages_12plus</th>                                      <td>   75.0700</td> <td>    5.737</td> <td>   13.085</td> <td> 0.000</td> <td>   63.824</td> <td>   86.316</td>
 </tr>
 <tr>
-  <th>ages_12_16</th>                                       <td>  -48.4587</td> <td>    6.993</td> <td>   -6.930</td> <td> 0.000</td> <td>  -62.166</td> <td>  -34.752</td>
+  <th>ages_12_16</th>                                       <td>  -54.0781</td> <td>    6.335</td> <td>   -8.536</td> <td> 0.000</td> <td>  -66.496</td> <td>  -41.660</td>
 </tr>
 <tr>
-  <th>ages_14plus</th>                                      <td>   25.0545</td> <td>    4.907</td> <td>    5.105</td> <td> 0.000</td> <td>   15.435</td> <td>   34.674</td>
+  <th>ages_14plus</th>                                      <td>   28.5356</td> <td>    4.315</td> <td>    6.613</td> <td> 0.000</td> <td>   20.078</td> <td>   36.993</td>
 </tr>
 <tr>
-  <th>ages_16plus</th>                                      <td>   42.6640</td> <td>    6.791</td> <td>    6.283</td> <td> 0.000</td> <td>   29.352</td> <td>   55.976</td>
+  <th>ages_16plus</th>                                      <td>   36.2814</td> <td>    6.010</td> <td>    6.037</td> <td> 0.000</td> <td>   24.501</td> <td>   48.061</td>
 </tr>
 <tr>
-  <th>ages_1half_3</th>                                     <td>   -2.4120</td> <td>    3.197</td> <td>   -0.755</td> <td> 0.451</td> <td>   -8.678</td> <td>    3.854</td>
+  <th>ages_1half_3</th>                                     <td>   -3.6613</td> <td>    3.116</td> <td>   -1.175</td> <td> 0.240</td> <td>   -9.769</td> <td>    2.446</td>
 </tr>
 <tr>
-  <th>ages_2_5</th>                                         <td>   21.1856</td> <td>    2.002</td> <td>   10.585</td> <td> 0.000</td> <td>   17.262</td> <td>   25.109</td>
+  <th>ages_2_5</th>                                         <td>   20.0271</td> <td>    2.309</td> <td>    8.673</td> <td> 0.000</td> <td>   15.501</td> <td>   24.553</td>
 </tr>
 <tr>
-  <th>ages_4plus</th>                                       <td>  -18.8947</td> <td>    9.806</td> <td>   -1.927</td> <td> 0.054</td> <td>  -38.117</td> <td>    0.327</td>
+  <th>ages_4plus</th>                                       <td>  -16.2515</td> <td>    8.435</td> <td>   -1.927</td> <td> 0.054</td> <td>  -32.786</td> <td>    0.283</td>
 </tr>
 <tr>
-  <th>ages_5plus</th>                                       <td>   -7.5176</td> <td>    3.322</td> <td>   -2.263</td> <td> 0.024</td> <td>  -14.029</td> <td>   -1.006</td>
+  <th>ages_4_7</th>                                         <td>   -2.5732</td> <td>    2.415</td> <td>   -1.065</td> <td> 0.287</td> <td>   -7.307</td> <td>    2.161</td>
 </tr>
 <tr>
-  <th>ages_5_12</th>                                        <td>  -29.6111</td> <td>    2.734</td> <td>  -10.830</td> <td> 0.000</td> <td>  -34.971</td> <td>  -24.252</td>
+  <th>ages_5plus</th>                                       <td>   -8.3651</td> <td>    2.773</td> <td>   -3.017</td> <td> 0.003</td> <td>  -13.801</td> <td>   -2.930</td>
 </tr>
 <tr>
-  <th>ages_6plus</th>                                       <td>  -20.2238</td> <td>    6.093</td> <td>   -3.319</td> <td> 0.001</td> <td>  -32.168</td> <td>   -8.280</td>
+  <th>ages_5_12</th>                                        <td>  -30.5511</td> <td>    2.755</td> <td>  -11.090</td> <td> 0.000</td> <td>  -35.951</td> <td>  -25.151</td>
 </tr>
 <tr>
-  <th>ages_6_12</th>                                        <td>  -16.3294</td> <td>    1.903</td> <td>   -8.579</td> <td> 0.000</td> <td>  -20.061</td> <td>  -12.598</td>
+  <th>ages_6plus</th>                                       <td>  -22.6151</td> <td>    5.048</td> <td>   -4.480</td> <td> 0.000</td> <td>  -32.510</td> <td>  -12.721</td>
 </tr>
 <tr>
-  <th>ages_7_12</th>                                        <td>  -14.8557</td> <td>    2.252</td> <td>   -6.597</td> <td> 0.000</td> <td>  -19.270</td> <td>  -10.442</td>
+  <th>ages_6_12</th>                                        <td>  -17.8101</td> <td>    2.201</td> <td>   -8.093</td> <td> 0.000</td> <td>  -22.124</td> <td>  -13.497</td>
 </tr>
 <tr>
-  <th>ages_7_14</th>                                        <td>  -11.5934</td> <td>    2.008</td> <td>   -5.773</td> <td> 0.000</td> <td>  -15.530</td> <td>   -7.657</td>
+  <th>ages_7_12</th>                                        <td>  -16.6658</td> <td>    2.436</td> <td>   -6.841</td> <td> 0.000</td> <td>  -21.441</td> <td>  -11.890</td>
 </tr>
 <tr>
-  <th>ages_8plus</th>                                       <td>   13.8251</td> <td>    4.458</td> <td>    3.101</td> <td> 0.002</td> <td>    5.087</td> <td>   22.563</td>
+  <th>ages_7_14</th>                                        <td>  -12.8865</td> <td>    2.204</td> <td>   -5.846</td> <td> 0.000</td> <td>  -17.208</td> <td>   -8.565</td>
 </tr>
 <tr>
-  <th>ages_8_12</th>                                        <td>  -14.3407</td> <td>    2.790</td> <td>   -5.140</td> <td> 0.000</td> <td>  -19.810</td> <td>   -8.872</td>
+  <th>ages_8plus</th>                                       <td>   17.9739</td> <td>    4.403</td> <td>    4.082</td> <td> 0.000</td> <td>    9.344</td> <td>   26.604</td>
 </tr>
 <tr>
-  <th>ages_8_14</th>                                        <td>  -10.3312</td> <td>    2.153</td> <td>   -4.799</td> <td> 0.000</td> <td>  -14.551</td> <td>   -6.111</td>
+  <th>ages_8_12</th>                                        <td>  -16.1068</td> <td>    2.839</td> <td>   -5.674</td> <td> 0.000</td> <td>  -21.671</td> <td>  -10.542</td>
 </tr>
 <tr>
-  <th>ages_9plus</th>                                       <td>  111.5507</td> <td>   10.929</td> <td>   10.207</td> <td> 0.000</td> <td>   90.127</td> <td>  132.975</td>
+  <th>ages_8_14</th>                                        <td>  -11.9187</td> <td>    2.283</td> <td>   -5.221</td> <td> 0.000</td> <td>  -16.394</td> <td>   -7.444</td>
 </tr>
 <tr>
-  <th>ages_9_12</th>                                        <td>  -22.1872</td> <td>    6.392</td> <td>   -3.471</td> <td> 0.001</td> <td>  -34.718</td> <td>   -9.657</td>
+  <th>ages_9plus</th>                                       <td>  107.8134</td> <td>    9.695</td> <td>   11.121</td> <td> 0.000</td> <td>   88.810</td> <td>  126.817</td>
 </tr>
 <tr>
-  <th>ages_9_14</th>                                        <td>   -4.8308</td> <td>    2.887</td> <td>   -1.673</td> <td> 0.094</td> <td>  -10.490</td> <td>    0.829</td>
+  <th>ages_9_12</th>                                        <td>  -24.5818</td> <td>    5.664</td> <td>   -4.340</td> <td> 0.000</td> <td>  -35.684</td> <td>  -13.480</td>
 </tr>
 <tr>
-  <th>theme_name_Architecture</th>                          <td>  -90.3912</td> <td>    6.537</td> <td>  -13.828</td> <td> 0.000</td> <td> -103.205</td> <td>  -77.578</td>
+  <th>ages_9_14</th>                                        <td>   -6.7067</td> <td>    2.784</td> <td>   -2.409</td> <td> 0.016</td> <td>  -12.163</td> <td>   -1.250</td>
 </tr>
 <tr>
-  <th>theme_name_BOOST</th>                                 <td>   84.2039</td> <td>    9.226</td> <td>    9.127</td> <td> 0.000</td> <td>   66.119</td> <td>  102.289</td>
+  <th>theme_name_Architecture</th>                          <td>  -90.4237</td> <td>    5.938</td> <td>  -15.227</td> <td> 0.000</td> <td> -102.064</td> <td>  -78.784</td>
 </tr>
 <tr>
-  <th>theme_name_Blues_Helicopter_Pursuit</th>              <td>   23.5148</td> <td>    9.363</td> <td>    2.511</td> <td> 0.012</td> <td>    5.161</td> <td>   41.869</td>
+  <th>theme_name_BOOST</th>                                 <td>   85.4041</td> <td>    8.325</td> <td>   10.258</td> <td> 0.000</td> <td>   69.085</td> <td>  101.723</td>
 </tr>
 <tr>
-  <th>theme_name_BrickHeadz</th>                            <td> -135.7338</td> <td>    5.179</td> <td>  -26.206</td> <td> 0.000</td> <td> -145.887</td> <td> -125.581</td>
+  <th>theme_name_Blues_Helicopter_Pursuit</th>              <td>   23.7468</td> <td>    7.858</td> <td>    3.022</td> <td> 0.003</td> <td>    8.344</td> <td>   39.150</td>
 </tr>
 <tr>
-  <th>theme_name_Carnotaurus_Gyrosphere_Escape</th>         <td>   50.8146</td> <td>    9.709</td> <td>    5.234</td> <td> 0.000</td> <td>   31.782</td> <td>   69.848</td>
+  <th>theme_name_BrickHeadz</th>                            <td> -135.4955</td> <td>    6.678</td> <td>  -20.291</td> <td> 0.000</td> <td> -148.585</td> <td> -122.406</td>
 </tr>
 <tr>
-  <th>theme_name_City</th>                                  <td>   21.9566</td> <td>    2.226</td> <td>    9.863</td> <td> 0.000</td> <td>   17.593</td> <td>   26.320</td>
+  <th>theme_name_Carnotaurus_Gyrosphere_Escape</th>         <td>   49.4677</td> <td>    7.884</td> <td>    6.275</td> <td> 0.000</td> <td>   34.015</td> <td>   64.921</td>
 </tr>
 <tr>
-  <th>theme_name_Classic</th>                               <td>  -19.7378</td> <td>    2.745</td> <td>   -7.191</td> <td> 0.000</td> <td>  -25.118</td> <td>  -14.357</td>
+  <th>theme_name_City</th>                                  <td>   20.5358</td> <td>    1.912</td> <td>   10.741</td> <td> 0.000</td> <td>   16.788</td> <td>   24.283</td>
 </tr>
 <tr>
-  <th>theme_name_Creator_Expert</th>                        <td> -127.5652</td> <td>    4.968</td> <td>  -25.676</td> <td> 0.000</td> <td> -137.304</td> <td> -117.826</td>
+  <th>theme_name_Classic</th>                               <td>  -21.7241</td> <td>    2.792</td> <td>   -7.782</td> <td> 0.000</td> <td>  -27.196</td> <td>  -16.252</td>
 </tr>
 <tr>
-  <th>theme_name_DC_Comics_Super_Heroes</th>                <td>    7.3159</td> <td>    3.615</td> <td>    2.024</td> <td> 0.043</td> <td>    0.230</td> <td>   14.402</td>
+  <th>theme_name_Creator_Expert</th>                        <td> -122.3595</td> <td>    4.398</td> <td>  -27.822</td> <td> 0.000</td> <td> -130.980</td> <td> -113.739</td>
 </tr>
 <tr>
-  <th>theme_name_DIMENSIONS</th>                            <td>   14.5559</td> <td>    3.098</td> <td>    4.698</td> <td> 0.000</td> <td>    8.482</td> <td>   20.630</td>
+  <th>theme_name_DC_Comics_Super_Heroes</th>                <td>    7.5695</td> <td>    3.048</td> <td>    2.484</td> <td> 0.013</td> <td>    1.595</td> <td>   13.544</td>
 </tr>
 <tr>
-  <th>theme_name_Dilophosaurus_Outpost_Attack</th>          <td>   29.3786</td> <td>    8.710</td> <td>    3.373</td> <td> 0.001</td> <td>   12.305</td> <td>   46.452</td>
+  <th>theme_name_DIMENSIONS</th>                            <td>   13.1579</td> <td>    2.637</td> <td>    4.989</td> <td> 0.000</td> <td>    7.988</td> <td>   18.328</td>
 </tr>
 <tr>
-  <th>theme_name_Disney</th>                                <td>    8.4534</td> <td>    2.947</td> <td>    2.869</td> <td> 0.004</td> <td>    2.677</td> <td>   14.230</td>
+  <th>theme_name_Dilophosaurus_Outpost_Attack</th>          <td>   28.7891</td> <td>    7.929</td> <td>    3.631</td> <td> 0.000</td> <td>   13.248</td> <td>   44.331</td>
 </tr>
 <tr>
-  <th>theme_name_Ghostbusters</th>                          <td>  -72.0280</td> <td>    8.812</td> <td>   -8.173</td> <td> 0.000</td> <td>  -89.303</td> <td>  -54.753</td>
+  <th>theme_name_Disney</th>                                <td>    8.1270</td> <td>    2.481</td> <td>    3.275</td> <td> 0.001</td> <td>    3.263</td> <td>   12.991</td>
 </tr>
 <tr>
-  <th>theme_name_Ideas</th>                                 <td> -130.5852</td> <td>    5.657</td> <td>  -23.083</td> <td> 0.000</td> <td> -141.675</td> <td> -119.496</td>
+  <th>theme_name_Ghostbusters</th>                          <td>  -68.1141</td> <td>    8.061</td> <td>   -8.449</td> <td> 0.000</td> <td>  -83.916</td> <td>  -52.312</td>
 </tr>
 <tr>
-  <th>theme_name_Indoraptor_Rampage_at_Lockwood_Estate</th> <td>   64.0838</td> <td>    9.277</td> <td>    6.908</td> <td> 0.000</td> <td>   45.898</td> <td>   82.269</td>
+  <th>theme_name_Ideas</th>                                 <td> -129.6570</td> <td>    5.679</td> <td>  -22.832</td> <td> 0.000</td> <td> -140.788</td> <td> -118.526</td>
 </tr>
 <tr>
-  <th>theme_name_Marvel_Super_Heroes</th>                   <td>    9.9655</td> <td>    2.318</td> <td>    4.299</td> <td> 0.000</td> <td>    5.422</td> <td>   14.509</td>
+  <th>theme_name_Indoraptor_Rampage_at_Lockwood_Estate</th> <td>   63.1513</td> <td>    8.004</td> <td>    7.890</td> <td> 0.000</td> <td>   47.462</td> <td>   78.841</td>
 </tr>
 <tr>
-  <th>theme_name_Minecraft</th>                             <td>  -15.6278</td> <td>    3.944</td> <td>   -3.962</td> <td> 0.000</td> <td>  -23.360</td> <td>   -7.896</td>
+  <th>theme_name_Jurassic_Park_Velociraptor_Chase</th>      <td>   13.9153</td> <td>    7.793</td> <td>    1.786</td> <td> 0.074</td> <td>   -1.360</td> <td>   29.191</td>
 </tr>
 <tr>
-  <th>theme_name_Minifigures</th>                           <td>   -7.5176</td> <td>    3.322</td> <td>   -2.263</td> <td> 0.024</td> <td>  -14.029</td> <td>   -1.006</td>
+  <th>theme_name_MINDSTORMS</th>                            <td>  -18.5110</td> <td>    6.519</td> <td>   -2.839</td> <td> 0.005</td> <td>  -31.290</td> <td>   -5.732</td>
 </tr>
 <tr>
-  <th>theme_name_NINJAGO</th>                               <td>  -10.9044</td> <td>    2.777</td> <td>   -3.927</td> <td> 0.000</td> <td>  -16.348</td> <td>   -5.461</td>
+  <th>theme_name_Marvel_Super_Heroes</th>                   <td>    8.2231</td> <td>    1.989</td> <td>    4.135</td> <td> 0.000</td> <td>    4.325</td> <td>   12.121</td>
 </tr>
 <tr>
-  <th>theme_name_SERIOUS_PLAY</th>                          <td>  230.9067</td> <td>    7.954</td> <td>   29.029</td> <td> 0.000</td> <td>  215.314</td> <td>  246.499</td>
+  <th>theme_name_Minecraft</th>                             <td>  -20.7686</td> <td>    3.733</td> <td>   -5.564</td> <td> 0.000</td> <td>  -28.086</td> <td>  -13.451</td>
 </tr>
 <tr>
-  <th>theme_name_Star_Wars</th>                             <td>   15.4926</td> <td>    1.593</td> <td>    9.723</td> <td> 0.000</td> <td>   12.369</td> <td>   18.616</td>
+  <th>theme_name_Minifigures</th>                           <td>   -8.3651</td> <td>    2.773</td> <td>   -3.017</td> <td> 0.003</td> <td>  -13.801</td> <td>   -2.930</td>
 </tr>
 <tr>
-  <th>theme_name_Stygimoloch_Breakout</th>                  <td>   18.4648</td> <td>    9.043</td> <td>    2.042</td> <td> 0.041</td> <td>    0.738</td> <td>   36.192</td>
+  <th>theme_name_NINJAGO</th>                               <td>  -12.1025</td> <td>    2.438</td> <td>   -4.964</td> <td> 0.000</td> <td>  -16.881</td> <td>   -7.323</td>
 </tr>
 <tr>
-  <th>theme_name_T_rex_Transport</th>                       <td>   33.3650</td> <td>   10.040</td> <td>    3.323</td> <td> 0.001</td> <td>   13.684</td> <td>   53.045</td>
+  <th>theme_name_SERIOUS_PLAY</th>                          <td>  244.9702</td> <td>    6.497</td> <td>   37.705</td> <td> 0.000</td> <td>  232.235</td> <td>  257.706</td>
 </tr>
 <tr>
-  <th>theme_name_THE_LEGO_BATMAN_MOVIE</th>                 <td>    6.4034</td> <td>    2.320</td> <td>    2.760</td> <td> 0.006</td> <td>    1.855</td> <td>   10.952</td>
+  <th>theme_name_Star_Wars</th>                             <td>   15.3444</td> <td>    1.375</td> <td>   11.163</td> <td> 0.000</td> <td>   12.650</td> <td>   18.039</td>
 </tr>
 <tr>
-  <th>theme_name_THE_LEGO_NINJAGO_MOVIE</th>                <td>  -18.6378</td> <td>    2.481</td> <td>   -7.511</td> <td> 0.000</td> <td>  -23.502</td> <td>  -13.774</td>
+  <th>theme_name_Stygimoloch_Breakout</th>                  <td>   18.3708</td> <td>    7.797</td> <td>    2.356</td> <td> 0.018</td> <td>    3.088</td> <td>   33.654</td>
 </tr>
 <tr>
-  <th>country_BE</th>                                       <td>    3.8082</td> <td>    1.971</td> <td>    1.932</td> <td> 0.053</td> <td>   -0.055</td> <td>    7.672</td>
+  <th>theme_name_T_rex_Transport</th>                       <td>   33.1715</td> <td>    7.864</td> <td>    4.218</td> <td> 0.000</td> <td>   17.757</td> <td>   48.586</td>
 </tr>
 <tr>
-  <th>country_CA</th>                                       <td>  -11.2054</td> <td>    1.693</td> <td>   -6.618</td> <td> 0.000</td> <td>  -14.525</td> <td>   -7.886</td>
+  <th>theme_name_THE_LEGO_BATMAN_MOVIE</th>                 <td>    4.5825</td> <td>    2.005</td> <td>    2.285</td> <td> 0.022</td> <td>    0.651</td> <td>    8.514</td>
 </tr>
 <tr>
-  <th>country_CZ</th>                                       <td>    6.3353</td> <td>    1.979</td> <td>    3.201</td> <td> 0.001</td> <td>    2.455</td> <td>   10.216</td>
+  <th>theme_name_THE_LEGO_NINJAGO_MOVIE</th>                <td>  -17.4554</td> <td>    2.127</td> <td>   -8.206</td> <td> 0.000</td> <td>  -21.625</td> <td>  -13.286</td>
 </tr>
 <tr>
-  <th>country_DE</th>                                       <td>    2.7893</td> <td>    2.021</td> <td>    1.380</td> <td> 0.168</td> <td>   -1.172</td> <td>    6.751</td>
+  <th>country_BE</th>                                       <td>    4.5681</td> <td>    1.693</td> <td>    2.698</td> <td> 0.007</td> <td>    1.249</td> <td>    7.887</td>
 </tr>
 <tr>
-  <th>country_DN</th>                                       <td>   -9.1155</td> <td>    1.980</td> <td>   -4.604</td> <td> 0.000</td> <td>  -12.996</td> <td>   -5.235</td>
+  <th>country_CA</th>                                       <td>  -11.0259</td> <td>    1.459</td> <td>   -7.558</td> <td> 0.000</td> <td>  -13.886</td> <td>   -8.166</td>
 </tr>
 <tr>
-  <th>country_ES</th>                                       <td>    3.3234</td> <td>    1.996</td> <td>    1.665</td> <td> 0.096</td> <td>   -0.588</td> <td>    7.235</td>
+  <th>country_CZ</th>                                       <td>    6.5811</td> <td>    1.716</td> <td>    3.835</td> <td> 0.000</td> <td>    3.218</td> <td>    9.944</td>
 </tr>
 <tr>
-  <th>country_FI</th>                                       <td>   13.5480</td> <td>    1.981</td> <td>    6.838</td> <td> 0.000</td> <td>    9.664</td> <td>   17.432</td>
+  <th>country_DE</th>                                       <td>    3.4228</td> <td>    1.716</td> <td>    1.995</td> <td> 0.046</td> <td>    0.060</td> <td>    6.786</td>
 </tr>
 <tr>
-  <th>country_GB</th>                                       <td>    2.3971</td> <td>    1.954</td> <td>    1.227</td> <td> 0.220</td> <td>   -1.433</td> <td>    6.227</td>
+  <th>country_DN</th>                                       <td>   -9.5128</td> <td>    1.682</td> <td>   -5.657</td> <td> 0.000</td> <td>  -12.809</td> <td>   -6.216</td>
 </tr>
 <tr>
-  <th>country_LU</th>                                       <td>    3.3402</td> <td>    2.005</td> <td>    1.666</td> <td> 0.096</td> <td>   -0.589</td> <td>    7.270</td>
+  <th>country_ES</th>                                       <td>    3.4228</td> <td>    1.716</td> <td>    1.995</td> <td> 0.046</td> <td>    0.060</td> <td>    6.786</td>
 </tr>
 <tr>
-  <th>country_NL</th>                                       <td>    4.5775</td> <td>    1.988</td> <td>    2.302</td> <td> 0.021</td> <td>    0.680</td> <td>    8.475</td>
+  <th>country_FI</th>                                       <td>   12.2088</td> <td>    1.716</td> <td>    7.115</td> <td> 0.000</td> <td>    8.845</td> <td>   15.572</td>
 </tr>
 <tr>
-  <th>country_NO</th>                                       <td>   11.4335</td> <td>    2.014</td> <td>    5.678</td> <td> 0.000</td> <td>    7.486</td> <td>   15.381</td>
+  <th>country_FR</th>                                       <td>    2.3831</td> <td>    1.690</td> <td>    1.410</td> <td> 0.159</td> <td>   -0.930</td> <td>    5.696</td>
 </tr>
 <tr>
-  <th>country_NZ</th>                                       <td>    3.1325</td> <td>    2.008</td> <td>    1.560</td> <td> 0.119</td> <td>   -0.803</td> <td>    7.068</td>
+  <th>country_LU</th>                                       <td>    4.7068</td> <td>    1.716</td> <td>    2.743</td> <td> 0.006</td> <td>    1.343</td> <td>    8.070</td>
 </tr>
 <tr>
-  <th>country_PL</th>                                       <td>    6.0690</td> <td>    2.029</td> <td>    2.991</td> <td> 0.003</td> <td>    2.092</td> <td>   10.046</td>
+  <th>country_NL</th>                                       <td>    4.5214</td> <td>    1.680</td> <td>    2.691</td> <td> 0.007</td> <td>    1.228</td> <td>    7.815</td>
 </tr>
 <tr>
-  <th>country_PT</th>                                       <td>    2.8458</td> <td>    2.002</td> <td>    1.421</td> <td> 0.155</td> <td>   -1.079</td> <td>    6.771</td>
+  <th>country_NO</th>                                       <td>   11.3794</td> <td>    1.716</td> <td>    6.632</td> <td> 0.000</td> <td>    8.016</td> <td>   14.743</td>
 </tr>
 <tr>
-  <th>country_US</th>                                       <td>   -8.5555</td> <td>    1.709</td> <td>   -5.007</td> <td> 0.000</td> <td>  -11.905</td> <td>   -5.206</td>
+  <th>country_NZ</th>                                       <td>    4.9468</td> <td>    1.690</td> <td>    2.927</td> <td> 0.003</td> <td>    1.634</td> <td>    8.260</td>
 </tr>
 <tr>
-  <th>review_difficulty_Average</th>                        <td>   13.7516</td> <td>    1.094</td> <td>   12.568</td> <td> 0.000</td> <td>   11.607</td> <td>   15.897</td>
+  <th>country_PL</th>                                       <td>    5.0473</td> <td>    1.741</td> <td>    2.899</td> <td> 0.004</td> <td>    1.635</td> <td>    8.460</td>
 </tr>
 <tr>
-  <th>review_difficulty_Challenging</th>                    <td>   18.3355</td> <td>    2.118</td> <td>    8.656</td> <td> 0.000</td> <td>   14.183</td> <td>   22.488</td>
+  <th>country_PT</th>                                       <td>    3.2733</td> <td>    1.719</td> <td>    1.904</td> <td> 0.057</td> <td>   -0.096</td> <td>    6.643</td>
 </tr>
 <tr>
-  <th>review_difficulty_Very_Challenging</th>               <td>   26.6146</td> <td>    9.683</td> <td>    2.749</td> <td> 0.006</td> <td>    7.634</td> <td>   45.596</td>
+  <th>country_US</th>                                       <td>   -8.5944</td> <td>    1.457</td> <td>   -5.898</td> <td> 0.000</td> <td>  -11.451</td> <td>   -5.738</td>
+</tr>
+<tr>
+  <th>review_difficulty_Average</th>                        <td>   13.6302</td> <td>    1.164</td> <td>   11.714</td> <td> 0.000</td> <td>   11.349</td> <td>   15.911</td>
+</tr>
+<tr>
+  <th>review_difficulty_Challenging</th>                    <td>   16.9114</td> <td>    1.945</td> <td>    8.696</td> <td> 0.000</td> <td>   13.100</td> <td>   20.723</td>
+</tr>
+<tr>
+  <th>review_difficulty_Easy</th>                           <td>    0.8060</td> <td>    1.006</td> <td>    0.801</td> <td> 0.423</td> <td>   -1.166</td> <td>    2.778</td>
+</tr>
+<tr>
+  <th>review_difficulty_Very_Challenging</th>               <td>   19.8384</td> <td>    8.516</td> <td>    2.330</td> <td> 0.020</td> <td>    3.145</td> <td>   36.531</td>
 </tr>
 </table>
 <table class="simpletable">
 <tr>
-  <th>Omnibus:</th>       <td>4513.186</td> <th>  Durbin-Watson:     </th>  <td>   1.994</td> 
+  <th>Omnibus:</th>       <td>5878.578</td> <th>  Durbin-Watson:     </th>  <td>   1.470</td> 
 </tr>
 <tr>
-  <th>Prob(Omnibus):</th>  <td> 0.000</td>  <th>  Jarque-Bera (JB):  </th> <td>403998.537</td>
+  <th>Prob(Omnibus):</th>  <td> 0.000</td>  <th>  Jarque-Bera (JB):  </th> <td>602925.185</td>
 </tr>
 <tr>
-  <th>Skew:</th>           <td> 1.766</td>  <th>  Prob(JB):          </th>  <td>    0.00</td> 
+  <th>Skew:</th>           <td> 1.666</td>  <th>  Prob(JB):          </th>  <td>    0.00</td> 
 </tr>
 <tr>
-  <th>Kurtosis:</th>       <td>37.306</td>  <th>  Cond. No.          </th>  <td>1.55e+16</td> 
+  <th>Kurtosis:</th>       <td>39.333</td>  <th>  Cond. No.          </th>  <td>2.25e+15</td> 
 </tr>
-</table><br/><br/>Warnings:<br/>[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.<br/>[2] The smallest eigenvalue is 7.55e-29. This might indicate that there are<br/>strong multicollinearity problems or that the design matrix is singular.
+</table><br/><br/>Notes:<br/>[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.<br/>[2] The smallest eigenvalue is 4.79e-27. This might indicate that there are<br/>strong multicollinearity problems or that the design matrix is singular.
 
 
 
@@ -1571,112 +1177,41 @@ model.summary()
 
 ```python
 # __SOLUTION__ 
-# Extract the p-value table from the summary and use it to subset our features
-summary = model.summary()
-p_table = summary.tables[1]
-p_table = pd.DataFrame(p_table.data)
-p_table.columns = p_table.iloc[0]
-p_table = p_table.drop(0)
-p_table = p_table.set_index(p_table.columns[0])
-p_table['P>|t|'] = p_table['P>|t|'].astype(float)
-x_cols = list(p_table[p_table['P>|t|'] < 0.05].index)
-x_cols.remove('Intercept')
-print(len(p_table), len(x_cols))
-print(x_cols[:5])
-p_table.head()
+# Extract the p-value table from the model and use it to subset our features
+low_pvalues = model.pvalues[model.pvalues < 0.05]
+low_pvalues.drop("Intercept", axis=0, errors="ignore", inplace=True)
+x_cols = low_pvalues.index.values
+x_cols
 ```
 
-    73 62
-    ['piece_count', 'num_reviews', 'play_star_rating', 'star_rating', 'val_star_rating']
 
 
 
-
-
-<div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>coef</th>
-      <th>std err</th>
-      <th>t</th>
-      <th>P&gt;|t|</th>
-      <th>[0.025</th>
-      <th>0.975]</th>
-    </tr>
-    <tr>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>Intercept</th>
-      <td>63.1235</td>
-      <td>1.601</td>
-      <td>39.436</td>
-      <td>0.000</td>
-      <td>59.986</td>
-      <td>66.261</td>
-    </tr>
-    <tr>
-      <th>piece_count</th>
-      <td>75.1642</td>
-      <td>0.882</td>
-      <td>85.253</td>
-      <td>0.000</td>
-      <td>73.436</td>
-      <td>76.892</td>
-    </tr>
-    <tr>
-      <th>num_reviews</th>
-      <td>6.9132</td>
-      <td>0.693</td>
-      <td>9.973</td>
-      <td>0.000</td>
-      <td>5.554</td>
-      <td>8.272</td>
-    </tr>
-    <tr>
-      <th>play_star_rating</th>
-      <td>5.0413</td>
-      <td>0.615</td>
-      <td>8.203</td>
-      <td>0.000</td>
-      <td>3.837</td>
-      <td>6.246</td>
-    </tr>
-    <tr>
-      <th>star_rating</th>
-      <td>-1.4870</td>
-      <td>0.701</td>
-      <td>-2.121</td>
-      <td>0.034</td>
-      <td>-2.861</td>
-      <td>-0.113</td>
-    </tr>
-  </tbody>
-</table>
-</div>
+    array(['piece_count', 'num_reviews', 'play_star_rating', 'star_rating',
+           'val_star_rating', 'ages_10plus', 'ages_10_14', 'ages_10_16',
+           'ages_10_21', 'ages_11_16', 'ages_12plus', 'ages_12_16',
+           'ages_14plus', 'ages_16plus', 'ages_2_5', 'ages_5plus',
+           'ages_5_12', 'ages_6plus', 'ages_6_12', 'ages_7_12', 'ages_7_14',
+           'ages_8plus', 'ages_8_12', 'ages_8_14', 'ages_9plus', 'ages_9_12',
+           'ages_9_14', 'theme_name_Architecture', 'theme_name_BOOST',
+           'theme_name_Blues_Helicopter_Pursuit', 'theme_name_BrickHeadz',
+           'theme_name_Carnotaurus_Gyrosphere_Escape', 'theme_name_City',
+           'theme_name_Classic', 'theme_name_Creator_Expert',
+           'theme_name_DC_Comics_Super_Heroes', 'theme_name_DIMENSIONS',
+           'theme_name_Dilophosaurus_Outpost_Attack', 'theme_name_Disney',
+           'theme_name_Ghostbusters', 'theme_name_Ideas',
+           'theme_name_Indoraptor_Rampage_at_Lockwood_Estate',
+           'theme_name_MINDSTORMS', 'theme_name_Marvel_Super_Heroes',
+           'theme_name_Minecraft', 'theme_name_Minifigures',
+           'theme_name_NINJAGO', 'theme_name_SERIOUS_PLAY',
+           'theme_name_Star_Wars', 'theme_name_Stygimoloch_Breakout',
+           'theme_name_T_rex_Transport', 'theme_name_THE_LEGO_BATMAN_MOVIE',
+           'theme_name_THE_LEGO_NINJAGO_MOVIE', 'country_BE', 'country_CA',
+           'country_CZ', 'country_DE', 'country_DN', 'country_ES',
+           'country_FI', 'country_LU', 'country_NL', 'country_NO',
+           'country_NZ', 'country_PL', 'country_US',
+           'review_difficulty_Average', 'review_difficulty_Challenging',
+           'review_difficulty_Very_Challenging'], dtype=object)
 
 
 
@@ -1691,7 +1226,7 @@ p_table.head()
 # Refit model with subset features
 predictors = '+'.join(x_cols)
 formula = outcome + "~" + predictors
-model = ols(formula=formula, data=train).fit()
+model = ols(formula=formula, data=df).fit()
 model.summary()
 ```
 
@@ -1701,28 +1236,28 @@ model.summary()
 <table class="simpletable">
 <caption>OLS Regression Results</caption>
 <tr>
-  <th>Dep. Variable:</th>       <td>list_price</td>    <th>  R-squared:         </th> <td>   0.861</td> 
+  <th>Dep. Variable:</th>       <td>list_price</td>    <th>  R-squared:         </th> <td>   0.863</td> 
 </tr>
 <tr>
-  <th>Model:</th>                   <td>OLS</td>       <th>  Adj. R-squared:    </th> <td>   0.860</td> 
+  <th>Model:</th>                   <td>OLS</td>       <th>  Adj. R-squared:    </th> <td>   0.862</td> 
 </tr>
 <tr>
-  <th>Method:</th>             <td>Least Squares</td>  <th>  F-statistic:       </th> <td>   824.1</td> 
+  <th>Method:</th>             <td>Least Squares</td>  <th>  F-statistic:       </th> <td>   1003.</td> 
 </tr>
 <tr>
-  <th>Date:</th>             <td>Mon, 30 Sep 2019</td> <th>  Prob (F-statistic):</th>  <td>  0.00</td>  
+  <th>Date:</th>             <td>Wed, 24 Aug 2022</td> <th>  Prob (F-statistic):</th>  <td>  0.00</td>  
 </tr>
 <tr>
-  <th>Time:</th>                 <td>17:52:44</td>     <th>  Log-Likelihood:    </th> <td> -40648.</td> 
+  <th>Time:</th>                 <td>18:13:23</td>     <th>  Log-Likelihood:    </th> <td> -54070.</td> 
 </tr>
 <tr>
-  <th>No. Observations:</th>      <td>  8152</td>      <th>  AIC:               </th> <td>8.142e+04</td>
+  <th>No. Observations:</th>      <td> 10870</td>      <th>  AIC:               </th> <td>1.083e+05</td>
 </tr>
 <tr>
-  <th>Df Residuals:</th>          <td>  8090</td>      <th>  BIC:               </th> <td>8.185e+04</td>
+  <th>Df Residuals:</th>          <td> 10801</td>      <th>  BIC:               </th> <td>1.088e+05</td>
 </tr>
 <tr>
-  <th>Df Model:</th>              <td>    61</td>      <th>                     </th>     <td> </td>    
+  <th>Df Model:</th>              <td>    68</td>      <th>                     </th>     <td> </td>    
 </tr>
 <tr>
   <th>Covariance Type:</th>      <td>nonrobust</td>    <th>                     </th>     <td> </td>    
@@ -1733,209 +1268,230 @@ model.summary()
                           <td></td>                            <th>coef</th>     <th>std err</th>      <th>t</th>      <th>P>|t|</th>  <th>[0.025</th>    <th>0.975]</th>  
 </tr>
 <tr>
-  <th>Intercept</th>                                        <td>   63.4267</td> <td>    1.269</td> <td>   49.989</td> <td> 0.000</td> <td>   60.940</td> <td>   65.914</td>
+  <th>Intercept</th>                                        <td>   63.6758</td> <td>    1.215</td> <td>   52.404</td> <td> 0.000</td> <td>   61.294</td> <td>   66.058</td>
 </tr>
 <tr>
-  <th>piece_count</th>                                      <td>   74.8606</td> <td>    0.855</td> <td>   87.528</td> <td> 0.000</td> <td>   73.184</td> <td>   76.537</td>
+  <th>piece_count</th>                                      <td>   75.8262</td> <td>    0.763</td> <td>   99.417</td> <td> 0.000</td> <td>   74.331</td> <td>   77.321</td>
 </tr>
 <tr>
-  <th>num_reviews</th>                                      <td>    6.4627</td> <td>    0.652</td> <td>    9.911</td> <td> 0.000</td> <td>    5.184</td> <td>    7.741</td>
+  <th>num_reviews</th>                                      <td>    6.1455</td> <td>    0.552</td> <td>   11.142</td> <td> 0.000</td> <td>    5.064</td> <td>    7.227</td>
 </tr>
 <tr>
-  <th>play_star_rating</th>                                 <td>    5.2129</td> <td>    0.611</td> <td>    8.529</td> <td> 0.000</td> <td>    4.015</td> <td>    6.411</td>
+  <th>play_star_rating</th>                                 <td>    5.5014</td> <td>    0.529</td> <td>   10.391</td> <td> 0.000</td> <td>    4.464</td> <td>    6.539</td>
 </tr>
 <tr>
-  <th>star_rating</th>                                      <td>   -1.6143</td> <td>    0.697</td> <td>   -2.315</td> <td> 0.021</td> <td>   -2.981</td> <td>   -0.247</td>
+  <th>star_rating</th>                                      <td>   -1.4314</td> <td>    0.601</td> <td>   -2.382</td> <td> 0.017</td> <td>   -2.609</td> <td>   -0.253</td>
 </tr>
 <tr>
-  <th>val_star_rating</th>                                  <td>   -8.1057</td> <td>    0.602</td> <td>  -13.468</td> <td> 0.000</td> <td>   -9.285</td> <td>   -6.926</td>
+  <th>val_star_rating</th>                                  <td>   -8.6042</td> <td>    0.523</td> <td>  -16.437</td> <td> 0.000</td> <td>   -9.630</td> <td>   -7.578</td>
 </tr>
 <tr>
-  <th>ages_10plus</th>                                      <td>  131.6363</td> <td>    4.713</td> <td>   27.930</td> <td> 0.000</td> <td>  122.398</td> <td>  140.875</td>
+  <th>ages_10plus</th>                                      <td>  129.5614</td> <td>    6.451</td> <td>   20.085</td> <td> 0.000</td> <td>  116.917</td> <td>  142.206</td>
 </tr>
 <tr>
-  <th>ages_10_14</th>                                       <td>  -16.4343</td> <td>    9.507</td> <td>   -1.729</td> <td> 0.084</td> <td>  -35.070</td> <td>    2.201</td>
+  <th>ages_10_14</th>                                       <td>  -17.4870</td> <td>    8.072</td> <td>   -2.166</td> <td> 0.030</td> <td>  -33.309</td> <td>   -1.665</td>
 </tr>
 <tr>
-  <th>ages_10_16</th>                                       <td>   -5.2748</td> <td>    3.665</td> <td>   -1.439</td> <td> 0.150</td> <td>  -12.458</td> <td>    1.909</td>
+  <th>ages_10_16</th>                                       <td>   -6.5432</td> <td>    3.331</td> <td>   -1.964</td> <td> 0.050</td> <td>  -13.072</td> <td>   -0.014</td>
 </tr>
 <tr>
-  <th>ages_10_21</th>                                       <td>   48.3031</td> <td>    3.190</td> <td>   15.143</td> <td> 0.000</td> <td>   42.050</td> <td>   54.556</td>
+  <th>ages_10_21</th>                                       <td>   62.8400</td> <td>    6.969</td> <td>    9.017</td> <td> 0.000</td> <td>   49.179</td> <td>   76.501</td>
 </tr>
 <tr>
-  <th>ages_11_16</th>                                       <td>  -16.6233</td> <td>    5.357</td> <td>   -3.103</td> <td> 0.002</td> <td>  -27.125</td> <td>   -6.122</td>
+  <th>ages_11_16</th>                                       <td>  -13.3548</td> <td>    4.886</td> <td>   -2.733</td> <td> 0.006</td> <td>  -22.932</td> <td>   -3.777</td>
 </tr>
 <tr>
-  <th>ages_12plus</th>                                      <td>   78.7907</td> <td>    5.943</td> <td>   13.258</td> <td> 0.000</td> <td>   67.141</td> <td>   90.440</td>
+  <th>ages_12plus</th>                                      <td>   76.6355</td> <td>    5.630</td> <td>   13.613</td> <td> 0.000</td> <td>   65.600</td> <td>   87.671</td>
 </tr>
 <tr>
-  <th>ages_12_16</th>                                       <td>  -44.8737</td> <td>    6.746</td> <td>   -6.652</td> <td> 0.000</td> <td>  -58.098</td> <td>  -31.649</td>
+  <th>ages_12_16</th>                                       <td>  -51.7495</td> <td>    6.165</td> <td>   -8.393</td> <td> 0.000</td> <td>  -63.835</td> <td>  -39.664</td>
 </tr>
 <tr>
-  <th>ages_14plus</th>                                      <td>   29.5013</td> <td>    4.462</td> <td>    6.611</td> <td> 0.000</td> <td>   20.754</td> <td>   38.249</td>
+  <th>ages_14plus</th>                                      <td>   31.2107</td> <td>    4.103</td> <td>    7.607</td> <td> 0.000</td> <td>   23.168</td> <td>   39.253</td>
 </tr>
 <tr>
-  <th>ages_16plus</th>                                      <td>   48.1257</td> <td>    6.273</td> <td>    7.672</td> <td> 0.000</td> <td>   35.830</td> <td>   60.422</td>
+  <th>ages_16plus</th>                                      <td>   38.9612</td> <td>    5.868</td> <td>    6.639</td> <td> 0.000</td> <td>   27.458</td> <td>   50.464</td>
 </tr>
 <tr>
-  <th>ages_2_5</th>                                         <td>   22.3439</td> <td>    1.856</td> <td>   12.038</td> <td> 0.000</td> <td>   18.705</td> <td>   25.982</td>
+  <th>ages_2_5</th>                                         <td>   21.9668</td> <td>    1.641</td> <td>   13.383</td> <td> 0.000</td> <td>   18.749</td> <td>   25.184</td>
 </tr>
 <tr>
-  <th>ages_5plus</th>                                       <td>   -6.9446</td> <td>    3.303</td> <td>   -2.103</td> <td> 0.036</td> <td>  -13.419</td> <td>   -0.470</td>
+  <th>ages_5plus</th>                                       <td>   -7.4825</td> <td>    2.645</td> <td>   -2.829</td> <td> 0.005</td> <td>  -12.667</td> <td>   -2.298</td>
 </tr>
 <tr>
-  <th>ages_5_12</th>                                        <td>  -28.4674</td> <td>    2.619</td> <td>  -10.871</td> <td> 0.000</td> <td>  -33.601</td> <td>  -23.334</td>
+  <th>ages_5_12</th>                                        <td>  -28.2777</td> <td>    2.274</td> <td>  -12.437</td> <td> 0.000</td> <td>  -32.734</td> <td>  -23.821</td>
 </tr>
 <tr>
-  <th>ages_6plus</th>                                       <td>  -19.0659</td> <td>    6.039</td> <td>   -3.157</td> <td> 0.002</td> <td>  -30.904</td> <td>   -7.228</td>
+  <th>ages_6plus</th>                                       <td>  -20.2011</td> <td>    4.793</td> <td>   -4.214</td> <td> 0.000</td> <td>  -29.597</td> <td>  -10.805</td>
 </tr>
 <tr>
-  <th>ages_6_12</th>                                        <td>  -14.7402</td> <td>    1.634</td> <td>   -9.021</td> <td> 0.000</td> <td>  -17.943</td> <td>  -11.537</td>
+  <th>ages_6_12</th>                                        <td>  -15.4143</td> <td>    1.549</td> <td>   -9.954</td> <td> 0.000</td> <td>  -18.450</td> <td>  -12.379</td>
 </tr>
 <tr>
-  <th>ages_7_12</th>                                        <td>  -13.1965</td> <td>    2.024</td> <td>   -6.521</td> <td> 0.000</td> <td>  -17.163</td> <td>   -9.230</td>
+  <th>ages_7_12</th>                                        <td>  -14.4029</td> <td>    1.845</td> <td>   -7.804</td> <td> 0.000</td> <td>  -18.020</td> <td>  -10.785</td>
 </tr>
 <tr>
-  <th>ages_7_14</th>                                        <td>   -9.9517</td> <td>    1.767</td> <td>   -5.632</td> <td> 0.000</td> <td>  -13.415</td> <td>   -6.488</td>
+  <th>ages_7_14</th>                                        <td>  -10.7496</td> <td>    1.639</td> <td>   -6.560</td> <td> 0.000</td> <td>  -13.962</td> <td>   -7.537</td>
 </tr>
 <tr>
-  <th>ages_8plus</th>                                       <td>   14.6605</td> <td>    4.416</td> <td>    3.320</td> <td> 0.001</td> <td>    6.005</td> <td>   23.316</td>
+  <th>ages_8plus</th>                                       <td>   19.1774</td> <td>    4.312</td> <td>    4.448</td> <td> 0.000</td> <td>   10.725</td> <td>   27.629</td>
 </tr>
 <tr>
-  <th>ages_8_12</th>                                        <td>  -12.5803</td> <td>    2.568</td> <td>   -4.898</td> <td> 0.000</td> <td>  -17.615</td> <td>   -7.546</td>
+  <th>ages_8_12</th>                                        <td>  -13.9537</td> <td>    2.348</td> <td>   -5.943</td> <td> 0.000</td> <td>  -18.556</td> <td>   -9.351</td>
 </tr>
 <tr>
-  <th>ages_8_14</th>                                        <td>   -8.1411</td> <td>    1.736</td> <td>   -4.689</td> <td> 0.000</td> <td>  -11.545</td> <td>   -4.738</td>
+  <th>ages_8_14</th>                                        <td>   -9.9202</td> <td>    1.769</td> <td>   -5.609</td> <td> 0.000</td> <td>  -13.387</td> <td>   -6.453</td>
 </tr>
 <tr>
-  <th>ages_9plus</th>                                       <td>  112.4350</td> <td>   10.854</td> <td>   10.359</td> <td> 0.000</td> <td>   91.159</td> <td>  133.711</td>
+  <th>ages_9plus</th>                                       <td>  108.7553</td> <td>    9.590</td> <td>   11.340</td> <td> 0.000</td> <td>   89.957</td> <td>  127.554</td>
 </tr>
 <tr>
-  <th>ages_9_12</th>                                        <td>  -20.5921</td> <td>    6.325</td> <td>   -3.256</td> <td> 0.001</td> <td>  -32.990</td> <td>   -8.194</td>
+  <th>ages_9_12</th>                                        <td>  -22.8202</td> <td>    5.446</td> <td>   -4.190</td> <td> 0.000</td> <td>  -33.495</td> <td>  -12.145</td>
 </tr>
 <tr>
-  <th>theme_name_Architecture</th>                          <td>  -91.2979</td> <td>    6.498</td> <td>  -14.050</td> <td> 0.000</td> <td> -104.036</td> <td>  -78.560</td>
+  <th>ages_9_14</th>                                        <td>   -4.8660</td> <td>    2.423</td> <td>   -2.008</td> <td> 0.045</td> <td>   -9.615</td> <td>   -0.117</td>
 </tr>
 <tr>
-  <th>theme_name_BOOST</th>                                 <td>   85.2067</td> <td>    9.222</td> <td>    9.240</td> <td> 0.000</td> <td>   67.130</td> <td>  103.284</td>
+  <th>theme_name_Architecture</th>                          <td>  -89.6114</td> <td>    5.917</td> <td>  -15.146</td> <td> 0.000</td> <td> -101.209</td> <td>  -78.014</td>
 </tr>
 <tr>
-  <th>theme_name_Blues_Helicopter_Pursuit</th>              <td>   23.0396</td> <td>    9.360</td> <td>    2.461</td> <td> 0.014</td> <td>    4.691</td> <td>   41.388</td>
+  <th>theme_name_BOOST</th>                                 <td>   85.7240</td> <td>    8.323</td> <td>   10.300</td> <td> 0.000</td> <td>   69.410</td> <td>  102.038</td>
 </tr>
 <tr>
-  <th>theme_name_BrickHeadz</th>                            <td> -135.8757</td> <td>    5.159</td> <td>  -26.337</td> <td> 0.000</td> <td> -145.989</td> <td> -125.763</td>
+  <th>theme_name_Blues_Helicopter_Pursuit</th>              <td>   23.1587</td> <td>    7.821</td> <td>    2.961</td> <td> 0.003</td> <td>    7.829</td> <td>   38.488</td>
 </tr>
 <tr>
-  <th>theme_name_Carnotaurus_Gyrosphere_Escape</th>         <td>   50.8720</td> <td>    9.709</td> <td>    5.240</td> <td> 0.000</td> <td>   31.840</td> <td>   69.904</td>
+  <th>theme_name_BrickHeadz</th>                            <td> -134.5430</td> <td>    6.621</td> <td>  -20.321</td> <td> 0.000</td> <td> -147.521</td> <td> -121.565</td>
 </tr>
 <tr>
-  <th>theme_name_City</th>                                  <td>   22.0863</td> <td>    2.226</td> <td>    9.921</td> <td> 0.000</td> <td>   17.722</td> <td>   26.450</td>
+  <th>theme_name_Carnotaurus_Gyrosphere_Escape</th>         <td>   48.7947</td> <td>    7.849</td> <td>    6.217</td> <td> 0.000</td> <td>   33.410</td> <td>   64.179</td>
 </tr>
 <tr>
-  <th>theme_name_Classic</th>                               <td>  -19.5937</td> <td>    2.572</td> <td>   -7.619</td> <td> 0.000</td> <td>  -24.635</td> <td>  -14.552</td>
+  <th>theme_name_City</th>                                  <td>   20.4609</td> <td>    1.903</td> <td>   10.750</td> <td> 0.000</td> <td>   16.730</td> <td>   24.192</td>
 </tr>
 <tr>
-  <th>theme_name_Creator_Expert</th>                        <td> -128.6759</td> <td>    4.895</td> <td>  -26.286</td> <td> 0.000</td> <td> -138.272</td> <td> -119.080</td>
+  <th>theme_name_Classic</th>                               <td>  -20.5134</td> <td>    2.221</td> <td>   -9.235</td> <td> 0.000</td> <td>  -24.868</td> <td>  -16.159</td>
 </tr>
 <tr>
-  <th>theme_name_DC_Comics_Super_Heroes</th>                <td>    6.7668</td> <td>    3.600</td> <td>    1.880</td> <td> 0.060</td> <td>   -0.290</td> <td>   13.824</td>
+  <th>theme_name_Creator_Expert</th>                        <td> -121.8585</td> <td>    4.389</td> <td>  -27.768</td> <td> 0.000</td> <td> -130.461</td> <td> -113.256</td>
 </tr>
 <tr>
-  <th>theme_name_DIMENSIONS</th>                            <td>   13.7002</td> <td>    3.077</td> <td>    4.453</td> <td> 0.000</td> <td>    7.669</td> <td>   19.731</td>
+  <th>theme_name_DC_Comics_Super_Heroes</th>                <td>    7.5993</td> <td>    3.042</td> <td>    2.498</td> <td> 0.012</td> <td>    1.637</td> <td>   13.562</td>
 </tr>
 <tr>
-  <th>theme_name_Dilophosaurus_Outpost_Attack</th>          <td>   29.2095</td> <td>    8.710</td> <td>    3.354</td> <td> 0.001</td> <td>   12.136</td> <td>   46.283</td>
+  <th>theme_name_DIMENSIONS</th>                            <td>   13.0894</td> <td>    2.632</td> <td>    4.974</td> <td> 0.000</td> <td>    7.931</td> <td>   18.248</td>
 </tr>
 <tr>
-  <th>theme_name_Disney</th>                                <td>    8.4859</td> <td>    2.948</td> <td>    2.879</td> <td> 0.004</td> <td>    2.708</td> <td>   14.264</td>
+  <th>theme_name_Dilophosaurus_Outpost_Attack</th>          <td>   29.0053</td> <td>    7.928</td> <td>    3.659</td> <td> 0.000</td> <td>   13.466</td> <td>   44.545</td>
 </tr>
 <tr>
-  <th>theme_name_Ghostbusters</th>                          <td>  -72.6316</td> <td>    8.807</td> <td>   -8.247</td> <td> 0.000</td> <td>  -89.896</td> <td>  -55.367</td>
+  <th>theme_name_Disney</th>                                <td>    7.9931</td> <td>    2.475</td> <td>    3.230</td> <td> 0.001</td> <td>    3.143</td> <td>   12.844</td>
 </tr>
 <tr>
-  <th>theme_name_Ideas</th>                                 <td> -130.0450</td> <td>    5.602</td> <td>  -23.213</td> <td> 0.000</td> <td> -141.027</td> <td> -119.063</td>
+  <th>theme_name_Ghostbusters</th>                          <td>  -67.8209</td> <td>    8.061</td> <td>   -8.413</td> <td> 0.000</td> <td>  -83.622</td> <td>  -52.019</td>
 </tr>
 <tr>
-  <th>theme_name_Indoraptor_Rampage_at_Lockwood_Estate</th> <td>   63.5596</td> <td>    9.275</td> <td>    6.853</td> <td> 0.000</td> <td>   45.378</td> <td>   81.741</td>
+  <th>theme_name_Ideas</th>                                 <td> -128.0224</td> <td>    5.628</td> <td>  -22.747</td> <td> 0.000</td> <td> -139.054</td> <td> -116.990</td>
 </tr>
 <tr>
-  <th>theme_name_Marvel_Super_Heroes</th>                   <td>    9.6614</td> <td>    2.308</td> <td>    4.185</td> <td> 0.000</td> <td>    5.136</td> <td>   14.186</td>
+  <th>theme_name_Indoraptor_Rampage_at_Lockwood_Estate</th> <td>   63.2420</td> <td>    7.999</td> <td>    7.906</td> <td> 0.000</td> <td>   47.563</td> <td>   78.921</td>
 </tr>
 <tr>
-  <th>theme_name_Minecraft</th>                             <td>  -15.0666</td> <td>    3.933</td> <td>   -3.831</td> <td> 0.000</td> <td>  -22.777</td> <td>   -7.357</td>
+  <th>theme_name_MINDSTORMS</th>                            <td>  -17.9225</td> <td>    6.473</td> <td>   -2.769</td> <td> 0.006</td> <td>  -30.610</td> <td>   -5.235</td>
 </tr>
 <tr>
-  <th>theme_name_Minifigures</th>                           <td>   -6.9446</td> <td>    3.303</td> <td>   -2.103</td> <td> 0.036</td> <td>  -13.419</td> <td>   -0.470</td>
+  <th>theme_name_Marvel_Super_Heroes</th>                   <td>    8.3099</td> <td>    1.981</td> <td>    4.195</td> <td> 0.000</td> <td>    4.427</td> <td>   12.193</td>
 </tr>
 <tr>
-  <th>theme_name_NINJAGO</th>                               <td>  -11.0344</td> <td>    2.761</td> <td>   -3.996</td> <td> 0.000</td> <td>  -16.447</td> <td>   -5.621</td>
+  <th>theme_name_Minecraft</th>                             <td>  -19.8322</td> <td>    3.659</td> <td>   -5.421</td> <td> 0.000</td> <td>  -27.004</td> <td>  -12.661</td>
 </tr>
 <tr>
-  <th>theme_name_SERIOUS_PLAY</th>                          <td>  231.6343</td> <td>    7.934</td> <td>   29.195</td> <td> 0.000</td> <td>  216.081</td> <td>  247.187</td>
+  <th>theme_name_Minifigures</th>                           <td>   -7.4825</td> <td>    2.645</td> <td>   -2.829</td> <td> 0.005</td> <td>  -12.667</td> <td>   -2.298</td>
 </tr>
 <tr>
-  <th>theme_name_Star_Wars</th>                             <td>   14.7210</td> <td>    1.467</td> <td>   10.035</td> <td> 0.000</td> <td>   11.845</td> <td>   17.596</td>
+  <th>theme_name_NINJAGO</th>                               <td>  -11.3865</td> <td>    2.310</td> <td>   -4.929</td> <td> 0.000</td> <td>  -15.915</td> <td>   -6.858</td>
 </tr>
 <tr>
-  <th>theme_name_Stygimoloch_Breakout</th>                  <td>   18.4513</td> <td>    9.045</td> <td>    2.040</td> <td> 0.041</td> <td>    0.721</td> <td>   36.182</td>
+  <th>theme_name_SERIOUS_PLAY</th>                          <td>  244.7454</td> <td>    6.498</td> <td>   37.666</td> <td> 0.000</td> <td>  232.009</td> <td>  257.482</td>
 </tr>
 <tr>
-  <th>theme_name_T_rex_Transport</th>                       <td>   32.7113</td> <td>   10.038</td> <td>    3.259</td> <td> 0.001</td> <td>   13.034</td> <td>   52.389</td>
+  <th>theme_name_Star_Wars</th>                             <td>   15.5978</td> <td>    1.366</td> <td>   11.419</td> <td> 0.000</td> <td>   12.920</td> <td>   18.275</td>
 </tr>
 <tr>
-  <th>theme_name_THE_LEGO_BATMAN_MOVIE</th>                 <td>    5.9243</td> <td>    2.296</td> <td>    2.580</td> <td> 0.010</td> <td>    1.424</td> <td>   10.425</td>
+  <th>theme_name_Stygimoloch_Breakout</th>                  <td>   18.0673</td> <td>    7.795</td> <td>    2.318</td> <td> 0.020</td> <td>    2.788</td> <td>   33.347</td>
 </tr>
 <tr>
-  <th>theme_name_THE_LEGO_NINJAGO_MOVIE</th>                <td>  -19.7354</td> <td>    2.347</td> <td>   -8.411</td> <td> 0.000</td> <td>  -24.335</td> <td>  -15.136</td>
+  <th>theme_name_T_rex_Transport</th>                       <td>   32.5687</td> <td>    7.827</td> <td>    4.161</td> <td> 0.000</td> <td>   17.227</td> <td>   47.910</td>
 </tr>
 <tr>
-  <th>country_CA</th>                                       <td>  -12.8908</td> <td>    1.600</td> <td>   -8.058</td> <td> 0.000</td> <td>  -16.027</td> <td>   -9.755</td>
+  <th>theme_name_THE_LEGO_BATMAN_MOVIE</th>                 <td>    4.7119</td> <td>    1.999</td> <td>    2.358</td> <td> 0.018</td> <td>    0.794</td> <td>    8.629</td>
 </tr>
 <tr>
-  <th>country_CZ</th>                                       <td>    4.6381</td> <td>    1.899</td> <td>    2.442</td> <td> 0.015</td> <td>    0.915</td> <td>    8.361</td>
+  <th>theme_name_THE_LEGO_NINJAGO_MOVIE</th>                <td>  -16.9411</td> <td>    2.094</td> <td>   -8.089</td> <td> 0.000</td> <td>  -21.047</td> <td>  -12.836</td>
 </tr>
 <tr>
-  <th>country_DN</th>                                       <td>  -10.7767</td> <td>    1.902</td> <td>   -5.667</td> <td> 0.000</td> <td>  -14.505</td> <td>   -7.049</td>
+  <th>country_BE</th>                                       <td>    3.8756</td> <td>    1.664</td> <td>    2.329</td> <td> 0.020</td> <td>    0.614</td> <td>    7.137</td>
 </tr>
 <tr>
-  <th>country_FI</th>                                       <td>   11.8724</td> <td>    1.902</td> <td>    6.244</td> <td> 0.000</td> <td>    8.145</td> <td>   15.600</td>
+  <th>country_CA</th>                                       <td>  -11.7161</td> <td>    1.424</td> <td>   -8.227</td> <td> 0.000</td> <td>  -14.508</td> <td>   -8.925</td>
 </tr>
 <tr>
-  <th>country_NL</th>                                       <td>    2.8918</td> <td>    1.910</td> <td>    1.514</td> <td> 0.130</td> <td>   -0.853</td> <td>    6.636</td>
+  <th>country_CZ</th>                                       <td>    5.8798</td> <td>    1.686</td> <td>    3.487</td> <td> 0.000</td> <td>    2.574</td> <td>    9.185</td>
 </tr>
 <tr>
-  <th>country_NO</th>                                       <td>    9.7377</td> <td>    1.935</td> <td>    5.032</td> <td> 0.000</td> <td>    5.944</td> <td>   13.531</td>
+  <th>country_DE</th>                                       <td>    2.7242</td> <td>    1.686</td> <td>    1.616</td> <td> 0.106</td> <td>   -0.581</td> <td>    6.029</td>
 </tr>
 <tr>
-  <th>country_PL</th>                                       <td>    4.3578</td> <td>    1.951</td> <td>    2.234</td> <td> 0.026</td> <td>    0.533</td> <td>    8.182</td>
+  <th>country_DN</th>                                       <td>  -10.2070</td> <td>    1.652</td> <td>   -6.177</td> <td> 0.000</td> <td>  -13.446</td> <td>   -6.968</td>
 </tr>
 <tr>
-  <th>country_US</th>                                       <td>  -10.2657</td> <td>    1.616</td> <td>   -6.353</td> <td> 0.000</td> <td>  -13.433</td> <td>   -7.098</td>
+  <th>country_ES</th>                                       <td>    2.7242</td> <td>    1.686</td> <td>    1.616</td> <td> 0.106</td> <td>   -0.581</td> <td>    6.029</td>
 </tr>
 <tr>
-  <th>review_difficulty_Average</th>                        <td>   13.1889</td> <td>    1.032</td> <td>   12.782</td> <td> 0.000</td> <td>   11.166</td> <td>   15.212</td>
+  <th>country_FI</th>                                       <td>   11.5074</td> <td>    1.686</td> <td>    6.824</td> <td> 0.000</td> <td>    8.202</td> <td>   14.813</td>
 </tr>
 <tr>
-  <th>review_difficulty_Challenging</th>                    <td>   17.6019</td> <td>    2.051</td> <td>    8.580</td> <td> 0.000</td> <td>   13.581</td> <td>   21.623</td>
+  <th>country_LU</th>                                       <td>    4.0054</td> <td>    1.686</td> <td>    2.375</td> <td> 0.018</td> <td>    0.700</td> <td>    7.311</td>
 </tr>
 <tr>
-  <th>review_difficulty_Very_Challenging</th>               <td>   24.5852</td> <td>    9.650</td> <td>    2.548</td> <td> 0.011</td> <td>    5.668</td> <td>   43.503</td>
+  <th>country_NL</th>                                       <td>    3.8305</td> <td>    1.651</td> <td>    2.320</td> <td> 0.020</td> <td>    0.594</td> <td>    7.067</td>
+</tr>
+<tr>
+  <th>country_NO</th>                                       <td>   10.6781</td> <td>    1.686</td> <td>    6.332</td> <td> 0.000</td> <td>    7.372</td> <td>   13.984</td>
+</tr>
+<tr>
+  <th>country_NZ</th>                                       <td>    4.2548</td> <td>    1.661</td> <td>    2.562</td> <td> 0.010</td> <td>    0.999</td> <td>    7.510</td>
+</tr>
+<tr>
+  <th>country_PL</th>                                       <td>    4.3521</td> <td>    1.712</td> <td>    2.542</td> <td> 0.011</td> <td>    0.996</td> <td>    7.708</td>
+</tr>
+<tr>
+  <th>country_US</th>                                       <td>   -9.2845</td> <td>    1.422</td> <td>   -6.527</td> <td> 0.000</td> <td>  -12.073</td> <td>   -6.496</td>
+</tr>
+<tr>
+  <th>review_difficulty_Average</th>                        <td>   13.1975</td> <td>    0.935</td> <td>   14.113</td> <td> 0.000</td> <td>   11.364</td> <td>   15.031</td>
+</tr>
+<tr>
+  <th>review_difficulty_Challenging</th>                    <td>   16.5785</td> <td>    1.819</td> <td>    9.116</td> <td> 0.000</td> <td>   13.014</td> <td>   20.143</td>
+</tr>
+<tr>
+  <th>review_difficulty_Very_Challenging</th>               <td>   18.4485</td> <td>    8.466</td> <td>    2.179</td> <td> 0.029</td> <td>    1.853</td> <td>   35.044</td>
 </tr>
 </table>
 <table class="simpletable">
 <tr>
-  <th>Omnibus:</th>       <td>4532.744</td> <th>  Durbin-Watson:     </th>  <td>   1.995</td> 
+  <th>Omnibus:</th>       <td>5880.010</td> <th>  Durbin-Watson:     </th>  <td>   1.472</td> 
 </tr>
 <tr>
-  <th>Prob(Omnibus):</th>  <td> 0.000</td>  <th>  Jarque-Bera (JB):  </th> <td>402761.845</td>
+  <th>Prob(Omnibus):</th>  <td> 0.000</td>  <th>  Jarque-Bera (JB):  </th> <td>600525.891</td>
 </tr>
 <tr>
-  <th>Skew:</th>           <td> 1.781</td>  <th>  Prob(JB):          </th>  <td>    0.00</td> 
+  <th>Skew:</th>           <td> 1.668</td>  <th>  Prob(JB):          </th>  <td>    0.00</td> 
 </tr>
 <tr>
-  <th>Kurtosis:</th>       <td>37.250</td>  <th>  Cond. No.          </th>  <td>1.56e+16</td> 
+  <th>Kurtosis:</th>       <td>39.260</td>  <th>  Cond. No.          </th>  <td>1.55e+16</td> 
 </tr>
-</table><br/><br/>Warnings:<br/>[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.<br/>[2] The smallest eigenvalue is 7.46e-29. This might indicate that there are<br/>strong multicollinearity problems or that the design matrix is singular.
+</table><br/><br/>Notes:<br/>[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.<br/>[2] The smallest eigenvalue is  1e-28. This might indicate that there are<br/>strong multicollinearity problems or that the design matrix is singular.
 
 
 
@@ -1952,80 +1508,83 @@ There are still a lot of features in the current model! Chances are there are so
 ```python
 # __SOLUTION__ 
 # Your code here
-X = df[x_cols]
+X = sm.add_constant(df[x_cols])
 vif = [variance_inflation_factor(X.values, i) for i in range(X.shape[1])]
 list(zip(x_cols, vif))
 ```
 
-    //anaconda3/lib/python3.7/site-packages/statsmodels/stats/outliers_influence.py:185: RuntimeWarning: divide by zero encountered in double_scalars
-      vif = 1. / (1. - r_squared_i)
 
 
 
-
-
-    [('piece_count', 4.405922178149602),
-     ('num_reviews', 2.5718006443792962),
-     ('play_star_rating', 2.4260935190437145),
-     ('star_rating', 3.1741561009508583),
-     ('val_star_rating', 2.378917945963164),
-     ('ages_10plus', 7.062790874285119),
-     ('ages_10_14', 1.0757978281815623),
-     ('ages_10_16', 1.1251253329169546),
-     ('ages_10_21', 1.05087276211678),
-     ('ages_11_16', 1.1324665191866985),
-     ('ages_12plus', 6.029744721129756),
-     ('ages_12_16', 1.1691677864356895),
-     ('ages_14plus', 2.0274529340611647),
-     ('ages_16plus', 8.827255705628065),
-     ('ages_2_5', 1.178223844804356),
-     ('ages_5plus', inf),
-     ('ages_5_12', 3.2140122683031045),
-     ('ages_6plus', 2.6615908842375973),
-     ('ages_6_12', 1.7695310233521744),
-     ('ages_7_12', 1.4094255446212736),
-     ('ages_7_14', 1.8041932530808011),
-     ('ages_8plus', 2.5759630763154084),
-     ('ages_8_12', 1.2182811988298787),
-     ('ages_8_14', 1.620513834261176),
-     ('ages_9plus', 1.4045095135032246),
-     ('ages_9_12', 1.0165202407011587),
-     ('theme_name_Architecture', 5.2076170924927245),
-     ('theme_name_BOOST', 1.0657931827250136),
-     ('theme_name_Blues_Helicopter_Pursuit', 1.0397474912772058),
-     ('theme_name_BrickHeadz', 6.838363242215517),
-     ('theme_name_Carnotaurus_Gyrosphere_Escape', 1.047496467961563),
-     ('theme_name_City', 3.125973417015085),
-     ('theme_name_Classic', 1.0413562303533714),
-     ('theme_name_Creator_Expert', 4.675759444324803),
-     ('theme_name_DC_Comics_Super_Heroes', 1.092988243790357),
-     ('theme_name_DIMENSIONS', 1.3437623629438735),
-     ('theme_name_Dilophosaurus_Outpost_Attack', 1.0689157923201948),
-     ('theme_name_Disney', 1.409607876297951),
-     ('theme_name_Ghostbusters', 1.2059876864557593),
-     ('theme_name_Ideas', 2.313300325355922),
-     ('theme_name_Indoraptor_Rampage_at_Lockwood_Estate', 1.0877622951765271),
-     ('theme_name_Marvel_Super_Heroes', 1.290836873516688),
-     ('theme_name_Minecraft', 2.6814702409831055),
-     ('theme_name_Minifigures', inf),
-     ('theme_name_NINJAGO', 1.0859940669013926),
-     ('theme_name_SERIOUS_PLAY', 2.8302142883577526),
-     ('theme_name_Star_Wars', 1.6011811108555025),
-     ('theme_name_Stygimoloch_Breakout', 1.0349147360095843),
-     ('theme_name_T_rex_Transport', 1.04124983810647),
-     ('theme_name_THE_LEGO_BATMAN_MOVIE', 1.2739561583217915),
-     ('theme_name_THE_LEGO_NINJAGO_MOVIE', 1.1763518399402193),
-     ('country_CA', 1.0973057427296746),
-     ('country_CZ', 1.0637480188357873),
-     ('country_DN', 1.0668862455720203),
-     ('country_FI', 1.0637480188357873),
-     ('country_NL', 1.0670108311480555),
-     ('country_NO', 1.0637480188357873),
-     ('country_PL', 1.061861096858257),
-     ('country_US', 1.097504050148929),
-     ('review_difficulty_Average', 1.9699941512514942),
-     ('review_difficulty_Challenging', 2.3212004104121404),
-     ('review_difficulty_Very_Challenging', 1.2186259404082131)]
+    [('piece_count', 13.018184596933054),
+     ('num_reviews', 5.12869902507746),
+     ('play_star_rating', 2.682125498567454),
+     ('star_rating', 2.4713929327559865),
+     ('val_star_rating', 3.1836314680390383),
+     ('ages_10plus', 2.4157690953830655),
+     ('ages_10_14', 17.139152054395865),
+     ('ages_10_16', 1.107649397104949),
+     ('ages_10_21', 1.3137720559075943),
+     ('ages_11_16', 7.126030568739189),
+     ('ages_12plus', 1.2703171934133504),
+     ('ages_12_16', 7.451020679015672),
+     ('ages_14plus', 1.2900186132996045),
+     ('ages_16plus', 2.562406811766864),
+     ('ages_2_5', 10.736674795983843),
+     ('ages_5plus', 1.5765826621958199),
+     ('ages_5_12', inf),
+     ('ages_6plus', 3.4297636769078186),
+     ('ages_6_12', 2.7206548227576697),
+     ('ages_7_12', 2.4813581470641894),
+     ('ages_7_14', 1.8357151823902234),
+     ('ages_8plus', 2.3575907898689374),
+     ('ages_8_12', 3.337375122969466),
+     ('ages_8_14', 1.5062462953738889),
+     ('ages_9plus', 2.417415879686907),
+     ('ages_9_12', 1.5635892270420046),
+     ('ages_9_14', 1.0542609944174242),
+     ('theme_name_Architecture', 2.1717498165841724),
+     ('theme_name_BOOST', 5.84795196747785),
+     ('theme_name_Blues_Helicopter_Pursuit', 1.065693162976915),
+     ('theme_name_BrickHeadz', 1.039807406223171),
+     ('theme_name_Carnotaurus_Gyrosphere_Escape', 14.652589732038988),
+     ('theme_name_City', 1.0472704839418534),
+     ('theme_name_Classic', 2.8394392681052407),
+     ('theme_name_Creator_Expert', 1.2881942366246686),
+     ('theme_name_DC_Comics_Super_Heroes', 4.807764628827455),
+     ('theme_name_DIMENSIONS', 1.0956482430241308),
+     ('theme_name_Dilophosaurus_Outpost_Attack', 1.3399627346239331),
+     ('theme_name_Disney', 1.0684470647715179),
+     ('theme_name_Ghostbusters', 1.3784552753315529),
+     ('theme_name_Ideas', 1.209804359497543),
+     ('theme_name_Indoraptor_Rampage_at_Lockwood_Estate', 3.24992199497908),
+     ('theme_name_MINDSTORMS', 1.0877848192992376),
+     ('theme_name_Marvel_Super_Heroes', 9.011802907582439),
+     ('theme_name_Minecraft', 1.2676915761106995),
+     ('theme_name_Minifigures', 3.1981177874767184),
+     ('theme_name_NINJAGO', inf),
+     ('theme_name_SERIOUS_PLAY', 1.1109509712339538),
+     ('theme_name_Star_Wars', 2.8545672382651643),
+     ('theme_name_Stygimoloch_Breakout', 1.8200502063952446),
+     ('theme_name_T_rex_Transport', 1.0329901360493552),
+     ('theme_name_THE_LEGO_BATMAN_MOVIE', 1.04140009535548),
+     ('theme_name_THE_LEGO_NINJAGO_MOVIE', 1.2752346692642285),
+     ('country_BE', 1.367595889265445),
+     ('country_CA', 1.0730531002784895),
+     ('country_CZ', 1.1060401351732356),
+     ('country_DE', 1.0731373986142125),
+     ('country_DN', 1.072903763037081),
+     ('country_ES', 1.074505924394062),
+     ('country_FI', 1.072903763037081),
+     ('country_LU', 1.073137398614213),
+     ('country_NL', 1.0731373986142128),
+     ('country_NO', 1.0746243004064115),
+     ('country_NZ', 1.0731373986142125),
+     ('country_PL', 1.073429265927222),
+     ('country_US', 1.0711916125438503),
+     ('review_difficulty_Average', 1.1061981990914636),
+     ('review_difficulty_Challenging', 1.6458602676775607),
+     ('review_difficulty_Very_Challenging', 2.4249517028270167)]
 
 
 
@@ -2051,7 +1610,7 @@ x_cols = [x for x,vif in vif_scores if vif < 5]
 print(len(vif_scores), len(x_cols))
 ```
 
-    62 55
+    69 58
 
 
 
@@ -2060,7 +1619,7 @@ print(len(vif_scores), len(x_cols))
 # Refit model with subset features
 predictors = '+'.join(x_cols)
 formula = outcome + "~" + predictors
-model = ols(formula=formula, data=train).fit()
+model = ols(formula=formula, data=df).fit()
 model.summary()
 ```
 
@@ -2070,28 +1629,28 @@ model.summary()
 <table class="simpletable">
 <caption>OLS Regression Results</caption>
 <tr>
-  <th>Dep. Variable:</th>       <td>list_price</td>    <th>  R-squared:         </th> <td>   0.846</td> 
+  <th>Dep. Variable:</th>       <td>list_price</td>    <th>  R-squared:         </th> <td>   0.697</td> 
 </tr>
 <tr>
-  <th>Model:</th>                   <td>OLS</td>       <th>  Adj. R-squared:    </th> <td>   0.845</td> 
+  <th>Model:</th>                   <td>OLS</td>       <th>  Adj. R-squared:    </th> <td>   0.695</td> 
 </tr>
 <tr>
-  <th>Method:</th>             <td>Least Squares</td>  <th>  F-statistic:       </th> <td>   808.5</td> 
+  <th>Method:</th>             <td>Least Squares</td>  <th>  F-statistic:       </th> <td>   435.7</td> 
 </tr>
 <tr>
-  <th>Date:</th>             <td>Mon, 30 Sep 2019</td> <th>  Prob (F-statistic):</th>  <td>  0.00</td>  
+  <th>Date:</th>             <td>Wed, 24 Aug 2022</td> <th>  Prob (F-statistic):</th>  <td>  0.00</td>  
 </tr>
 <tr>
-  <th>Time:</th>                 <td>17:53:18</td>     <th>  Log-Likelihood:    </th> <td> -41077.</td> 
+  <th>Time:</th>                 <td>18:13:36</td>     <th>  Log-Likelihood:    </th> <td> -58403.</td> 
 </tr>
 <tr>
-  <th>No. Observations:</th>      <td>  8152</td>      <th>  AIC:               </th> <td>8.227e+04</td>
+  <th>No. Observations:</th>      <td> 10870</td>      <th>  AIC:               </th> <td>1.169e+05</td>
 </tr>
 <tr>
-  <th>Df Residuals:</th>          <td>  8096</td>      <th>  BIC:               </th> <td>8.266e+04</td>
+  <th>Df Residuals:</th>          <td> 10812</td>      <th>  BIC:               </th> <td>1.173e+05</td>
 </tr>
 <tr>
-  <th>Df Model:</th>              <td>    55</td>      <th>                     </th>     <td> </td>    
+  <th>Df Model:</th>              <td>    57</td>      <th>                     </th>     <td> </td>    
 </tr>
 <tr>
   <th>Covariance Type:</th>      <td>nonrobust</td>    <th>                     </th>     <td> </td>    
@@ -2102,188 +1661,197 @@ model.summary()
                           <td></td>                            <th>coef</th>     <th>std err</th>      <th>t</th>      <th>P>|t|</th>  <th>[0.025</th>    <th>0.975]</th>  
 </tr>
 <tr>
-  <th>Intercept</th>                                        <td>   66.5706</td> <td>    1.120</td> <td>   59.423</td> <td> 0.000</td> <td>   64.375</td> <td>   68.767</td>
+  <th>Intercept</th>                                        <td>   28.9738</td> <td>    1.275</td> <td>   22.722</td> <td> 0.000</td> <td>   26.474</td> <td>   31.473</td>
 </tr>
 <tr>
-  <th>piece_count</th>                                      <td>   77.4224</td> <td>    0.708</td> <td>  109.333</td> <td> 0.000</td> <td>   76.034</td> <td>   78.811</td>
+  <th>play_star_rating</th>                                 <td>    5.2404</td> <td>    0.782</td> <td>    6.700</td> <td> 0.000</td> <td>    3.707</td> <td>    6.774</td>
 </tr>
 <tr>
-  <th>num_reviews</th>                                      <td>    5.6273</td> <td>    0.641</td> <td>    8.784</td> <td> 0.000</td> <td>    4.372</td> <td>    6.883</td>
+  <th>star_rating</th>                                      <td>    1.3554</td> <td>    0.881</td> <td>    1.538</td> <td> 0.124</td> <td>   -0.372</td> <td>    3.083</td>
 </tr>
 <tr>
-  <th>play_star_rating</th>                                 <td>    6.4645</td> <td>    0.566</td> <td>   11.424</td> <td> 0.000</td> <td>    5.355</td> <td>    7.574</td>
+  <th>val_star_rating</th>                                  <td>   -9.5710</td> <td>    0.775</td> <td>  -12.346</td> <td> 0.000</td> <td>  -11.091</td> <td>   -8.051</td>
 </tr>
 <tr>
-  <th>star_rating</th>                                      <td>   -2.2202</td> <td>    0.710</td> <td>   -3.125</td> <td> 0.002</td> <td>   -3.613</td> <td>   -0.828</td>
+  <th>ages_10plus</th>                                      <td>  172.4653</td> <td>    9.357</td> <td>   18.431</td> <td> 0.000</td> <td>  154.123</td> <td>  190.807</td>
 </tr>
 <tr>
-  <th>val_star_rating</th>                                  <td>   -9.3871</td> <td>    0.629</td> <td>  -14.922</td> <td> 0.000</td> <td>  -10.620</td> <td>   -8.154</td>
+  <th>ages_10_16</th>                                       <td>   48.3372</td> <td>    4.639</td> <td>   10.420</td> <td> 0.000</td> <td>   39.244</td> <td>   57.431</td>
 </tr>
 <tr>
-  <th>ages_10_14</th>                                       <td>  -30.5007</td> <td>    9.990</td> <td>   -3.053</td> <td> 0.002</td> <td>  -50.084</td> <td>  -10.917</td>
+  <th>ages_10_21</th>                                       <td>  123.2269</td> <td>   10.216</td> <td>   12.062</td> <td> 0.000</td> <td>  103.201</td> <td>  143.253</td>
 </tr>
 <tr>
-  <th>ages_10_16</th>                                       <td>  -12.9744</td> <td>    3.719</td> <td>   -3.489</td> <td> 0.000</td> <td>  -20.264</td> <td>   -5.685</td>
+  <th>ages_12plus</th>                                      <td>  265.4462</td> <td>    7.701</td> <td>   34.469</td> <td> 0.000</td> <td>  250.351</td> <td>  280.542</td>
 </tr>
 <tr>
-  <th>ages_10_21</th>                                       <td>   45.7372</td> <td>    3.313</td> <td>   13.807</td> <td> 0.000</td> <td>   39.244</td> <td>   52.231</td>
+  <th>ages_14plus</th>                                      <td>  203.6098</td> <td>    4.803</td> <td>   42.396</td> <td> 0.000</td> <td>  194.196</td> <td>  213.024</td>
 </tr>
 <tr>
-  <th>ages_11_16</th>                                       <td>  -29.0582</td> <td>    5.384</td> <td>   -5.397</td> <td> 0.000</td> <td>  -39.612</td> <td>  -18.505</td>
+  <th>ages_16plus</th>                                      <td>  408.3636</td> <td>    6.024</td> <td>   67.789</td> <td> 0.000</td> <td>  396.555</td> <td>  420.172</td>
 </tr>
 <tr>
-  <th>ages_12_16</th>                                       <td>  -59.7600</td> <td>    6.796</td> <td>   -8.793</td> <td> 0.000</td> <td>  -73.083</td> <td>  -46.437</td>
+  <th>ages_5plus</th>                                       <td>  -13.1862</td> <td>    3.896</td> <td>   -3.384</td> <td> 0.001</td> <td>  -20.824</td> <td>   -5.549</td>
 </tr>
 <tr>
-  <th>ages_14plus</th>                                      <td>    4.2955</td> <td>    4.087</td> <td>    1.051</td> <td> 0.293</td> <td>   -3.716</td> <td>   12.307</td>
+  <th>ages_6plus</th>                                       <td>  -18.2019</td> <td>    6.966</td> <td>   -2.613</td> <td> 0.009</td> <td>  -31.857</td> <td>   -4.547</td>
 </tr>
 <tr>
-  <th>ages_2_5</th>                                         <td>   20.4819</td> <td>    1.847</td> <td>   11.090</td> <td> 0.000</td> <td>   16.861</td> <td>   24.102</td>
+  <th>ages_6_12</th>                                        <td>   -6.3528</td> <td>    1.773</td> <td>   -3.583</td> <td> 0.000</td> <td>   -9.828</td> <td>   -2.878</td>
 </tr>
 <tr>
-  <th>ages_5_12</th>                                        <td>  -31.1165</td> <td>    2.706</td> <td>  -11.498</td> <td> 0.000</td> <td>  -36.421</td> <td>  -25.812</td>
+  <th>ages_7_12</th>                                        <td>    1.4681</td> <td>    2.379</td> <td>    0.617</td> <td> 0.537</td> <td>   -3.195</td> <td>    6.132</td>
 </tr>
 <tr>
-  <th>ages_6plus</th>                                       <td>  -22.1511</td> <td>    6.330</td> <td>   -3.499</td> <td> 0.000</td> <td>  -34.560</td> <td>   -9.742</td>
+  <th>ages_7_14</th>                                        <td>   -7.6057</td> <td>    2.072</td> <td>   -3.671</td> <td> 0.000</td> <td>  -11.667</td> <td>   -3.545</td>
 </tr>
 <tr>
-  <th>ages_6_12</th>                                        <td>  -18.9130</td> <td>    1.634</td> <td>  -11.574</td> <td> 0.000</td> <td>  -22.116</td> <td>  -15.710</td>
+  <th>ages_8plus</th>                                       <td>   58.6190</td> <td>    6.337</td> <td>    9.250</td> <td> 0.000</td> <td>   46.197</td> <td>   71.041</td>
 </tr>
 <tr>
-  <th>ages_7_12</th>                                        <td>  -16.6192</td> <td>    2.068</td> <td>   -8.037</td> <td> 0.000</td> <td>  -20.673</td> <td>  -12.566</td>
+  <th>ages_8_12</th>                                        <td>   13.8381</td> <td>    3.195</td> <td>    4.331</td> <td> 0.000</td> <td>    7.574</td> <td>   20.102</td>
 </tr>
 <tr>
-  <th>ages_7_14</th>                                        <td>  -13.3358</td> <td>    1.792</td> <td>   -7.441</td> <td> 0.000</td> <td>  -16.849</td> <td>   -9.822</td>
+  <th>ages_8_14</th>                                        <td>    2.6520</td> <td>    2.273</td> <td>    1.167</td> <td> 0.243</td> <td>   -1.804</td> <td>    7.108</td>
 </tr>
 <tr>
-  <th>ages_8plus</th>                                       <td>    1.1390</td> <td>    4.534</td> <td>    0.251</td> <td> 0.802</td> <td>   -7.748</td> <td>   10.026</td>
+  <th>ages_9plus</th>                                       <td>  193.5590</td> <td>   13.941</td> <td>   13.884</td> <td> 0.000</td> <td>  166.232</td> <td>  220.886</td>
 </tr>
 <tr>
-  <th>ages_8_12</th>                                        <td>  -16.4240</td> <td>    2.600</td> <td>   -6.317</td> <td> 0.000</td> <td>  -21.521</td> <td>  -11.327</td>
+  <th>ages_9_12</th>                                        <td>   16.3535</td> <td>    7.997</td> <td>    2.045</td> <td> 0.041</td> <td>    0.677</td> <td>   32.030</td>
 </tr>
 <tr>
-  <th>ages_8_14</th>                                        <td>  -12.8283</td> <td>    1.763</td> <td>   -7.278</td> <td> 0.000</td> <td>  -16.283</td> <td>   -9.373</td>
+  <th>ages_9_14</th>                                        <td>   38.9569</td> <td>    3.216</td> <td>   12.112</td> <td> 0.000</td> <td>   32.652</td> <td>   45.262</td>
 </tr>
 <tr>
-  <th>ages_9plus</th>                                       <td>   20.7116</td> <td>   10.805</td> <td>    1.917</td> <td> 0.055</td> <td>   -0.469</td> <td>   41.892</td>
+  <th>theme_name_Architecture</th>                          <td> -259.8303</td> <td>    8.405</td> <td>  -30.912</td> <td> 0.000</td> <td> -276.306</td> <td> -243.354</td>
 </tr>
 <tr>
-  <th>ages_9_12</th>                                        <td>  -26.0979</td> <td>    6.632</td> <td>   -3.935</td> <td> 0.000</td> <td>  -39.098</td> <td>  -13.098</td>
+  <th>theme_name_Blues_Helicopter_Pursuit</th>              <td>   30.4152</td> <td>   11.622</td> <td>    2.617</td> <td> 0.009</td> <td>    7.634</td> <td>   53.197</td>
 </tr>
 <tr>
-  <th>theme_name_BOOST</th>                                 <td>   83.5449</td> <td>    9.692</td> <td>    8.620</td> <td> 0.000</td> <td>   64.547</td> <td>  102.543</td>
+  <th>theme_name_BrickHeadz</th>                            <td> -178.0438</td> <td>    9.674</td> <td>  -18.404</td> <td> 0.000</td> <td> -197.007</td> <td> -159.081</td>
 </tr>
 <tr>
-  <th>theme_name_Blues_Helicopter_Pursuit</th>              <td>   23.4626</td> <td>    9.861</td> <td>    2.379</td> <td> 0.017</td> <td>    4.132</td> <td>   42.793</td>
+  <th>theme_name_City</th>                                  <td>    9.3253</td> <td>    1.834</td> <td>    5.085</td> <td> 0.000</td> <td>    5.731</td> <td>   12.920</td>
 </tr>
 <tr>
-  <th>theme_name_Carnotaurus_Gyrosphere_Escape</th>         <td>   51.1313</td> <td>   10.224</td> <td>    5.001</td> <td> 0.000</td> <td>   31.089</td> <td>   71.173</td>
+  <th>theme_name_Classic</th>                               <td>  -10.0664</td> <td>    3.078</td> <td>   -3.270</td> <td> 0.001</td> <td>  -16.101</td> <td>   -4.032</td>
 </tr>
 <tr>
-  <th>theme_name_City</th>                                  <td>   21.8707</td> <td>    2.334</td> <td>    9.372</td> <td> 0.000</td> <td>   17.296</td> <td>   26.445</td>
+  <th>theme_name_Creator_Expert</th>                        <td> -287.0848</td> <td>    6.019</td> <td>  -47.695</td> <td> 0.000</td> <td> -298.883</td> <td> -275.286</td>
 </tr>
 <tr>
-  <th>theme_name_Classic</th>                               <td>  -21.3411</td> <td>    2.613</td> <td>   -8.167</td> <td> 0.000</td> <td>  -26.464</td> <td>  -16.219</td>
+  <th>theme_name_DC_Comics_Super_Heroes</th>                <td>    8.4874</td> <td>    4.460</td> <td>    1.903</td> <td> 0.057</td> <td>   -0.254</td> <td>   17.229</td>
 </tr>
 <tr>
-  <th>theme_name_Creator_Expert</th>                        <td>  -93.7125</td> <td>    3.357</td> <td>  -27.915</td> <td> 0.000</td> <td> -100.293</td> <td>  -87.132</td>
+  <th>theme_name_DIMENSIONS</th>                            <td>    1.8324</td> <td>    3.835</td> <td>    0.478</td> <td> 0.633</td> <td>   -5.685</td> <td>    9.349</td>
 </tr>
 <tr>
-  <th>theme_name_DC_Comics_Super_Heroes</th>                <td>    7.0900</td> <td>    3.787</td> <td>    1.872</td> <td> 0.061</td> <td>   -0.333</td> <td>   14.513</td>
+  <th>theme_name_Dilophosaurus_Outpost_Attack</th>          <td>   26.3120</td> <td>   11.776</td> <td>    2.234</td> <td> 0.025</td> <td>    3.228</td> <td>   49.396</td>
 </tr>
 <tr>
-  <th>theme_name_DIMENSIONS</th>                            <td>   14.4625</td> <td>    3.237</td> <td>    4.469</td> <td> 0.000</td> <td>    8.118</td> <td>   20.807</td>
+  <th>theme_name_Disney</th>                                <td>   -8.2411</td> <td>    3.451</td> <td>   -2.388</td> <td> 0.017</td> <td>  -15.005</td> <td>   -1.477</td>
 </tr>
 <tr>
-  <th>theme_name_Dilophosaurus_Outpost_Attack</th>          <td>   29.7108</td> <td>    9.159</td> <td>    3.244</td> <td> 0.001</td> <td>   11.758</td> <td>   47.664</td>
+  <th>theme_name_Ghostbusters</th>                          <td>  -71.5510</td> <td>   11.984</td> <td>   -5.970</td> <td> 0.000</td> <td>  -95.042</td> <td>  -48.060</td>
 </tr>
 <tr>
-  <th>theme_name_Disney</th>                                <td>   10.7879</td> <td>    3.094</td> <td>    3.487</td> <td> 0.000</td> <td>    4.723</td> <td>   16.852</td>
+  <th>theme_name_Ideas</th>                                 <td> -173.1397</td> <td>    7.825</td> <td>  -22.126</td> <td> 0.000</td> <td> -188.478</td> <td> -157.801</td>
 </tr>
 <tr>
-  <th>theme_name_Ghostbusters</th>                          <td>  -50.8519</td> <td>    8.941</td> <td>   -5.687</td> <td> 0.000</td> <td>  -68.379</td> <td>  -33.325</td>
+  <th>theme_name_Indoraptor_Rampage_at_Lockwood_Estate</th> <td>  112.0827</td> <td>   11.880</td> <td>    9.435</td> <td> 0.000</td> <td>   88.796</td> <td>  135.369</td>
 </tr>
 <tr>
-  <th>theme_name_Ideas</th>                                 <td>  -44.2094</td> <td>    4.736</td> <td>   -9.336</td> <td> 0.000</td> <td>  -53.492</td> <td>  -34.926</td>
+  <th>theme_name_MINDSTORMS</th>                            <td>  -94.2132</td> <td>    9.474</td> <td>   -9.944</td> <td> 0.000</td> <td> -112.784</td> <td>  -75.642</td>
 </tr>
 <tr>
-  <th>theme_name_Indoraptor_Rampage_at_Lockwood_Estate</th> <td>   61.2241</td> <td>    9.763</td> <td>    6.271</td> <td> 0.000</td> <td>   42.087</td> <td>   80.361</td>
+  <th>theme_name_Minecraft</th>                             <td>  -36.2494</td> <td>    5.397</td> <td>   -6.717</td> <td> 0.000</td> <td>  -46.828</td> <td>  -25.671</td>
 </tr>
 <tr>
-  <th>theme_name_Marvel_Super_Heroes</th>                   <td>   11.1287</td> <td>    2.428</td> <td>    4.584</td> <td> 0.000</td> <td>    6.370</td> <td>   15.887</td>
+  <th>theme_name_Minifigures</th>                           <td>  -13.1862</td> <td>    3.896</td> <td>   -3.384</td> <td> 0.001</td> <td>  -20.824</td> <td>   -5.549</td>
 </tr>
 <tr>
-  <th>theme_name_Minecraft</th>                             <td>   -5.1590</td> <td>    4.010</td> <td>   -1.287</td> <td> 0.198</td> <td>  -13.019</td> <td>    2.701</td>
+  <th>theme_name_SERIOUS_PLAY</th>                          <td>  458.6574</td> <td>    9.014</td> <td>   50.880</td> <td> 0.000</td> <td>  440.987</td> <td>  476.327</td>
 </tr>
 <tr>
-  <th>theme_name_NINJAGO</th>                               <td>  -12.7384</td> <td>    2.883</td> <td>   -4.418</td> <td> 0.000</td> <td>  -18.390</td> <td>   -7.087</td>
+  <th>theme_name_Star_Wars</th>                             <td>   15.6601</td> <td>    1.893</td> <td>    8.274</td> <td> 0.000</td> <td>   11.950</td> <td>   19.370</td>
 </tr>
 <tr>
-  <th>theme_name_SERIOUS_PLAY</th>                          <td>  223.6317</td> <td>    8.216</td> <td>   27.218</td> <td> 0.000</td> <td>  207.526</td> <td>  239.738</td>
+  <th>theme_name_Stygimoloch_Breakout</th>                  <td>   -6.5856</td> <td>   11.572</td> <td>   -0.569</td> <td> 0.569</td> <td>  -29.269</td> <td>   16.098</td>
 </tr>
 <tr>
-  <th>theme_name_Star_Wars</th>                             <td>   14.9396</td> <td>    1.525</td> <td>    9.799</td> <td> 0.000</td> <td>   11.951</td> <td>   17.928</td>
+  <th>theme_name_T_rex_Transport</th>                       <td>   59.1648</td> <td>   11.622</td> <td>    5.091</td> <td> 0.000</td> <td>   36.383</td> <td>   81.946</td>
 </tr>
 <tr>
-  <th>theme_name_Stygimoloch_Breakout</th>                  <td>   20.6310</td> <td>    9.523</td> <td>    2.166</td> <td> 0.030</td> <td>    1.963</td> <td>   39.299</td>
+  <th>theme_name_THE_LEGO_BATMAN_MOVIE</th>                 <td>   17.8401</td> <td>    2.851</td> <td>    6.257</td> <td> 0.000</td> <td>   12.251</td> <td>   23.429</td>
 </tr>
 <tr>
-  <th>theme_name_T_rex_Transport</th>                       <td>   32.5335</td> <td>   10.573</td> <td>    3.077</td> <td> 0.002</td> <td>   11.807</td> <td>   53.260</td>
+  <th>theme_name_THE_LEGO_NINJAGO_MOVIE</th>                <td>   -2.7995</td> <td>    3.039</td> <td>   -0.921</td> <td> 0.357</td> <td>   -8.757</td> <td>    3.158</td>
 </tr>
 <tr>
-  <th>theme_name_THE_LEGO_BATMAN_MOVIE</th>                 <td>    6.8638</td> <td>    2.407</td> <td>    2.851</td> <td> 0.004</td> <td>    2.145</td> <td>   11.583</td>
+  <th>country_BE</th>                                       <td>    3.9626</td> <td>    2.477</td> <td>    1.600</td> <td> 0.110</td> <td>   -0.893</td> <td>    8.818</td>
 </tr>
 <tr>
-  <th>theme_name_THE_LEGO_NINJAGO_MOVIE</th>                <td>  -20.5352</td> <td>    2.427</td> <td>   -8.461</td> <td> 0.000</td> <td>  -25.293</td> <td>  -15.778</td>
+  <th>country_CA</th>                                       <td>  -14.5126</td> <td>    2.119</td> <td>   -6.850</td> <td> 0.000</td> <td>  -18.666</td> <td>  -10.359</td>
 </tr>
 <tr>
-  <th>country_CA</th>                                       <td>  -13.1183</td> <td>    1.685</td> <td>   -7.783</td> <td> 0.000</td> <td>  -16.422</td> <td>   -9.814</td>
+  <th>country_CZ</th>                                       <td>    5.9493</td> <td>    2.511</td> <td>    2.369</td> <td> 0.018</td> <td>    1.028</td> <td>   10.871</td>
 </tr>
 <tr>
-  <th>country_CZ</th>                                       <td>    4.6252</td> <td>    2.001</td> <td>    2.311</td> <td> 0.021</td> <td>    0.703</td> <td>    8.548</td>
+  <th>country_DE</th>                                       <td>    2.7974</td> <td>    2.511</td> <td>    1.114</td> <td> 0.265</td> <td>   -2.124</td> <td>    7.719</td>
 </tr>
 <tr>
-  <th>country_DN</th>                                       <td>  -10.7804</td> <td>    2.004</td> <td>   -5.380</td> <td> 0.000</td> <td>  -14.708</td> <td>   -6.853</td>
+  <th>country_DN</th>                                       <td>  -10.1073</td> <td>    2.460</td> <td>   -4.108</td> <td> 0.000</td> <td>  -14.930</td> <td>   -5.285</td>
 </tr>
 <tr>
-  <th>country_FI</th>                                       <td>   11.3089</td> <td>    2.003</td> <td>    5.645</td> <td> 0.000</td> <td>    7.382</td> <td>   15.236</td>
+  <th>country_ES</th>                                       <td>    2.7974</td> <td>    2.511</td> <td>    1.114</td> <td> 0.265</td> <td>   -2.124</td> <td>    7.719</td>
 </tr>
 <tr>
-  <th>country_NL</th>                                       <td>    2.8245</td> <td>    2.013</td> <td>    1.403</td> <td> 0.161</td> <td>   -1.121</td> <td>    6.770</td>
+  <th>country_FI</th>                                       <td>   11.5770</td> <td>    2.511</td> <td>    4.611</td> <td> 0.000</td> <td>    6.655</td> <td>   16.499</td>
 </tr>
 <tr>
-  <th>country_NO</th>                                       <td>    9.8207</td> <td>    2.039</td> <td>    4.816</td> <td> 0.000</td> <td>    5.823</td> <td>   13.818</td>
+  <th>country_LU</th>                                       <td>    4.0750</td> <td>    2.511</td> <td>    1.623</td> <td> 0.105</td> <td>   -0.847</td> <td>    8.997</td>
 </tr>
 <tr>
-  <th>country_PL</th>                                       <td>    3.5943</td> <td>    2.055</td> <td>    1.749</td> <td> 0.080</td> <td>   -0.435</td> <td>    7.623</td>
+  <th>country_NL</th>                                       <td>    3.8925</td> <td>    2.458</td> <td>    1.584</td> <td> 0.113</td> <td>   -0.926</td> <td>    8.711</td>
 </tr>
 <tr>
-  <th>country_US</th>                                       <td>  -10.5266</td> <td>    1.702</td> <td>   -6.184</td> <td> 0.000</td> <td>  -13.863</td> <td>   -7.190</td>
+  <th>country_NO</th>                                       <td>   10.7476</td> <td>    2.511</td> <td>    4.280</td> <td> 0.000</td> <td>    5.826</td> <td>   15.669</td>
 </tr>
 <tr>
-  <th>review_difficulty_Average</th>                        <td>   13.5756</td> <td>    1.054</td> <td>   12.882</td> <td> 0.000</td> <td>   11.510</td> <td>   15.641</td>
+  <th>country_NZ</th>                                       <td>    4.3879</td> <td>    2.473</td> <td>    1.774</td> <td> 0.076</td> <td>   -0.459</td> <td>    9.235</td>
 </tr>
 <tr>
-  <th>review_difficulty_Challenging</th>                    <td>   29.1722</td> <td>    2.108</td> <td>   13.838</td> <td> 0.000</td> <td>   25.040</td> <td>   33.305</td>
+  <th>country_PL</th>                                       <td>    4.4288</td> <td>    2.549</td> <td>    1.738</td> <td> 0.082</td> <td>   -0.567</td> <td>    9.425</td>
 </tr>
 <tr>
-  <th>review_difficulty_Very_Challenging</th>               <td>   42.4896</td> <td>   10.093</td> <td>    4.210</td> <td> 0.000</td> <td>   22.705</td> <td>   62.274</td>
+  <th>country_US</th>                                       <td>  -12.0626</td> <td>    2.116</td> <td>   -5.700</td> <td> 0.000</td> <td>  -16.211</td> <td>   -7.914</td>
+</tr>
+<tr>
+  <th>review_difficulty_Average</th>                        <td>   33.2665</td> <td>    1.339</td> <td>   24.844</td> <td> 0.000</td> <td>   30.642</td> <td>   35.891</td>
+</tr>
+<tr>
+  <th>review_difficulty_Challenging</th>                    <td>   82.6538</td> <td>    2.437</td> <td>   33.919</td> <td> 0.000</td> <td>   77.877</td> <td>   87.430</td>
+</tr>
+<tr>
+  <th>review_difficulty_Very_Challenging</th>               <td>   10.3933</td> <td>   12.374</td> <td>    0.840</td> <td> 0.401</td> <td>  -13.862</td> <td>   34.648</td>
 </tr>
 </table>
 <table class="simpletable">
 <tr>
-  <th>Omnibus:</th>       <td>6132.641</td> <th>  Durbin-Watson:     </th>  <td>   1.981</td> 
+  <th>Omnibus:</th>       <td>5278.509</td> <th>  Durbin-Watson:     </th>  <td>   1.731</td> 
 </tr>
 <tr>
-  <th>Prob(Omnibus):</th>  <td> 0.000</td>  <th>  Jarque-Bera (JB):  </th> <td>538299.782</td>
+  <th>Prob(Omnibus):</th>  <td> 0.000</td>  <th>  Jarque-Bera (JB):  </th> <td>374313.050</td>
 </tr>
 <tr>
-  <th>Skew:</th>           <td> 2.928</td>  <th>  Prob(JB):          </th>  <td>    0.00</td> 
+  <th>Skew:</th>           <td> 1.485</td>  <th>  Prob(JB):          </th>  <td>    0.00</td> 
 </tr>
 <tr>
-  <th>Kurtosis:</th>       <td>42.376</td>  <th>  Cond. No.          </th>  <td>    39.8</td> 
+  <th>Kurtosis:</th>       <td>31.594</td>  <th>  Cond. No.          </th>  <td>1.56e+16</td> 
 </tr>
-</table><br/><br/>Warnings:<br/>[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.
+</table><br/><br/>Notes:<br/>[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.<br/>[2] The smallest eigenvalue is  1e-28. This might indicate that there are<br/>strong multicollinearity problems or that the design matrix is singular.
 
 
 
@@ -2303,7 +1871,9 @@ fig = sm.graphics.qqplot(model.resid, dist=stats.norm, line='45', fit=True)
 ```
 
 
-![png](index_files/index_38_0.png)
+    
+![png](index_files/index_35_0.png)
+    
 
 
 ## Check Homoscedasticity Assumption
@@ -2318,19 +1888,14 @@ Check whether the model's errors are indeed homoscedastic or if they violate thi
 
 ```python
 # __SOLUTION__ 
-plt.scatter(model.predict(train[x_cols]), model.resid)
-plt.plot(model.predict(train[x_cols]), [0 for i in range(len(train))])
+plt.scatter(model.predict(df[x_cols]), model.resid)
+plt.plot(model.predict(df[x_cols]), [0 for i in range(len(df))]);
 ```
 
 
-
-
-    [<matplotlib.lines.Line2D at 0x107bacfd0>]
-
-
-
-
-![png](index_files/index_41_1.png)
+    
+![png](index_files/index_38_0.png)
+    
 
 
 > **Comment:** This displays a fairly pronounced 'funnel' shape: errors appear to increase as the `list_price` increases. This doesn't bode well for our model. Subsetting the data to remove outliers and confining the model to this restricted domain may be necessary. A log transformation or something equivalent may also be appropriate.
@@ -2349,18 +1914,13 @@ From here, make additional refinements to your model based on the above analysis
 
 ```python
 # __SOLUTION__ 
-df.list_price.hist()
+df.list_price.hist();
 ```
 
 
-
-
-    <matplotlib.axes._subplots.AxesSubplot at 0x1c1e551a90>
-
-
-
-
-![png](index_files/index_46_1.png)
+    
+![png](index_files/index_43_0.png)
+    
 
 
 
@@ -2408,13 +1968,11 @@ for i in range(80,100):
 orig_tot = len(df)
 df = df[df.list_price < 450] # Subsetting to remove extreme outliers
 print('Percent removed:', (orig_tot -len(df))/orig_tot)
-df.list_price = df.list_price.map(np.log) # Applying a log transformation
-train, test = train_test_split(df)
 
 # Refit model with subset features
 predictors = '+'.join(x_cols)
 formula = outcome + "~" + predictors
-model = ols(formula=formula, data=train).fit()
+model = ols(formula=formula, data=df).fit()
 model.summary()
 ```
 
@@ -2427,28 +1985,28 @@ model.summary()
 <table class="simpletable">
 <caption>OLS Regression Results</caption>
 <tr>
-  <th>Dep. Variable:</th>       <td>list_price</td>    <th>  R-squared:         </th> <td>   0.758</td> 
+  <th>Dep. Variable:</th>       <td>list_price</td>    <th>  R-squared:         </th> <td>   0.688</td> 
 </tr>
 <tr>
-  <th>Model:</th>                   <td>OLS</td>       <th>  Adj. R-squared:    </th> <td>   0.757</td> 
+  <th>Model:</th>                   <td>OLS</td>       <th>  Adj. R-squared:    </th> <td>   0.686</td> 
 </tr>
 <tr>
-  <th>Method:</th>             <td>Least Squares</td>  <th>  F-statistic:       </th> <td>   457.3</td> 
+  <th>Method:</th>             <td>Least Squares</td>  <th>  F-statistic:       </th> <td>   413.9</td> 
 </tr>
 <tr>
-  <th>Date:</th>             <td>Mon, 30 Sep 2019</td> <th>  Prob (F-statistic):</th>  <td>  0.00</td>  
+  <th>Date:</th>             <td>Wed, 24 Aug 2022</td> <th>  Prob (F-statistic):</th>  <td>  0.00</td>  
 </tr>
 <tr>
-  <th>Time:</th>                 <td>17:53:38</td>     <th>  Log-Likelihood:    </th> <td> -4909.7</td> 
+  <th>Time:</th>                 <td>18:13:44</td>     <th>  Log-Likelihood:    </th> <td> -54284.</td> 
 </tr>
 <tr>
-  <th>No. Observations:</th>      <td>  8067</td>      <th>  AIC:               </th> <td>   9931.</td> 
+  <th>No. Observations:</th>      <td> 10756</td>      <th>  AIC:               </th> <td>1.087e+05</td>
 </tr>
 <tr>
-  <th>Df Residuals:</th>          <td>  8011</td>      <th>  BIC:               </th> <td>1.032e+04</td>
+  <th>Df Residuals:</th>          <td> 10698</td>      <th>  BIC:               </th> <td>1.091e+05</td>
 </tr>
 <tr>
-  <th>Df Model:</th>              <td>    55</td>      <th>                     </th>     <td> </td>    
+  <th>Df Model:</th>              <td>    57</td>      <th>                     </th>     <td> </td>    
 </tr>
 <tr>
   <th>Covariance Type:</th>      <td>nonrobust</td>    <th>                     </th>     <td> </td>    
@@ -2459,188 +2017,197 @@ model.summary()
                           <td></td>                            <th>coef</th>     <th>std err</th>      <th>t</th>      <th>P>|t|</th>  <th>[0.025</th>    <th>0.975]</th>  
 </tr>
 <tr>
-  <th>Intercept</th>                                        <td>    3.4008</td> <td>    0.013</td> <td>  254.158</td> <td> 0.000</td> <td>    3.375</td> <td>    3.427</td>
+  <th>Intercept</th>                                        <td>   29.8800</td> <td>    0.922</td> <td>   32.409</td> <td> 0.000</td> <td>   28.073</td> <td>   31.687</td>
 </tr>
 <tr>
-  <th>piece_count</th>                                      <td>    0.6322</td> <td>    0.010</td> <td>   62.797</td> <td> 0.000</td> <td>    0.612</td> <td>    0.652</td>
+  <th>play_star_rating</th>                                 <td>    3.4188</td> <td>    0.570</td> <td>    5.997</td> <td> 0.000</td> <td>    2.301</td> <td>    4.536</td>
 </tr>
 <tr>
-  <th>num_reviews</th>                                      <td>   -0.0211</td> <td>    0.008</td> <td>   -2.750</td> <td> 0.006</td> <td>   -0.036</td> <td>   -0.006</td>
+  <th>star_rating</th>                                      <td>    1.5001</td> <td>    0.639</td> <td>    2.346</td> <td> 0.019</td> <td>    0.247</td> <td>    2.754</td>
 </tr>
 <tr>
-  <th>play_star_rating</th>                                 <td>    0.1169</td> <td>    0.007</td> <td>   17.480</td> <td> 0.000</td> <td>    0.104</td> <td>    0.130</td>
+  <th>val_star_rating</th>                                  <td>   -6.9056</td> <td>    0.561</td> <td>  -12.301</td> <td> 0.000</td> <td>   -8.006</td> <td>   -5.805</td>
 </tr>
 <tr>
-  <th>star_rating</th>                                      <td>   -0.0570</td> <td>    0.008</td> <td>   -6.718</td> <td> 0.000</td> <td>   -0.074</td> <td>   -0.040</td>
+  <th>ages_10plus</th>                                      <td>  108.4961</td> <td>    6.836</td> <td>   15.870</td> <td> 0.000</td> <td>   95.096</td> <td>  121.897</td>
 </tr>
 <tr>
-  <th>val_star_rating</th>                                  <td>   -0.1264</td> <td>    0.008</td> <td>  -16.689</td> <td> 0.000</td> <td>   -0.141</td> <td>   -0.112</td>
+  <th>ages_10_16</th>                                       <td>   53.8366</td> <td>    3.350</td> <td>   16.070</td> <td> 0.000</td> <td>   47.270</td> <td>   60.404</td>
 </tr>
 <tr>
-  <th>ages_10_14</th>                                       <td>    0.1662</td> <td>    0.112</td> <td>    1.480</td> <td> 0.139</td> <td>   -0.054</td> <td>    0.386</td>
+  <th>ages_10_21</th>                                       <td>  109.2572</td> <td>    7.457</td> <td>   14.651</td> <td> 0.000</td> <td>   94.639</td> <td>  123.875</td>
 </tr>
 <tr>
-  <th>ages_10_16</th>                                       <td>    0.5089</td> <td>    0.044</td> <td>   11.471</td> <td> 0.000</td> <td>    0.422</td> <td>    0.596</td>
+  <th>ages_12plus</th>                                      <td>  203.4178</td> <td>    5.633</td> <td>   36.110</td> <td> 0.000</td> <td>  192.376</td> <td>  214.460</td>
 </tr>
 <tr>
-  <th>ages_10_21</th>                                       <td>    0.7583</td> <td>    0.041</td> <td>   18.609</td> <td> 0.000</td> <td>    0.678</td> <td>    0.838</td>
+  <th>ages_14plus</th>                                      <td>  163.9060</td> <td>    3.646</td> <td>   44.958</td> <td> 0.000</td> <td>  156.760</td> <td>  171.052</td>
 </tr>
 <tr>
-  <th>ages_11_16</th>                                       <td>    0.2171</td> <td>    0.068</td> <td>    3.203</td> <td> 0.001</td> <td>    0.084</td> <td>    0.350</td>
+  <th>ages_16plus</th>                                      <td>  283.2230</td> <td>    4.863</td> <td>   58.239</td> <td> 0.000</td> <td>  273.690</td> <td>  292.756</td>
 </tr>
 <tr>
-  <th>ages_12_16</th>                                       <td>   -0.1092</td> <td>    0.086</td> <td>   -1.277</td> <td> 0.202</td> <td>   -0.277</td> <td>    0.059</td>
+  <th>ages_5plus</th>                                       <td>  -13.2488</td> <td>    2.813</td> <td>   -4.711</td> <td> 0.000</td> <td>  -18.762</td> <td>   -7.736</td>
 </tr>
 <tr>
-  <th>ages_14plus</th>                                      <td>    0.2591</td> <td>    0.052</td> <td>    4.952</td> <td> 0.000</td> <td>    0.157</td> <td>    0.362</td>
+  <th>ages_6plus</th>                                       <td>  -27.5163</td> <td>    5.032</td> <td>   -5.469</td> <td> 0.000</td> <td>  -37.379</td> <td>  -17.653</td>
 </tr>
 <tr>
-  <th>ages_2_5</th>                                         <td>    0.5142</td> <td>    0.022</td> <td>   22.968</td> <td> 0.000</td> <td>    0.470</td> <td>    0.558</td>
+  <th>ages_6_12</th>                                        <td>   -2.9621</td> <td>    1.281</td> <td>   -2.313</td> <td> 0.021</td> <td>   -5.473</td> <td>   -0.452</td>
 </tr>
 <tr>
-  <th>ages_5_12</th>                                        <td>   -0.7453</td> <td>    0.032</td> <td>  -23.090</td> <td> 0.000</td> <td>   -0.809</td> <td>   -0.682</td>
+  <th>ages_7_12</th>                                        <td>    7.0957</td> <td>    1.719</td> <td>    4.127</td> <td> 0.000</td> <td>    3.726</td> <td>   10.466</td>
 </tr>
 <tr>
-  <th>ages_6plus</th>                                       <td>   -0.9030</td> <td>    0.067</td> <td>  -13.425</td> <td> 0.000</td> <td>   -1.035</td> <td>   -0.771</td>
+  <th>ages_7_14</th>                                        <td>   -6.6875</td> <td>    1.496</td> <td>   -4.471</td> <td> 0.000</td> <td>   -9.619</td> <td>   -3.756</td>
 </tr>
 <tr>
-  <th>ages_6_12</th>                                        <td>   -0.2010</td> <td>    0.019</td> <td>  -10.403</td> <td> 0.000</td> <td>   -0.239</td> <td>   -0.163</td>
+  <th>ages_8plus</th>                                       <td>   45.9351</td> <td>    4.588</td> <td>   10.012</td> <td> 0.000</td> <td>   36.942</td> <td>   54.929</td>
 </tr>
 <tr>
-  <th>ages_7_12</th>                                        <td>    0.0571</td> <td>    0.024</td> <td>    2.343</td> <td> 0.019</td> <td>    0.009</td> <td>    0.105</td>
+  <th>ages_8_12</th>                                        <td>   18.6634</td> <td>    2.309</td> <td>    8.084</td> <td> 0.000</td> <td>   14.138</td> <td>   23.189</td>
 </tr>
 <tr>
-  <th>ages_7_14</th>                                        <td>   -0.0682</td> <td>    0.021</td> <td>   -3.211</td> <td> 0.001</td> <td>   -0.110</td> <td>   -0.027</td>
+  <th>ages_8_14</th>                                        <td>   11.5614</td> <td>    1.645</td> <td>    7.027</td> <td> 0.000</td> <td>    8.336</td> <td>   14.786</td>
 </tr>
 <tr>
-  <th>ages_8plus</th>                                       <td>    0.5867</td> <td>    0.057</td> <td>   10.335</td> <td> 0.000</td> <td>    0.475</td> <td>    0.698</td>
+  <th>ages_9plus</th>                                       <td>  137.0550</td> <td>   10.097</td> <td>   13.574</td> <td> 0.000</td> <td>  117.263</td> <td>  156.847</td>
 </tr>
 <tr>
-  <th>ages_8_12</th>                                        <td>    0.2181</td> <td>    0.031</td> <td>    6.951</td> <td> 0.000</td> <td>    0.157</td> <td>    0.280</td>
+  <th>ages_9_12</th>                                        <td>   21.0201</td> <td>    5.773</td> <td>    3.641</td> <td> 0.000</td> <td>    9.703</td> <td>   32.337</td>
 </tr>
 <tr>
-  <th>ages_8_14</th>                                        <td>    0.2265</td> <td>    0.021</td> <td>   10.907</td> <td> 0.000</td> <td>    0.186</td> <td>    0.267</td>
+  <th>ages_9_14</th>                                        <td>   50.1506</td> <td>    2.327</td> <td>   21.552</td> <td> 0.000</td> <td>   45.589</td> <td>   54.712</td>
 </tr>
 <tr>
-  <th>ages_9plus</th>                                       <td>    0.1344</td> <td>    0.125</td> <td>    1.071</td> <td> 0.284</td> <td>   -0.112</td> <td>    0.380</td>
+  <th>theme_name_Architecture</th>                          <td> -195.7790</td> <td>    6.138</td> <td>  -31.894</td> <td> 0.000</td> <td> -207.812</td> <td> -183.747</td>
 </tr>
 <tr>
-  <th>ages_9_12</th>                                        <td>    0.3884</td> <td>    0.074</td> <td>    5.252</td> <td> 0.000</td> <td>    0.243</td> <td>    0.533</td>
+  <th>theme_name_Blues_Helicopter_Pursuit</th>              <td>   24.2718</td> <td>    8.390</td> <td>    2.893</td> <td> 0.004</td> <td>    7.826</td> <td>   40.717</td>
 </tr>
 <tr>
-  <th>theme_name_BOOST</th>                                 <td>    0.9707</td> <td>    0.127</td> <td>    7.624</td> <td> 0.000</td> <td>    0.721</td> <td>    1.220</td>
+  <th>theme_name_BrickHeadz</th>                            <td> -117.9574</td> <td>    7.055</td> <td>  -16.719</td> <td> 0.000</td> <td> -131.787</td> <td> -104.127</td>
 </tr>
 <tr>
-  <th>theme_name_Blues_Helicopter_Pursuit</th>              <td>    0.7427</td> <td>    0.117</td> <td>    6.324</td> <td> 0.000</td> <td>    0.513</td> <td>    0.973</td>
+  <th>theme_name_City</th>                                  <td>    9.6644</td> <td>    1.324</td> <td>    7.301</td> <td> 0.000</td> <td>    7.070</td> <td>   12.259</td>
 </tr>
 <tr>
-  <th>theme_name_Carnotaurus_Gyrosphere_Escape</th>         <td>    1.1762</td> <td>    0.118</td> <td>    9.984</td> <td> 0.000</td> <td>    0.945</td> <td>    1.407</td>
+  <th>theme_name_Classic</th>                               <td>  -10.9526</td> <td>    2.222</td> <td>   -4.928</td> <td> 0.000</td> <td>  -15.309</td> <td>   -6.596</td>
 </tr>
 <tr>
-  <th>theme_name_City</th>                                  <td>    0.6679</td> <td>    0.028</td> <td>   23.970</td> <td> 0.000</td> <td>    0.613</td> <td>    0.723</td>
+  <th>theme_name_Creator_Expert</th>                        <td> -162.3269</td> <td>    4.828</td> <td>  -33.623</td> <td> 0.000</td> <td> -171.790</td> <td> -152.863</td>
 </tr>
 <tr>
-  <th>theme_name_Classic</th>                               <td>   -0.5442</td> <td>    0.031</td> <td>  -17.367</td> <td> 0.000</td> <td>   -0.606</td> <td>   -0.483</td>
+  <th>theme_name_DC_Comics_Super_Heroes</th>                <td>    7.7154</td> <td>    3.219</td> <td>    2.397</td> <td> 0.017</td> <td>    1.405</td> <td>   14.026</td>
 </tr>
 <tr>
-  <th>theme_name_Creator_Expert</th>                        <td>   -0.0809</td> <td>    0.044</td> <td>   -1.834</td> <td> 0.067</td> <td>   -0.167</td> <td>    0.006</td>
+  <th>theme_name_DIMENSIONS</th>                            <td>    1.6406</td> <td>    2.768</td> <td>    0.593</td> <td> 0.553</td> <td>   -3.786</td> <td>    7.067</td>
 </tr>
 <tr>
-  <th>theme_name_DC_Comics_Super_Heroes</th>                <td>    0.4057</td> <td>    0.044</td> <td>    9.166</td> <td> 0.000</td> <td>    0.319</td> <td>    0.492</td>
+  <th>theme_name_Dilophosaurus_Outpost_Attack</th>          <td>   21.1635</td> <td>    8.502</td> <td>    2.489</td> <td> 0.013</td> <td>    4.498</td> <td>   37.829</td>
 </tr>
 <tr>
-  <th>theme_name_DIMENSIONS</th>                            <td>    0.1950</td> <td>    0.039</td> <td>    5.013</td> <td> 0.000</td> <td>    0.119</td> <td>    0.271</td>
+  <th>theme_name_Disney</th>                                <td>    5.6240</td> <td>    2.507</td> <td>    2.243</td> <td> 0.025</td> <td>    0.710</td> <td>   10.538</td>
 </tr>
 <tr>
-  <th>theme_name_Dilophosaurus_Outpost_Attack</th>          <td>    0.8131</td> <td>    0.109</td> <td>    7.456</td> <td> 0.000</td> <td>    0.599</td> <td>    1.027</td>
+  <th>theme_name_Ghostbusters</th>                          <td>   11.0545</td> <td>   11.529</td> <td>    0.959</td> <td> 0.338</td> <td>  -11.545</td> <td>   33.654</td>
 </tr>
 <tr>
-  <th>theme_name_Disney</th>                                <td>    0.4877</td> <td>    0.036</td> <td>   13.457</td> <td> 0.000</td> <td>    0.417</td> <td>    0.559</td>
+  <th>theme_name_Ideas</th>                                 <td> -112.7550</td> <td>    5.711</td> <td>  -19.744</td> <td> 0.000</td> <td> -123.949</td> <td> -101.561</td>
 </tr>
 <tr>
-  <th>theme_name_Ghostbusters</th>                          <td>   -0.5669</td> <td>    0.173</td> <td>   -3.279</td> <td> 0.001</td> <td>   -0.906</td> <td>   -0.228</td>
+  <th>theme_name_Indoraptor_Rampage_at_Lockwood_Estate</th> <td>  109.4958</td> <td>    8.576</td> <td>   12.767</td> <td> 0.000</td> <td>   92.684</td> <td>  126.307</td>
 </tr>
 <tr>
-  <th>theme_name_Ideas</th>                                 <td>    0.3338</td> <td>    0.057</td> <td>    5.894</td> <td> 0.000</td> <td>    0.223</td> <td>    0.445</td>
+  <th>theme_name_MINDSTORMS</th>                            <td>  -79.1699</td> <td>    6.930</td> <td>  -11.425</td> <td> 0.000</td> <td>  -92.753</td> <td>  -65.586</td>
 </tr>
 <tr>
-  <th>theme_name_Indoraptor_Rampage_at_Lockwood_Estate</th> <td>    0.9857</td> <td>    0.108</td> <td>    9.150</td> <td> 0.000</td> <td>    0.775</td> <td>    1.197</td>
+  <th>theme_name_Minecraft</th>                             <td>  -20.9034</td> <td>    3.906</td> <td>   -5.351</td> <td> 0.000</td> <td>  -28.560</td> <td>  -13.247</td>
 </tr>
 <tr>
-  <th>theme_name_Marvel_Super_Heroes</th>                   <td>    0.3871</td> <td>    0.029</td> <td>   13.367</td> <td> 0.000</td> <td>    0.330</td> <td>    0.444</td>
+  <th>theme_name_Minifigures</th>                           <td>  -13.2488</td> <td>    2.813</td> <td>   -4.711</td> <td> 0.000</td> <td>  -18.762</td> <td>   -7.736</td>
 </tr>
 <tr>
-  <th>theme_name_Minecraft</th>                             <td>   -0.1480</td> <td>    0.049</td> <td>   -3.019</td> <td> 0.003</td> <td>   -0.244</td> <td>   -0.052</td>
+  <th>theme_name_SERIOUS_PLAY</th>                          <td>  207.8570</td> <td>    7.856</td> <td>   26.457</td> <td> 0.000</td> <td>  192.457</td> <td>  223.257</td>
 </tr>
 <tr>
-  <th>theme_name_NINJAGO</th>                               <td>   -0.2153</td> <td>    0.034</td> <td>   -6.393</td> <td> 0.000</td> <td>   -0.281</td> <td>   -0.149</td>
+  <th>theme_name_Star_Wars</th>                             <td>    0.9441</td> <td>    1.381</td> <td>    0.684</td> <td> 0.494</td> <td>   -1.763</td> <td>    3.651</td>
 </tr>
 <tr>
-  <th>theme_name_SERIOUS_PLAY</th>                          <td>    0.7100</td> <td>    0.107</td> <td>    6.639</td> <td> 0.000</td> <td>    0.500</td> <td>    0.920</td>
+  <th>theme_name_Stygimoloch_Breakout</th>                  <td>   -6.8191</td> <td>    8.354</td> <td>   -0.816</td> <td> 0.414</td> <td>  -23.194</td> <td>    9.556</td>
 </tr>
 <tr>
-  <th>theme_name_Star_Wars</th>                             <td>    0.2780</td> <td>    0.018</td> <td>   15.369</td> <td> 0.000</td> <td>    0.243</td> <td>    0.313</td>
+  <th>theme_name_T_rex_Transport</th>                       <td>   53.0213</td> <td>    8.390</td> <td>    6.320</td> <td> 0.000</td> <td>   36.576</td> <td>   69.467</td>
 </tr>
 <tr>
-  <th>theme_name_Stygimoloch_Breakout</th>                  <td>    0.5061</td> <td>    0.121</td> <td>    4.183</td> <td> 0.000</td> <td>    0.269</td> <td>    0.743</td>
+  <th>theme_name_THE_LEGO_BATMAN_MOVIE</th>                 <td>   18.2569</td> <td>    2.059</td> <td>    8.869</td> <td> 0.000</td> <td>   14.222</td> <td>   22.292</td>
 </tr>
 <tr>
-  <th>theme_name_T_rex_Transport</th>                       <td>    0.9691</td> <td>    0.105</td> <td>    9.234</td> <td> 0.000</td> <td>    0.763</td> <td>    1.175</td>
+  <th>theme_name_THE_LEGO_NINJAGO_MOVIE</th>                <td>   -1.1280</td> <td>    2.197</td> <td>   -0.513</td> <td> 0.608</td> <td>   -5.434</td> <td>    3.178</td>
 </tr>
 <tr>
-  <th>theme_name_THE_LEGO_BATMAN_MOVIE</th>                 <td>    0.2237</td> <td>    0.029</td> <td>    7.698</td> <td> 0.000</td> <td>    0.167</td> <td>    0.281</td>
+  <th>country_BE</th>                                       <td>    3.1766</td> <td>    1.799</td> <td>    1.766</td> <td> 0.077</td> <td>   -0.349</td> <td>    6.702</td>
 </tr>
 <tr>
-  <th>theme_name_THE_LEGO_NINJAGO_MOVIE</th>                <td>    0.1035</td> <td>    0.029</td> <td>    3.604</td> <td> 0.000</td> <td>    0.047</td> <td>    0.160</td>
+  <th>country_CA</th>                                       <td>  -13.6432</td> <td>    1.534</td> <td>   -8.893</td> <td> 0.000</td> <td>  -16.650</td> <td>  -10.636</td>
 </tr>
 <tr>
-  <th>country_CA</th>                                       <td>   -0.3077</td> <td>    0.020</td> <td>  -15.265</td> <td> 0.000</td> <td>   -0.347</td> <td>   -0.268</td>
+  <th>country_CZ</th>                                       <td>    5.0318</td> <td>    1.825</td> <td>    2.757</td> <td> 0.006</td> <td>    1.454</td> <td>    8.610</td>
 </tr>
 <tr>
-  <th>country_CZ</th>                                       <td>    0.0583</td> <td>    0.025</td> <td>    2.375</td> <td> 0.018</td> <td>    0.010</td> <td>    0.107</td>
+  <th>country_DE</th>                                       <td>    2.1876</td> <td>    1.823</td> <td>    1.200</td> <td> 0.230</td> <td>   -1.386</td> <td>    5.762</td>
 </tr>
 <tr>
-  <th>country_DN</th>                                       <td>   -0.1770</td> <td>    0.024</td> <td>   -7.278</td> <td> 0.000</td> <td>   -0.225</td> <td>   -0.129</td>
+  <th>country_DN</th>                                       <td>   -8.5596</td> <td>    1.783</td> <td>   -4.801</td> <td> 0.000</td> <td>  -12.055</td> <td>   -5.065</td>
 </tr>
 <tr>
-  <th>country_FI</th>                                       <td>    0.1604</td> <td>    0.025</td> <td>    6.433</td> <td> 0.000</td> <td>    0.112</td> <td>    0.209</td>
+  <th>country_ES</th>                                       <td>    2.1876</td> <td>    1.823</td> <td>    1.200</td> <td> 0.230</td> <td>   -1.386</td> <td>    5.762</td>
 </tr>
 <tr>
-  <th>country_NL</th>                                       <td>    0.0398</td> <td>    0.024</td> <td>    1.669</td> <td> 0.095</td> <td>   -0.007</td> <td>    0.087</td>
+  <th>country_FI</th>                                       <td>    9.7690</td> <td>    1.827</td> <td>    5.347</td> <td> 0.000</td> <td>    6.188</td> <td>   13.350</td>
 </tr>
 <tr>
-  <th>country_NO</th>                                       <td>    0.1382</td> <td>    0.025</td> <td>    5.566</td> <td> 0.000</td> <td>    0.090</td> <td>    0.187</td>
+  <th>country_LU</th>                                       <td>    3.2732</td> <td>    1.824</td> <td>    1.795</td> <td> 0.073</td> <td>   -0.301</td> <td>    6.848</td>
 </tr>
 <tr>
-  <th>country_PL</th>                                       <td>    0.0279</td> <td>    0.025</td> <td>    1.130</td> <td> 0.259</td> <td>   -0.020</td> <td>    0.076</td>
+  <th>country_NL</th>                                       <td>    3.1257</td> <td>    1.785</td> <td>    1.751</td> <td> 0.080</td> <td>   -0.373</td> <td>    6.624</td>
 </tr>
 <tr>
-  <th>country_US</th>                                       <td>   -0.2486</td> <td>    0.020</td> <td>  -12.172</td> <td> 0.000</td> <td>   -0.289</td> <td>   -0.209</td>
+  <th>country_NO</th>                                       <td>    9.7945</td> <td>    1.827</td> <td>    5.361</td> <td> 0.000</td> <td>    6.213</td> <td>   13.376</td>
 </tr>
 <tr>
-  <th>review_difficulty_Average</th>                        <td>    0.4693</td> <td>    0.013</td> <td>   37.311</td> <td> 0.000</td> <td>    0.445</td> <td>    0.494</td>
+  <th>country_NZ</th>                                       <td>    3.3900</td> <td>    1.794</td> <td>    1.890</td> <td> 0.059</td> <td>   -0.126</td> <td>    6.906</td>
 </tr>
 <tr>
-  <th>review_difficulty_Challenging</th>                    <td>    0.5181</td> <td>    0.026</td> <td>   20.205</td> <td> 0.000</td> <td>    0.468</td> <td>    0.568</td>
+  <th>country_PL</th>                                       <td>    3.4360</td> <td>    1.851</td> <td>    1.856</td> <td> 0.063</td> <td>   -0.193</td> <td>    7.065</td>
 </tr>
 <tr>
-  <th>review_difficulty_Very_Challenging</th>               <td>    0.5807</td> <td>    0.125</td> <td>    4.664</td> <td> 0.000</td> <td>    0.337</td> <td>    0.825</td>
+  <th>country_US</th>                                       <td>  -12.2533</td> <td>    1.533</td> <td>   -7.992</td> <td> 0.000</td> <td>  -15.259</td> <td>   -9.248</td>
+</tr>
+<tr>
+  <th>review_difficulty_Average</th>                        <td>   28.6156</td> <td>    0.973</td> <td>   29.424</td> <td> 0.000</td> <td>   26.709</td> <td>   30.522</td>
+</tr>
+<tr>
+  <th>review_difficulty_Challenging</th>                    <td>   74.2903</td> <td>    1.766</td> <td>   42.078</td> <td> 0.000</td> <td>   70.830</td> <td>   77.751</td>
+</tr>
+<tr>
+  <th>review_difficulty_Very_Challenging</th>               <td>   62.7616</td> <td>    9.019</td> <td>    6.959</td> <td> 0.000</td> <td>   45.083</td> <td>   80.440</td>
 </tr>
 </table>
 <table class="simpletable">
 <tr>
-  <th>Omnibus:</th>       <td>312.742</td> <th>  Durbin-Watson:     </th> <td>   2.006</td> 
+  <th>Omnibus:</th>       <td>4816.986</td> <th>  Durbin-Watson:     </th> <td>   1.423</td> 
 </tr>
 <tr>
-  <th>Prob(Omnibus):</th> <td> 0.000</td>  <th>  Jarque-Bera (JB):  </th> <td> 504.719</td> 
+  <th>Prob(Omnibus):</th>  <td> 0.000</td>  <th>  Jarque-Bera (JB):  </th> <td>54241.292</td>
 </tr>
 <tr>
-  <th>Skew:</th>          <td>-0.347</td>  <th>  Prob(JB):          </th> <td>2.52e-110</td>
+  <th>Skew:</th>           <td> 1.850</td>  <th>  Prob(JB):          </th> <td>    0.00</td> 
 </tr>
 <tr>
-  <th>Kurtosis:</th>      <td> 4.010</td>  <th>  Cond. No.          </th> <td>    52.1</td> 
+  <th>Kurtosis:</th>       <td>13.361</td>  <th>  Cond. No.          </th> <td>1.55e+16</td> 
 </tr>
-</table><br/><br/>Warnings:<br/>[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.
+</table><br/><br/>Notes:<br/>[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.<br/>[2] The smallest eigenvalue is 9.93e-29. This might indicate that there are<br/>strong multicollinearity problems or that the design matrix is singular.
 
 
 
@@ -2657,7 +2224,9 @@ fig = sm.graphics.qqplot(model.resid, dist=stats.norm, line='45', fit=True)
 ```
 
 
-![png](index_files/index_51_0.png)
+    
+![png](index_files/index_48_0.png)
+    
 
 
 
@@ -2670,19 +2239,14 @@ fig = sm.graphics.qqplot(model.resid, dist=stats.norm, line='45', fit=True)
 # __SOLUTION__ 
 # Comment: There is still a clear underestimate now by the model as the log transformed 
 # list price increases, but the model is much improved. Further subsetting is potentially warranted.
-plt.scatter(model.predict(train[x_cols]), model.resid)
-plt.plot(model.predict(train[x_cols]), [0 for i in range(len(train))])
+plt.scatter(model.predict(df[x_cols]), model.resid)
+plt.plot(model.predict(df[x_cols]), [0 for i in range(len(df))]);
 ```
 
 
-
-
-    [<matplotlib.lines.Line2D at 0x1c1e380710>]
-
-
-
-
-![png](index_files/index_53_1.png)
+    
+![png](index_files/index_50_0.png)
+    
 
 
 
@@ -2692,40 +2256,35 @@ for i in range(80,100):
     q = i/100
     print("{} percentile: {}".format(q, df.list_price.quantile(q=q)))
 
-df.list_price.hist()
+df.list_price.hist();
 ```
 
-    0.8 percentile: 4.447203233446613
-    0.81 percentile: 4.512971560274537
-    0.82 percentile: 4.542526402035123
-    0.83 percentile: 4.580752485605895
-    0.84 percentile: 4.640913706863106
-    0.85 percentile: 4.6985494117910225
-    0.86 percentile: 4.718373863481943
-    0.87 percentile: 4.787408405976297
-    0.88 percentile: 4.8039210397329235
-    0.89 percentile: 4.826327766567244
-    0.9 percentile: 4.89924031131419
-    0.91 percentile: 4.976713742220571
-    0.92 percentile: 5.0490223265009595
-    0.93 percentile: 5.140421850231899
-    0.94 percentile: 5.209419483952433
-    0.95 percentile: 5.292263579298989
-    0.96 percentile: 5.391752152536553
-    0.97 percentile: 5.528952783620542
-    0.98 percentile: 5.678340376637527
-    0.99 percentile: 5.873347331375852
+    0.8 percentile: 85.3878
+    0.81 percentile: 91.1924
+    0.82 percentile: 93.92780000000002
+    0.83 percentile: 97.5878
+    0.84 percentile: 103.639
+    0.85 percentile: 109.7878
+    0.86 percentile: 111.98599999999999
+    0.87 percentile: 119.99
+    0.88 percentile: 121.9878
+    0.89 percentile: 124.752
+    0.9 percentile: 134.18779999999998
+    0.91 percentile: 144.9971
+    0.92 percentile: 155.87
+    0.93 percentile: 170.7878
+    0.94 percentile: 182.9878
+    0.95 percentile: 198.7929
+    0.96 percentile: 219.5878
+    0.97 percentile: 251.88
+    0.98 percentile: 292.4648099999991
+    0.99 percentile: 355.43709500000074
 
 
 
-
-
-    <matplotlib.axes._subplots.AxesSubplot at 0x1c1ebbd978>
-
-
-
-
-![png](index_files/index_54_2.png)
+    
+![png](index_files/index_51_1.png)
+    
 
 
 
@@ -2737,12 +2296,11 @@ df.list_price.hist()
 ```python
 # __SOLUTION__ 
 df = df[df.list_price <= 6]
-train, test = train_test_split(df)
 
 # Refit model with subset features
 predictors = '+'.join(x_cols)
 formula = outcome + '~' + predictors
-model = ols(formula=formula, data=train).fit()
+model = ols(formula=formula, data=df).fit()
 model.summary()
 ```
 
@@ -2752,28 +2310,28 @@ model.summary()
 <table class="simpletable">
 <caption>OLS Regression Results</caption>
 <tr>
-  <th>Dep. Variable:</th>       <td>list_price</td>    <th>  R-squared:         </th> <td>   0.758</td>
+  <th>Dep. Variable:</th>       <td>list_price</td>    <th>  R-squared:         </th> <td>   0.482</td>
 </tr>
 <tr>
-  <th>Model:</th>                   <td>OLS</td>       <th>  Adj. R-squared:    </th> <td>   0.756</td>
+  <th>Model:</th>                   <td>OLS</td>       <th>  Adj. R-squared:    </th> <td>   0.355</td>
 </tr>
 <tr>
-  <th>Method:</th>             <td>Least Squares</td>  <th>  F-statistic:       </th> <td>   452.9</td>
+  <th>Method:</th>             <td>Least Squares</td>  <th>  F-statistic:       </th> <td>   3.772</td>
 </tr>
 <tr>
-  <th>Date:</th>             <td>Mon, 30 Sep 2019</td> <th>  Prob (F-statistic):</th>  <td>  0.00</td> 
+  <th>Date:</th>             <td>Wed, 24 Aug 2022</td> <th>  Prob (F-statistic):</th> <td>4.36e-06</td>
 </tr>
 <tr>
-  <th>Time:</th>                 <td>17:53:54</td>     <th>  Log-Likelihood:    </th> <td> -4737.1</td>
+  <th>Time:</th>                 <td>18:13:52</td>     <th>  Log-Likelihood:    </th> <td> -117.28</td>
 </tr>
 <tr>
-  <th>No. Observations:</th>      <td>  8027</td>      <th>  AIC:               </th> <td>   9586.</td>
+  <th>No. Observations:</th>      <td>   112</td>      <th>  AIC:               </th> <td>   280.6</td>
 </tr>
 <tr>
-  <th>Df Residuals:</th>          <td>  7971</td>      <th>  BIC:               </th> <td>   9978.</td>
+  <th>Df Residuals:</th>          <td>    89</td>      <th>  BIC:               </th> <td>   343.1</td>
 </tr>
 <tr>
-  <th>Df Model:</th>              <td>    55</td>      <th>                     </th>     <td> </td>   
+  <th>Df Model:</th>              <td>    22</td>      <th>                     </th>     <td> </td>   
 </tr>
 <tr>
   <th>Covariance Type:</th>      <td>nonrobust</td>    <th>                     </th>     <td> </td>   
@@ -2784,188 +2342,197 @@ model.summary()
                           <td></td>                            <th>coef</th>     <th>std err</th>      <th>t</th>      <th>P>|t|</th>  <th>[0.025</th>    <th>0.975]</th>  
 </tr>
 <tr>
-  <th>Intercept</th>                                        <td>    3.4234</td> <td>    0.013</td> <td>  255.302</td> <td> 0.000</td> <td>    3.397</td> <td>    3.450</td>
+  <th>Intercept</th>                                        <td>    4.7201</td> <td>    0.266</td> <td>   17.721</td> <td> 0.000</td> <td>    4.191</td> <td>    5.249</td>
 </tr>
 <tr>
-  <th>piece_count</th>                                      <td>    0.7018</td> <td>    0.011</td> <td>   62.427</td> <td> 0.000</td> <td>    0.680</td> <td>    0.724</td>
+  <th>play_star_rating</th>                                 <td>    0.0574</td> <td>    0.152</td> <td>    0.377</td> <td> 0.707</td> <td>   -0.245</td> <td>    0.360</td>
 </tr>
 <tr>
-  <th>num_reviews</th>                                      <td>   -0.0240</td> <td>    0.008</td> <td>   -3.062</td> <td> 0.002</td> <td>   -0.039</td> <td>   -0.009</td>
+  <th>star_rating</th>                                      <td>   -0.1482</td> <td>    0.279</td> <td>   -0.532</td> <td> 0.596</td> <td>   -0.702</td> <td>    0.406</td>
 </tr>
 <tr>
-  <th>play_star_rating</th>                                 <td>    0.1146</td> <td>    0.007</td> <td>   17.175</td> <td> 0.000</td> <td>    0.101</td> <td>    0.128</td>
+  <th>val_star_rating</th>                                  <td>    0.5969</td> <td>    0.230</td> <td>    2.594</td> <td> 0.011</td> <td>    0.140</td> <td>    1.054</td>
 </tr>
 <tr>
-  <th>star_rating</th>                                      <td>   -0.0501</td> <td>    0.008</td> <td>   -5.962</td> <td> 0.000</td> <td>   -0.067</td> <td>   -0.034</td>
+  <th>ages_10plus</th>                                      <td>-4.765e-16</td> <td> 1.26e-15</td> <td>   -0.379</td> <td> 0.706</td> <td>-2.98e-15</td> <td> 2.02e-15</td>
 </tr>
 <tr>
-  <th>val_star_rating</th>                                  <td>   -0.1259</td> <td>    0.007</td> <td>  -16.807</td> <td> 0.000</td> <td>   -0.141</td> <td>   -0.111</td>
+  <th>ages_10_16</th>                                       <td> 1.681e-16</td> <td> 4.35e-16</td> <td>    0.386</td> <td> 0.700</td> <td>-6.97e-16</td> <td> 1.03e-15</td>
 </tr>
 <tr>
-  <th>ages_10_14</th>                                       <td>    0.1770</td> <td>    0.125</td> <td>    1.416</td> <td> 0.157</td> <td>   -0.068</td> <td>    0.422</td>
+  <th>ages_10_21</th>                                       <td> 2.289e-16</td> <td> 2.49e-16</td> <td>    0.920</td> <td> 0.360</td> <td>-2.66e-16</td> <td> 7.23e-16</td>
 </tr>
 <tr>
-  <th>ages_10_16</th>                                       <td>    0.4504</td> <td>    0.045</td> <td>    9.959</td> <td> 0.000</td> <td>    0.362</td> <td>    0.539</td>
+  <th>ages_12plus</th>                                      <td>-2.265e-16</td> <td> 1.53e-16</td> <td>   -1.477</td> <td> 0.143</td> <td>-5.31e-16</td> <td> 7.82e-17</td>
 </tr>
 <tr>
-  <th>ages_10_21</th>                                       <td>    0.7176</td> <td>    0.039</td> <td>   18.184</td> <td> 0.000</td> <td>    0.640</td> <td>    0.795</td>
+  <th>ages_14plus</th>                                      <td>-7.403e-16</td> <td>    2e-15</td> <td>   -0.371</td> <td> 0.712</td> <td>-4.71e-15</td> <td> 3.23e-15</td>
 </tr>
 <tr>
-  <th>ages_11_16</th>                                       <td>    0.0891</td> <td>    0.068</td> <td>    1.308</td> <td> 0.191</td> <td>   -0.044</td> <td>    0.223</td>
+  <th>ages_16plus</th>                                      <td> 4.184e-17</td> <td> 9.37e-16</td> <td>    0.045</td> <td> 0.964</td> <td>-1.82e-15</td> <td>  1.9e-15</td>
 </tr>
 <tr>
-  <th>ages_12_16</th>                                       <td>   -0.5372</td> <td>    0.104</td> <td>   -5.141</td> <td> 0.000</td> <td>   -0.742</td> <td>   -0.332</td>
+  <th>ages_5plus</th>                                       <td>   -0.0241</td> <td>    0.128</td> <td>   -0.188</td> <td> 0.851</td> <td>   -0.278</td> <td>    0.230</td>
 </tr>
 <tr>
-  <th>ages_14plus</th>                                      <td>    0.1467</td> <td>    0.053</td> <td>    2.766</td> <td> 0.006</td> <td>    0.043</td> <td>    0.251</td>
+  <th>ages_6plus</th>                                       <td> -4.88e-16</td> <td> 7.36e-16</td> <td>   -0.663</td> <td> 0.509</td> <td>-1.95e-15</td> <td> 9.74e-16</td>
 </tr>
 <tr>
-  <th>ages_2_5</th>                                         <td>    0.5144</td> <td>    0.022</td> <td>   23.602</td> <td> 0.000</td> <td>    0.472</td> <td>    0.557</td>
+  <th>ages_6_12</th>                                        <td> 1.387e-17</td> <td> 3.03e-16</td> <td>    0.046</td> <td> 0.964</td> <td>-5.89e-16</td> <td> 6.17e-16</td>
 </tr>
 <tr>
-  <th>ages_5_12</th>                                        <td>   -0.7538</td> <td>    0.032</td> <td>  -23.553</td> <td> 0.000</td> <td>   -0.817</td> <td>   -0.691</td>
+  <th>ages_7_12</th>                                        <td>  3.35e-16</td> <td> 3.03e-16</td> <td>    1.105</td> <td> 0.272</td> <td>-2.67e-16</td> <td> 9.37e-16</td>
 </tr>
 <tr>
-  <th>ages_6plus</th>                                       <td>   -0.9527</td> <td>    0.067</td> <td>  -14.217</td> <td> 0.000</td> <td>   -1.084</td> <td>   -0.821</td>
+  <th>ages_7_14</th>                                        <td>   -0.2646</td> <td>    0.894</td> <td>   -0.296</td> <td> 0.768</td> <td>   -2.040</td> <td>    1.511</td>
 </tr>
 <tr>
-  <th>ages_6_12</th>                                        <td>   -0.2280</td> <td>    0.019</td> <td>  -11.799</td> <td> 0.000</td> <td>   -0.266</td> <td>   -0.190</td>
+  <th>ages_8plus</th>                                       <td>-1.827e-16</td> <td> 6.86e-16</td> <td>   -0.266</td> <td> 0.791</td> <td>-1.55e-15</td> <td> 1.18e-15</td>
 </tr>
 <tr>
-  <th>ages_7_12</th>                                        <td>    0.0589</td> <td>    0.024</td> <td>    2.454</td> <td> 0.014</td> <td>    0.012</td> <td>    0.106</td>
+  <th>ages_8_12</th>                                        <td> 2.244e-16</td> <td> 9.23e-16</td> <td>    0.243</td> <td> 0.808</td> <td>-1.61e-15</td> <td> 2.06e-15</td>
 </tr>
 <tr>
-  <th>ages_7_14</th>                                        <td>   -0.0527</td> <td>    0.021</td> <td>   -2.544</td> <td> 0.011</td> <td>   -0.093</td> <td>   -0.012</td>
+  <th>ages_8_14</th>                                        <td> 1.081e-16</td> <td>  3.8e-16</td> <td>    0.284</td> <td> 0.777</td> <td>-6.48e-16</td> <td> 8.64e-16</td>
 </tr>
 <tr>
-  <th>ages_8plus</th>                                       <td>    0.5521</td> <td>    0.054</td> <td>   10.296</td> <td> 0.000</td> <td>    0.447</td> <td>    0.657</td>
+  <th>ages_9plus</th>                                       <td> 6.292e-17</td> <td> 2.07e-16</td> <td>    0.304</td> <td> 0.761</td> <td>-3.48e-16</td> <td> 4.73e-16</td>
 </tr>
 <tr>
-  <th>ages_8_12</th>                                        <td>    0.2028</td> <td>    0.030</td> <td>    6.684</td> <td> 0.000</td> <td>    0.143</td> <td>    0.262</td>
+  <th>ages_9_12</th>                                        <td>-7.524e-17</td> <td> 2.68e-16</td> <td>   -0.281</td> <td> 0.780</td> <td>-6.08e-16</td> <td> 4.57e-16</td>
 </tr>
 <tr>
-  <th>ages_8_14</th>                                        <td>    0.2254</td> <td>    0.021</td> <td>   10.924</td> <td> 0.000</td> <td>    0.185</td> <td>    0.266</td>
+  <th>ages_9_14</th>                                        <td>-1.797e-16</td> <td> 7.57e-16</td> <td>   -0.238</td> <td> 0.813</td> <td>-1.68e-15</td> <td> 1.32e-15</td>
 </tr>
 <tr>
-  <th>ages_9plus</th>                                       <td>    0.1481</td> <td>    0.134</td> <td>    1.104</td> <td> 0.270</td> <td>   -0.115</td> <td>    0.411</td>
+  <th>theme_name_Architecture</th>                          <td> -3.78e-17</td> <td> 1.19e-16</td> <td>   -0.317</td> <td> 0.752</td> <td>-2.75e-16</td> <td> 1.99e-16</td>
 </tr>
 <tr>
-  <th>ages_9_12</th>                                        <td>    0.3368</td> <td>    0.080</td> <td>    4.208</td> <td> 0.000</td> <td>    0.180</td> <td>    0.494</td>
+  <th>theme_name_Blues_Helicopter_Pursuit</th>              <td> 3.283e-17</td> <td> 1.06e-16</td> <td>    0.311</td> <td> 0.757</td> <td>-1.77e-16</td> <td> 2.43e-16</td>
 </tr>
 <tr>
-  <th>theme_name_BOOST</th>                                 <td>    0.9536</td> <td>    0.114</td> <td>    8.401</td> <td> 0.000</td> <td>    0.731</td> <td>    1.176</td>
+  <th>theme_name_BrickHeadz</th>                            <td>-8.673e-17</td> <td> 3.04e-16</td> <td>   -0.285</td> <td> 0.776</td> <td> -6.9e-16</td> <td> 5.17e-16</td>
 </tr>
 <tr>
-  <th>theme_name_Blues_Helicopter_Pursuit</th>              <td>    0.7186</td> <td>    0.112</td> <td>    6.430</td> <td> 0.000</td> <td>    0.499</td> <td>    0.938</td>
+  <th>theme_name_City</th>                                  <td>    0.9653</td> <td>    0.748</td> <td>    1.290</td> <td> 0.201</td> <td>   -0.522</td> <td>    2.453</td>
 </tr>
 <tr>
-  <th>theme_name_Carnotaurus_Gyrosphere_Escape</th>         <td>    1.1200</td> <td>    0.103</td> <td>   10.834</td> <td> 0.000</td> <td>    0.917</td> <td>    1.323</td>
+  <th>theme_name_Classic</th>                               <td>   -1.3251</td> <td>    0.277</td> <td>   -4.790</td> <td> 0.000</td> <td>   -1.875</td> <td>   -0.775</td>
 </tr>
 <tr>
-  <th>theme_name_City</th>                                  <td>    0.6658</td> <td>    0.028</td> <td>   24.104</td> <td> 0.000</td> <td>    0.612</td> <td>    0.720</td>
+  <th>theme_name_Creator_Expert</th>                        <td>         0</td> <td>        0</td> <td>      nan</td> <td>   nan</td> <td>        0</td> <td>        0</td>
 </tr>
 <tr>
-  <th>theme_name_Classic</th>                               <td>   -0.5351</td> <td>    0.030</td> <td>  -18.001</td> <td> 0.000</td> <td>   -0.593</td> <td>   -0.477</td>
+  <th>theme_name_DC_Comics_Super_Heroes</th>                <td>         0</td> <td>        0</td> <td>      nan</td> <td>   nan</td> <td>        0</td> <td>        0</td>
 </tr>
 <tr>
-  <th>theme_name_Creator_Expert</th>                        <td>   -0.1818</td> <td>    0.046</td> <td>   -3.950</td> <td> 0.000</td> <td>   -0.272</td> <td>   -0.092</td>
+  <th>theme_name_DIMENSIONS</th>                            <td>         0</td> <td>        0</td> <td>      nan</td> <td>   nan</td> <td>        0</td> <td>        0</td>
 </tr>
 <tr>
-  <th>theme_name_DC_Comics_Super_Heroes</th>                <td>    0.4115</td> <td>    0.044</td> <td>    9.251</td> <td> 0.000</td> <td>    0.324</td> <td>    0.499</td>
+  <th>theme_name_Dilophosaurus_Outpost_Attack</th>          <td>         0</td> <td>        0</td> <td>      nan</td> <td>   nan</td> <td>        0</td> <td>        0</td>
 </tr>
 <tr>
-  <th>theme_name_DIMENSIONS</th>                            <td>    0.1811</td> <td>    0.037</td> <td>    4.867</td> <td> 0.000</td> <td>    0.108</td> <td>    0.254</td>
+  <th>theme_name_Disney</th>                                <td>    1.2101</td> <td>    0.806</td> <td>    1.501</td> <td> 0.137</td> <td>   -0.392</td> <td>    2.812</td>
 </tr>
 <tr>
-  <th>theme_name_Dilophosaurus_Outpost_Attack</th>          <td>    0.8021</td> <td>    0.107</td> <td>    7.490</td> <td> 0.000</td> <td>    0.592</td> <td>    1.012</td>
+  <th>theme_name_Ghostbusters</th>                          <td>         0</td> <td>        0</td> <td>      nan</td> <td>   nan</td> <td>        0</td> <td>        0</td>
 </tr>
 <tr>
-  <th>theme_name_Disney</th>                                <td>    0.5531</td> <td>    0.036</td> <td>   15.400</td> <td> 0.000</td> <td>    0.483</td> <td>    0.623</td>
+  <th>theme_name_Ideas</th>                                 <td>         0</td> <td>        0</td> <td>      nan</td> <td>   nan</td> <td>        0</td> <td>        0</td>
 </tr>
 <tr>
-  <th>theme_name_Ghostbusters</th>                          <td>   -0.8136</td> <td>    0.171</td> <td>   -4.756</td> <td> 0.000</td> <td>   -1.149</td> <td>   -0.478</td>
+  <th>theme_name_Indoraptor_Rampage_at_Lockwood_Estate</th> <td>         0</td> <td>        0</td> <td>      nan</td> <td>   nan</td> <td>        0</td> <td>        0</td>
 </tr>
 <tr>
-  <th>theme_name_Ideas</th>                                 <td>    0.3067</td> <td>    0.056</td> <td>    5.440</td> <td> 0.000</td> <td>    0.196</td> <td>    0.417</td>
+  <th>theme_name_MINDSTORMS</th>                            <td>         0</td> <td>        0</td> <td>      nan</td> <td>   nan</td> <td>        0</td> <td>        0</td>
 </tr>
 <tr>
-  <th>theme_name_Indoraptor_Rampage_at_Lockwood_Estate</th> <td>    0.9282</td> <td>    0.106</td> <td>    8.781</td> <td> 0.000</td> <td>    0.721</td> <td>    1.135</td>
+  <th>theme_name_Minecraft</th>                             <td>         0</td> <td>        0</td> <td>      nan</td> <td>   nan</td> <td>        0</td> <td>        0</td>
 </tr>
 <tr>
-  <th>theme_name_Marvel_Super_Heroes</th>                   <td>    0.4059</td> <td>    0.028</td> <td>   14.537</td> <td> 0.000</td> <td>    0.351</td> <td>    0.461</td>
+  <th>theme_name_Minifigures</th>                           <td>   -0.0241</td> <td>    0.128</td> <td>   -0.188</td> <td> 0.851</td> <td>   -0.278</td> <td>    0.230</td>
 </tr>
 <tr>
-  <th>theme_name_Minecraft</th>                             <td>   -0.1588</td> <td>    0.046</td> <td>   -3.425</td> <td> 0.001</td> <td>   -0.250</td> <td>   -0.068</td>
+  <th>theme_name_SERIOUS_PLAY</th>                          <td>         0</td> <td>        0</td> <td>      nan</td> <td>   nan</td> <td>        0</td> <td>        0</td>
 </tr>
 <tr>
-  <th>theme_name_NINJAGO</th>                               <td>   -0.2179</td> <td>    0.033</td> <td>   -6.590</td> <td> 0.000</td> <td>   -0.283</td> <td>   -0.153</td>
+  <th>theme_name_Star_Wars</th>                             <td>         0</td> <td>        0</td> <td>      nan</td> <td>   nan</td> <td>        0</td> <td>        0</td>
 </tr>
 <tr>
-  <th>theme_name_SERIOUS_PLAY</th>                          <td>    0.8785</td> <td>    0.126</td> <td>    6.945</td> <td> 0.000</td> <td>    0.631</td> <td>    1.126</td>
+  <th>theme_name_Stygimoloch_Breakout</th>                  <td>         0</td> <td>        0</td> <td>      nan</td> <td>   nan</td> <td>        0</td> <td>        0</td>
 </tr>
 <tr>
-  <th>theme_name_Star_Wars</th>                             <td>    0.2855</td> <td>    0.018</td> <td>   15.968</td> <td> 0.000</td> <td>    0.250</td> <td>    0.321</td>
+  <th>theme_name_T_rex_Transport</th>                       <td>         0</td> <td>        0</td> <td>      nan</td> <td>   nan</td> <td>        0</td> <td>        0</td>
 </tr>
 <tr>
-  <th>theme_name_Stygimoloch_Breakout</th>                  <td>    0.5519</td> <td>    0.123</td> <td>    4.479</td> <td> 0.000</td> <td>    0.310</td> <td>    0.793</td>
+  <th>theme_name_THE_LEGO_BATMAN_MOVIE</th>                 <td>         0</td> <td>        0</td> <td>      nan</td> <td>   nan</td> <td>        0</td> <td>        0</td>
 </tr>
 <tr>
-  <th>theme_name_T_rex_Transport</th>                       <td>    0.9473</td> <td>    0.115</td> <td>    8.208</td> <td> 0.000</td> <td>    0.721</td> <td>    1.174</td>
+  <th>theme_name_THE_LEGO_NINJAGO_MOVIE</th>                <td>         0</td> <td>        0</td> <td>      nan</td> <td>   nan</td> <td>        0</td> <td>        0</td>
 </tr>
 <tr>
-  <th>theme_name_THE_LEGO_BATMAN_MOVIE</th>                 <td>    0.2239</td> <td>    0.029</td> <td>    7.616</td> <td> 0.000</td> <td>    0.166</td> <td>    0.282</td>
+  <th>country_BE</th>                                       <td>    0.0171</td> <td>    0.471</td> <td>    0.036</td> <td> 0.971</td> <td>   -0.920</td> <td>    0.954</td>
 </tr>
 <tr>
-  <th>theme_name_THE_LEGO_NINJAGO_MOVIE</th>                <td>    0.0578</td> <td>    0.028</td> <td>    2.045</td> <td> 0.041</td> <td>    0.002</td> <td>    0.113</td>
+  <th>country_CA</th>                                       <td>   -0.4634</td> <td>    0.257</td> <td>   -1.802</td> <td> 0.075</td> <td>   -0.974</td> <td>    0.048</td>
 </tr>
 <tr>
-  <th>country_CA</th>                                       <td>   -0.2764</td> <td>    0.020</td> <td>  -13.856</td> <td> 0.000</td> <td>   -0.315</td> <td>   -0.237</td>
+  <th>country_CZ</th>                                       <td>    0.0313</td> <td>    0.471</td> <td>    0.066</td> <td> 0.947</td> <td>   -0.905</td> <td>    0.968</td>
 </tr>
 <tr>
-  <th>country_CZ</th>                                       <td>    0.0567</td> <td>    0.024</td> <td>    2.347</td> <td> 0.019</td> <td>    0.009</td> <td>    0.104</td>
+  <th>country_DE</th>                                       <td>    0.0171</td> <td>    0.471</td> <td>    0.036</td> <td> 0.971</td> <td>   -0.920</td> <td>    0.954</td>
 </tr>
 <tr>
-  <th>country_DN</th>                                       <td>   -0.1546</td> <td>    0.023</td> <td>   -6.588</td> <td> 0.000</td> <td>   -0.201</td> <td>   -0.109</td>
+  <th>country_DN</th>                                       <td>   -0.1663</td> <td>    0.312</td> <td>   -0.534</td> <td> 0.595</td> <td>   -0.785</td> <td>    0.453</td>
 </tr>
 <tr>
-  <th>country_FI</th>                                       <td>    0.1656</td> <td>    0.024</td> <td>    6.809</td> <td> 0.000</td> <td>    0.118</td> <td>    0.213</td>
+  <th>country_ES</th>                                       <td>    0.0171</td> <td>    0.471</td> <td>    0.036</td> <td> 0.971</td> <td>   -0.920</td> <td>    0.954</td>
 </tr>
 <tr>
-  <th>country_NL</th>                                       <td>    0.0368</td> <td>    0.024</td> <td>    1.563</td> <td> 0.118</td> <td>   -0.009</td> <td>    0.083</td>
+  <th>country_FI</th>                                       <td>    0.1716</td> <td>    0.471</td> <td>    0.364</td> <td> 0.717</td> <td>   -0.765</td> <td>    1.108</td>
 </tr>
 <tr>
-  <th>country_NO</th>                                       <td>    0.1385</td> <td>    0.024</td> <td>    5.779</td> <td> 0.000</td> <td>    0.092</td> <td>    0.186</td>
+  <th>country_LU</th>                                       <td>    0.0171</td> <td>    0.471</td> <td>    0.036</td> <td> 0.971</td> <td>   -0.920</td> <td>    0.954</td>
 </tr>
 <tr>
-  <th>country_PL</th>                                       <td>    0.0526</td> <td>    0.024</td> <td>    2.167</td> <td> 0.030</td> <td>    0.005</td> <td>    0.100</td>
+  <th>country_NL</th>                                       <td>    0.0171</td> <td>    0.471</td> <td>    0.036</td> <td> 0.971</td> <td>   -0.920</td> <td>    0.954</td>
 </tr>
 <tr>
-  <th>country_US</th>                                       <td>   -0.2570</td> <td>    0.020</td> <td>  -12.552</td> <td> 0.000</td> <td>   -0.297</td> <td>   -0.217</td>
+  <th>country_NO</th>                                       <td>    0.2573</td> <td>    0.471</td> <td>    0.546</td> <td> 0.587</td> <td>   -0.679</td> <td>    1.194</td>
 </tr>
 <tr>
-  <th>review_difficulty_Average</th>                        <td>    0.4434</td> <td>    0.013</td> <td>   35.337</td> <td> 0.000</td> <td>    0.419</td> <td>    0.468</td>
+  <th>country_NZ</th>                                       <td>   -0.2245</td> <td>    0.471</td> <td>   -0.476</td> <td> 0.635</td> <td>   -1.161</td> <td>    0.712</td>
 </tr>
 <tr>
-  <th>review_difficulty_Challenging</th>                    <td>    0.4721</td> <td>    0.025</td> <td>   18.542</td> <td> 0.000</td> <td>    0.422</td> <td>    0.522</td>
+  <th>country_PL</th>                                       <td>    0.9525</td> <td>    0.299</td> <td>    3.184</td> <td> 0.002</td> <td>    0.358</td> <td>    1.547</td>
 </tr>
 <tr>
-  <th>review_difficulty_Very_Challenging</th>               <td>    0.5176</td> <td>    0.143</td> <td>    3.615</td> <td> 0.000</td> <td>    0.237</td> <td>    0.798</td>
+  <th>country_US</th>                                       <td>    0.0010</td> <td>    0.257</td> <td>    0.004</td> <td> 0.997</td> <td>   -0.510</td> <td>    0.512</td>
+</tr>
+<tr>
+  <th>review_difficulty_Average</th>                        <td>    1.7144</td> <td>    0.455</td> <td>    3.768</td> <td> 0.000</td> <td>    0.810</td> <td>    2.619</td>
+</tr>
+<tr>
+  <th>review_difficulty_Challenging</th>                    <td>         0</td> <td>        0</td> <td>      nan</td> <td>   nan</td> <td>        0</td> <td>        0</td>
+</tr>
+<tr>
+  <th>review_difficulty_Very_Challenging</th>               <td>         0</td> <td>        0</td> <td>      nan</td> <td>   nan</td> <td>        0</td> <td>        0</td>
 </tr>
 </table>
 <table class="simpletable">
 <tr>
-  <th>Omnibus:</th>       <td>435.697</td> <th>  Durbin-Watson:     </th> <td>   1.996</td> 
+  <th>Omnibus:</th>       <td> 8.967</td> <th>  Durbin-Watson:     </th> <td>   1.666</td>
 </tr>
 <tr>
-  <th>Prob(Omnibus):</th> <td> 0.000</td>  <th>  Jarque-Bera (JB):  </th> <td> 736.508</td> 
+  <th>Prob(Omnibus):</th> <td> 0.011</td> <th>  Jarque-Bera (JB):  </th> <td>   9.247</td>
 </tr>
 <tr>
-  <th>Skew:</th>          <td>-0.438</td>  <th>  Prob(JB):          </th> <td>1.17e-160</td>
+  <th>Skew:</th>          <td> 0.551</td> <th>  Prob(JB):          </th> <td> 0.00982</td>
 </tr>
 <tr>
-  <th>Kurtosis:</th>      <td> 4.198</td>  <th>  Cond. No.          </th> <td>    52.4</td> 
+  <th>Kurtosis:</th>      <td> 3.875</td> <th>  Cond. No.          </th> <td>5.31e+16</td>
 </tr>
-</table><br/><br/>Warnings:<br/>[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.
+</table><br/><br/>Notes:<br/>[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.<br/>[2] The smallest eigenvalue is 7.04e-32. This might indicate that there are<br/>strong multicollinearity problems or that the design matrix is singular.
 
 
 
@@ -2977,7 +2544,9 @@ fig = sm.graphics.qqplot(model.resid, dist=stats.norm, line='45', fit=True)
 ```
 
 
-![png](index_files/index_57_0.png)
+    
+![png](index_files/index_54_0.png)
+    
 
 
 
@@ -2990,19 +2559,14 @@ fig = sm.graphics.qqplot(model.resid, dist=stats.norm, line='45', fit=True)
 ```python
 # __SOLUTION__ 
 # Comment: No improvement observed
-plt.scatter(model.predict(train[x_cols]), model.resid)
-plt.plot(model.predict(train[x_cols]), [0 for i in range(len(train))])
+plt.scatter(model.predict(df[x_cols]), model.resid)
+plt.plot(model.predict(df[x_cols]), [0 for i in range(len(df))]);
 ```
 
 
-
-
-    [<matplotlib.lines.Line2D at 0x1c1e5d9e48>]
-
-
-
-
-![png](index_files/index_59_1.png)
+    
+![png](index_files/index_56_0.png)
+    
 
 
 
@@ -3023,7 +2587,7 @@ x_cols = ['piece_count', 'country_US']
 # Refit model with subset features
 predictors = '+'.join(x_cols)
 formula = outcome + "~" + predictors
-model = ols(formula=formula, data=train).fit()
+model = ols(formula=formula, data=df).fit()
 model.summary()
 ```
 
@@ -3033,31 +2597,31 @@ model.summary()
 <table class="simpletable">
 <caption>OLS Regression Results</caption>
 <tr>
-  <th>Dep. Variable:</th>       <td>list_price</td>    <th>  R-squared:         </th> <td>   0.525</td> 
+  <th>Dep. Variable:</th>       <td>list_price</td>    <th>  R-squared:         </th> <td>   0.270</td>
 </tr>
 <tr>
-  <th>Model:</th>                   <td>OLS</td>       <th>  Adj. R-squared:    </th> <td>   0.525</td> 
+  <th>Model:</th>                   <td>OLS</td>       <th>  Adj. R-squared:    </th> <td>   0.257</td>
 </tr>
 <tr>
-  <th>Method:</th>             <td>Least Squares</td>  <th>  F-statistic:       </th> <td>   4434.</td> 
+  <th>Method:</th>             <td>Least Squares</td>  <th>  F-statistic:       </th> <td>   20.18</td>
 </tr>
 <tr>
-  <th>Date:</th>             <td>Mon, 30 Sep 2019</td> <th>  Prob (F-statistic):</th>  <td>  0.00</td>  
+  <th>Date:</th>             <td>Wed, 24 Aug 2022</td> <th>  Prob (F-statistic):</th> <td>3.51e-08</td>
 </tr>
 <tr>
-  <th>Time:</th>                 <td>17:54:05</td>     <th>  Log-Likelihood:    </th> <td> -7436.4</td> 
+  <th>Time:</th>                 <td>18:14:02</td>     <th>  Log-Likelihood:    </th> <td> -136.53</td>
 </tr>
 <tr>
-  <th>No. Observations:</th>      <td>  8027</td>      <th>  AIC:               </th> <td>1.488e+04</td>
+  <th>No. Observations:</th>      <td>   112</td>      <th>  AIC:               </th> <td>   279.1</td>
 </tr>
 <tr>
-  <th>Df Residuals:</th>          <td>  8024</td>      <th>  BIC:               </th> <td>1.490e+04</td>
+  <th>Df Residuals:</th>          <td>   109</td>      <th>  BIC:               </th> <td>   287.2</td>
 </tr>
 <tr>
-  <th>Df Model:</th>              <td>     2</td>      <th>                     </th>     <td> </td>    
+  <th>Df Model:</th>              <td>     2</td>      <th>                     </th>     <td> </td>   
 </tr>
 <tr>
-  <th>Covariance Type:</th>      <td>nonrobust</td>    <th>                     </th>     <td> </td>    
+  <th>Covariance Type:</th>      <td>nonrobust</td>    <th>                     </th>     <td> </td>   
 </tr>
 </table>
 <table class="simpletable">
@@ -3065,29 +2629,29 @@ model.summary()
        <td></td>          <th>coef</th>     <th>std err</th>      <th>t</th>      <th>P>|t|</th>  <th>[0.025</th>    <th>0.975]</th>  
 </tr>
 <tr>
-  <th>Intercept</th>   <td>    3.7329</td> <td>    0.007</td> <td>  527.630</td> <td> 0.000</td> <td>    3.719</td> <td>    3.747</td>
+  <th>Intercept</th>   <td>   15.2524</td> <td>    1.741</td> <td>    8.761</td> <td> 0.000</td> <td>   11.802</td> <td>   18.703</td>
 </tr>
 <tr>
-  <th>piece_count</th> <td>    0.8069</td> <td>    0.009</td> <td>   93.500</td> <td> 0.000</td> <td>    0.790</td> <td>    0.824</td>
+  <th>piece_count</th> <td>   18.4324</td> <td>    2.953</td> <td>    6.241</td> <td> 0.000</td> <td>   12.579</td> <td>   24.286</td>
 </tr>
 <tr>
-  <th>country_US</th>  <td>   -0.2618</td> <td>    0.028</td> <td>   -9.351</td> <td> 0.000</td> <td>   -0.317</td> <td>   -0.207</td>
+  <th>country_US</th>  <td>   -0.0260</td> <td>    0.213</td> <td>   -0.122</td> <td> 0.903</td> <td>   -0.449</td> <td>    0.397</td>
 </tr>
 </table>
 <table class="simpletable">
 <tr>
-  <th>Omnibus:</th>       <td>498.509</td> <th>  Durbin-Watson:     </th> <td>   1.990</td> 
+  <th>Omnibus:</th>       <td>10.134</td> <th>  Durbin-Watson:     </th> <td>   1.735</td>
 </tr>
 <tr>
-  <th>Prob(Omnibus):</th> <td> 0.000</td>  <th>  Jarque-Bera (JB):  </th> <td> 739.010</td> 
+  <th>Prob(Omnibus):</th> <td> 0.006</td> <th>  Jarque-Bera (JB):  </th> <td>   4.725</td>
 </tr>
 <tr>
-  <th>Skew:</th>          <td>-0.529</td>  <th>  Prob(JB):          </th> <td>3.36e-161</td>
+  <th>Skew:</th>          <td>-0.263</td> <th>  Prob(JB):          </th> <td>  0.0942</td>
 </tr>
 <tr>
-  <th>Kurtosis:</th>      <td> 4.044</td>  <th>  Cond. No.          </th> <td>    4.15</td> 
+  <th>Kurtosis:</th>      <td> 2.143</td> <th>  Cond. No.          </th> <td>    51.3</td>
 </tr>
-</table><br/><br/>Warnings:<br/>[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.
+</table><br/><br/>Notes:<br/>[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.
 
 
 
@@ -3110,7 +2674,9 @@ fig = sm.graphics.qqplot(model.resid, dist=stats.norm, line='45', fit=True)
 ```
 
 
-![png](index_files/index_65_0.png)
+    
+![png](index_files/index_62_0.png)
+    
 
 
 
@@ -3124,19 +2690,14 @@ fig = sm.graphics.qqplot(model.resid, dist=stats.norm, line='45', fit=True)
 # __SOLUTION__ 
 # Comment: Certainly not as strong a model, but with only 2 features, 
 # over half the model performance was recovered.
-plt.scatter(model.predict(train[x_cols]), model.resid)
-plt.plot(model.predict(train[x_cols]), [0 for i in range(len(train))])
+plt.scatter(model.predict(df[x_cols]), model.resid)
+plt.plot(model.predict(df[x_cols]), [0 for i in range(len(df))]);
 ```
 
 
-
-
-    [<matplotlib.lines.Line2D at 0x1c1ed56278>]
-
-
-
-
-![png](index_files/index_67_1.png)
+    
+![png](index_files/index_64_0.png)
+    
 
 
 ## Summary
