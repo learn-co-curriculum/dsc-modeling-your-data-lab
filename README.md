@@ -1,4 +1,3 @@
-
 # Modeling Your Data - Lab
 
 ## Introduction 
@@ -14,7 +13,7 @@ You will be able to:
 
 ## Build an Initial Regression Model
 
-To start, perform a train-test split and create an initial regression model to model the `list_price` using all of your available features.
+To start, load the data and create an initial regression model to model the `list_price` using all of your available features.
 
 > **Note:** In order to write the model you'll have to do some tedious manipulation of your column names. Statsmodels will not allow you to have spaces, apostrophe or arithmetic symbols (+) in your column names. Preview them and refine them as you go.  
 **If you receive an error such as "PatsyError: error tokenizing input (maybe an unclosed string?)", then you need to further preprocess your column names.**
@@ -31,7 +30,11 @@ from statsmodels.formula.api import ols
 from statsmodels.stats.outliers_influence import variance_inflation_factor
 import statsmodels.api as sm
 import scipy.stats as stats
-from sklearn.model_selection import train_test_split
+
+import warnings
+warnings.simplefilter('ignore', FutureWarning)
+warnings.simplefilter('ignore', RuntimeWarning)
+warnings.simplefilter('ignore', UserWarning)
 ```
 
 
@@ -48,12 +51,6 @@ df = None
 
 ```python
 # Your code here - Define the target and predictors
-```
-
-
-```python
-# Your code here - Split into train and test
-train, test = None
 ```
 
 
